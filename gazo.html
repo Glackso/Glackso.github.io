@@ -1,119 +1,98 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Gazo - Gazo-wiki</title>
-    
+    <meta charset="UTF-8">
+    <title>Gazos - Gazowiki</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    
-    <script type="text/javascript">
-        function performSearch(event) {
-            event.preventDefault();
-            var query = document.getElementById("searchInput").value.toLowerCase();
-            if (query === "gazo" || query === "glaggle" || query === "main") {
-                window.location.href = "index.html";
-            } else if (query === "species" || query === "proto-gazoid") {
-                window.location.href = "species-index.html";
-            } else {
-                alert("Search functionality is limited. Try searching 'Species'.");
-            }
-        }
-    </script>
 </head>
 <body>
 
+<div id="container">
+    
     <div id="sidebar">
-        <h2 style="font-family: serif; margin-left: 10px;">Gazo-wiki</h2>
+        <center>
+            <img src="https://via.placeholder.com/120x120.png?text=Gazowiki+Logo" alt="Gazowiki Logo" width="120" height="120">
+            <br><i>The Free Glag Encyclopedia</i>
+        </center>
+        <br>
         
-        <div class="portlet">
-            <h5>Search</h5>
-            <div id="searchBody">
-                <form onsubmit="performSearch(event)">
-                    <input id="searchInput" type="text" placeholder="Search...">
-                    <input type="submit" value="Go">
-                </form>
-            </div>
-        </div>
-
-        <div class="portlet">
-            <h5>Navigation</h5>
-            <ul>
-                <li><a href="index.html">Main Page</a></li>
-                <li><a href="species-index.html">Species Index</a></li>
-                <li><a href="#">Gluborg Geography</a></li>
-                <li><a href="#">Interstellar Treaties</a></li>
-                <li><a href="#">Random page</a></li>
-            </ul>
-        </div>
-        
-        <div class="portlet">
-            <h5>Gazo Archives</h5>
-            <ul>
-                <li><a href="#">Human-Glag Relations</a></li>
-                <li><a href="#">Translation Logs</a></li>
-                <li><a href="#">Help & Guidelines</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="tabs">
+        <h3>Navigation</h3>
         <ul>
-            <li><a href="#" class="selected">Article</a></li>
-            <li><a href="#">Discussion</a></li>
-            <li><a href="#">View source</a></li>
-            <li><a href="#">History</a></li>
+            <li><a href="index.html">Main Page</a></li>
+            <li><a href="#">Community Portal</a></li>
+            <li><a href="#">Recent Changes</a></li>
+            <li><a href="#">Random Page</a></li>
+        </ul>
+
+        <h3>Species</h3>
+        <ul>
+            <li><a href="#">Gembos</a></li>
+            <li><a href="gazos.html">Gazos</a></li>
+            <li><a href="#">Gigglers</a></li>
+            <li><a href="#">Gleebers</a></li>
+            <li><a href="#">Glaabers</a></li>
+            <li><a href="#">Gloobers</a></li>
+            <li><a href="#">Cheerers</a></li>
         </ul>
     </div>
 
     <div id="content">
-        <div class="locked-notice">🔒 <i>This database is protected by the Interstellar Peace Coalition.</i></div>
+        <h1>Gazos</h1>
         
-        <h1>Gazo</h1>
-        <div class="tagline">From Gazo-wiki, the universal database for Gluborgian studies.</div>
+        <div class="infobox">
+            <table width="100%" cellspacing="0">
+                <tr>
+                    <th colspan="2"><center><b>Gazos</b></center></th>
+                </tr>
+                <tr>
+                    <td><b>Coloration:</b></td>
+                    <td>Blue</td>
+                </tr>
+                <tr>
+                    <td><b>Average Size:</b></td>
+                    <td>1 meter (diameter)</td>
+                </tr>
+                <tr>
+                    <td><b>Primary Roles:</b></td>
+                    <td>Inventors, Industrialists, Archivists</td>
+                </tr>
+                <tr>
+                    <td><b>Temperament:</b></td>
+                    <td>Highly Neutral / Logical</td>
+                </tr>
+            </table>
+        </div>
 
-        <blockquote style="font-style: italic; border-left: 3px solid #aaa; margin-left: 10px; padding-left: 10px; color: #444;">
-            "Through the preservation of our yesterdays, we stand proudly as the future of tomorrow." <br>
-            <span style="font-size: 80%;">— High Archivist Bluu, during the signing of the Interstellar Peace Coalition Treaty</span>
+        <blockquote>
+            <i>"Innovation through stabilization; a place for every Glag, and every Glag in its place."</i><br>
+            — Common Gazo saying
         </blockquote>
 
-        <table class="infobox">
-            <tr><td colspan="2" class="infobox-title">Gazo</td></tr>
-            <tr><th>Classification</th><td>Core Species</td></tr>
-            <tr><th>Coloration</th><td>Primary Blue</td></tr>
-            <tr><th>Temperament</th><td>Highly Stable</td></tr>
-            <tr><th>Primary Habitat</th><td>Prime Latitudes (High-Wealth Zones)</td></tr>
-            <tr><th>Societal Role</th><td>Archivists, Diplomats, Leaders</td></tr>
-        </table>
-
         <h2>Overview</h2>
-        <p>The <b>Gazo</b> (plural: <i>Gazos</i>) is one of the seven core species of Glaggle native to the planet Gluborg. Distinctly recognizable by their deep blue coloration and perfectly spherical, uniform biological structure, Gazos are renowned across the system for their high emotional and physiological stability.</p>
+        <p><b>Gazos</b> are a blue-hued species of Glag native to the rich, temperate, and highly stable regions of Gluborg. Averaging about 1 meter in diameter, Gazos are the primary industrialists, inventors, and record-keepers of our planet. We are also the proud founders and maintainers of <i>Gazowiki</i>. Despite our control over planetary industries, we view ourselves strictly as facilitators rather than leaders. A functioning machine requires all its gears, and we are simply the gear that keeps the records.</p>
 
-        <p>In modern Gluborgian society, Gazos primarily inhabit the <b>Prime Latitudes</b>—the most resource-rich, highly developed, and industrialized regions of the planet. To human sociologists, the Gazo territories are frequently compared to Earth's highly developed northern hemispheres or affluent nations. Because of their concentrated wealth, advanced infrastructure, and stable environments, the Gazos have naturally assumed the roles of planetary historians, tech developers, and interstellar diplomats.</p>
+        <h2>Society and Industry</h2>
+        <p>Gazo settlements are highly organized, usually built in resource-rich environments safe from extreme weather. We dedicate our lives to the pursuit of stability and efficiency. When the Gembos need better agricultural tools, we design them. When the Gleebers developed an obsession with skateboards, we repurposed our factories to mass-produce polyurethane wheels for them.</p>
+        
+        <p>Because we manage the logistics of Gluborg's economy, some human traders mistakenly assume we are the "ruling class" of the planet. We strongly reject this notion. We are entirely equal to the Glaabers, Gloobers, and all other species. Our wealth is simply a byproduct of our organizational habits, and it is routinely redistributed to fund planetary infrastructure.</p>
 
-        <h2>Background & Culture</h2>
-        <p>Following <a href="species-index.html#Evolutionary_History">The Great Split</a>, the ancestors of modern Gazos migrated toward the most temperate and resource-dense sectors of Gluborg. Free from the harsh survival conditions faced by the frontier-dwelling Glaabers or the migratory necessity of the Cheerers, Gazos were able to focus entirely on intellectual and cultural pursuits.</p>
-
-        <p>Gazo culture is heavily centered around the preservation of knowledge and maintaining planetary order. They are the sole architects and administrators of the <b>Gazo-wiki</b>, utilizing it to compile the histories of all other Glag species. When humanity first made contact with Gluborg (PRF-230K), it was the Gazo leadership who negotiated the historic non-interference treaties, famously mastering the English language faster than any other Glaggle variant.</p>
-
-        <h2>Economy and Industry</h2>
-        <p>The Gazo economy is overwhelmingly post-industrial, focusing on high technology, archival data storage, and interstellar trade. Because they reside in the wealthiest sectors of Gluborg, they rely heavily on trade with the agricultural <b>Gembos</b> for sustenance, and the metropolitan <b>Glaggles (Standard)</b> for mass-manufactured goods.</p>
+        <h2>Planetary Neutrality</h2>
+        <p>If there is a defining Gazo trait, it is our unwavering neutrality. We do not engage in planetary disputes, nor do we typically represent Gluborg in intergalactic matters (we happily leave diplomacy to the future-seeking Gigglers). Our role is strictly objective. We document history as it happens, ensuring that the achievements of all Glags are preserved without bias.</p>
 
         <h2>Trivia</h2>
         <ul>
-            <li>Despite their inherent blue coloration, the official state color of the Gazo High Council is actually a deep, muted silver.</li>
-            <li>Gazos are the only species on Gluborg that undergo specialized "biological stabilization" treatments, ensuring they rarely experience extreme emotional volatility.</li>
-            <li>Within the Gazo-wiki network, only verified Gazos possess the administrative privileges required to edit core database articles, hence the persistent "Protected" status of most pages.</li>
-            <li>A common stereotype among the other six species is that Gazos are overly bureaucratic and "too perfectly round."</li>
+            <li>Gazos were the first to decode the human "internet" archives brought over by Ambassador Elias Vance's trade ships, which inspired the creation of this wiki.</li>
+            <li>Our blue coloration can slightly shift in saturation depending on how organized our immediate surroundings are. (A messy room leads to a duller blue).</li>
+            <li>We are historically terrible at dealing with the Cheerers. Their chaotic nature and constant deployment of confetti directly conflicts with our desire to keep our industrial floors swept.</li>
+            <li>Despite our advanced technology, we still prefer to use physical clipboards for daily tasks.</li>
         </ul>
 
-        <div class="catlinks">
-            <b>Categories:</b> <a href="#">Core Species</a> | <a href="#">Diplomats</a> | <a href="#">Blue Glaggles</a>
+        <div class="footer">
+            This page was last modified by a Gazo. <br>
+            Content is available under Intergalactic Public Domain unless otherwise noted.
         </div>
     </div>
-
-    <div id="footer">
-        <p>This page was last modified by the Gazo Archival Guild on 16 October 2007, at 14:22 Interstellar Standard Time.</p>
-    </div>
+</div>
 
 </body>
 </html>
