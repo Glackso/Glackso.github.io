@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>HTML - RetroWiki</title>
+    <title>Main Page - Gazo-wiki</title>
     <style type="text/css">
         body { font-family: sans-serif; background-color: #f9f9f9; color: black; margin: 0; padding: 0; }
         a { text-decoration: none; color: #002bb8; }
@@ -18,41 +18,32 @@
         #searchBody { padding: 5px 0 0 5px; font-size: 80%; }
         #searchInput { width: 100px; margin-bottom: 2px; }
 
-        /* Top Tabs */
-        #tabs { margin-left: 12.5em; padding-top: 1em; white-space: nowrap; }
-        #tabs ul { list-style-type: none; margin: 0; padding: 0; }
-        #tabs li { display: inline; margin: 0; padding: 0; }
-        #tabs a { background-color: #fbfbfb; border: 1px solid #aaa; border-bottom: none; padding: 3px 8px; margin-right: 2px; text-decoration: none; color: #002bb8; }
-        #tabs a.selected { background-color: #ffffff; font-weight: bold; color: black; z-index: 3; }
-
-        /* Main Content */
-        #content { background-color: #ffffff; border: 1px solid #aaa; margin: 0 1em 1em 12.5em; padding: 1.5em; min-height: 80vh; }
+        /* Main Content - Adjusted top margin since tabs are removed */
+        #content { background-color: #ffffff; border: 1px solid #aaa; margin: 1em 1em 1em 12.5em; padding: 1.5em; min-height: 80vh; }
         h1 { border-bottom: 1px solid #aaa; margin-top: 0; font-family: "Times New Roman", Times, serif; font-weight: normal; }
+        h2 { border-bottom: 1px solid #aaa; font-weight: normal; margin-top: 1.5em; }
         .tagline { font-size: 80%; color: #555; margin-top: -10px; margin-bottom: 20px; }
-        .locked-notice { float: right; border: 1px dashed #aaa; background-color: #ffffe0; padding: 5px; font-size: 80%; margin-left: 10px; }
+        .locked-notice { float: right; border: 1px dashed #aaa; background-color: #ffffe0; padding: 5px; font-size: 80%; margin-left: 10px; margin-bottom: 10px; }
 
-        /* Wiki Features: Infobox, Stubs, Categories */
+        /* Wiki Features: Infobox & Categories */
         .infobox { float: right; clear: right; width: 250px; border: 1px solid #aaa; background-color: #f9f9f9; margin: 0 0 1em 1em; padding: 5px; font-size: 90%; }
-        .infobox th { background-color: #e0e0e0; text-align: left; padding: 2px 5px; }
+        .infobox th { background-color: #e0e0e0; text-align: left; padding: 2px 5px; width: 40%; }
         .infobox td { padding: 2px 5px; }
         .infobox-title { text-align: center; font-weight: bold; font-size: 110%; background-color: #d0e0f5; padding: 5px; margin-bottom: 5px; }
         
         .catlinks { border: 1px solid #aaa; background-color: #f9f9f9; padding: 5px; margin-top: 2em; font-size: 90%; clear: both; }
 
         /* Footer */
-        #footer { margin-left: 12.5em; font-size: 80%; text-align: center; border-top: 1px solid #aaa; padding-top: 10px; color: #555; }
+        #footer { margin-left: 12.5em; font-size: 80%; text-align: center; border-top: 1px solid #aaa; padding-top: 10px; color: #555; margin-bottom: 20px; }
     </style>
     <script type="text/javascript">
-        // Basic Static Search Function
         function performSearch(event) {
             event.preventDefault();
             var query = document.getElementById("searchInput").value.toLowerCase();
-            if (query === "html") {
-                window.location.href = "html-article.html";
-            } else if (query === "stub" || query === "lorem") {
-                window.location.href = "stub-article.html";
+            if (query === "gazo" || query === "glaggle") {
+                window.location.href = "index.html"; // Redirects to main page for now
             } else {
-                alert("Search functionality is limited on this static site. Try searching 'html' or 'stub'.");
+                alert("Search functionality is limited. Try searching 'Gazo' or 'Glaggle'.");
             }
         }
     </script>
@@ -60,7 +51,7 @@
 <body>
 
     <div id="sidebar">
-        <h2 style="font-family: serif; margin-left: 10px;">RetroWiki</h2>
+        <h2 style="font-family: serif; margin-left: 10px;">Gazo-wiki</h2>
         
         <div class="portlet">
             <h5>Search</h5>
@@ -75,47 +66,43 @@
         <div class="portlet">
             <h5>Navigation</h5>
             <ul>
-                <li><a href="html-article.html">HTML Article</a></li>
-                <li><a href="stub-article.html">Stub Article</a></li>
+                <li><a href="index.html">Main Page</a></li>
+                <li><a href="#">Species Index</a></li>
+                <li><a href="#">Interstellar Treaties</a></li>
                 <li><a href="#">Random page</a></li>
             </ul>
         </div>
     </div>
 
-    <div id="tabs">
-        <ul>
-            <li><a href="#" class="selected">Article</a></li>
-            <li><a href="#">Discussion</a></li>
-            <li><a href="#">View source</a></li>
-            <li><a href="#">History</a></li>
-        </ul>
-    </div>
-
     <div id="content">
-        <div class="locked-notice">🔒 <i>This page is protected.</i></div>
+        <div class="locked-notice">🔒 <i>This database is protected by the Interstellar Peace Coalition.</i></div>
         
-        <h1>HyperText Markup Language</h1>
-        <div class="tagline">From RetroWiki, the free encyclopedia</div>
+        <h1>Welcome to Gazo-wiki</h1>
+        <div class="tagline">The universal database for Gluborgian studies.</div>
 
         <table class="infobox">
-            <tr><td colspan="2" class="infobox-title">HTML</td></tr>
-            <tr><th>Filename extension</th><td><code>.html</code>, <code>.htm</code></td></tr>
-            <tr><th>Developed by</th><td>WHATWG, W3C</td></tr>
-            <tr><th>Initial release</th><td>1993</td></tr>
-            <tr><th>Type of format</th><td>Markup language</td></tr>
+            <tr><td colspan="2" class="infobox-title">Gluborg</td></tr>
+            <tr><th>Human Desig.</th><td>PRF-230K</td></tr>
+            <tr><th>Status</th><td>Protected System</td></tr>
+            <tr><th>Dominant Life</th><td>Glaggles</td></tr>
+            <tr><th>Primary Lang.</th><td>English (Universal)</td></tr>
         </table>
 
-        <p><b>HyperText Markup Language</b> or <b>HTML</b> is the standard markup language for documents designed to be displayed in a web browser. It is often assisted by technologies such as Cascading Style Sheets (CSS) and scripting languages such as JavaScript.</p>
-        
-        <p>Web browsers receive HTML documents from a web server or from local storage and render the documents into multimedia web pages. HTML describes the structure of a web page semantically and originally included cues for the appearance of the document.</p>
+        <p><b>Gluborg</b> (known to humanity under the star chart designation <b>PRF-230K</b>) is a planetary body primarily inhabited by sphere-shaped organisms. Due to the rapid expansion of human space exploration, the planet and its inhabitants are strictly protected under a universal space treaty designed to maintain peaceful relations with non-human systems.</p>
+
+        <h2>The Glaggles</h2>
+        <p>The dominant lifeforms on Gluborg are collectively referred to as <b>Glaggles</b>. Biologically, they are highly unusual sphere-shaped organisms. Despite their alien physiology, Glaggles communicate fluently in English, which has become the universal standard language across known systems.</p>
+
+        <h2>Gazos</h2>
+        <p>Within the broader Glaggle classification, the <b>Gazos</b> are a specific, notable sub-species. They are distinctly blue in coloration and are known for being highly biologically and emotionally stable. Out of all the organisms on Gluborg, Gazos exhibit behaviors and social structures most similar to humans, making them the primary point of contact for diplomatic relations under the space treaty.</p>
 
         <div class="catlinks">
-            <b>Categories:</b> <a href="#">Markup languages</a> | <a href="#">Web development</a>
+            <b>Categories:</b> <a href="#">Planets</a> | <a href="#">Extraterrestrial Life</a> | <a href="#">Protected Systems</a>
         </div>
     </div>
 
     <div id="footer">
-        <p>This page was last modified on 20 May 2004, at 09:15.</p>
+        <p>This database was last updated on 14 October 2007, at 16:42 Interstellar Standard Time.</p>
     </div>
 </body>
 </html>
