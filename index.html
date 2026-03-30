@@ -2,243 +2,121 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Gazowiki - hi human</title>
-    <style type="text/css">
-        body {
-            font-family: sans-serif;
-            background-color: #f9f9f9;
-            color: black;
-            margin: 0;
-            padding: 0;
+    <title>Main Page - Gazo-wiki</title>
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <script type="text/javascript">
+        function performSearch(event) {
+            event.preventDefault();
+            var query = document.getElementById("searchInput").value.toLowerCase();
+            if (query === "gazo" || query === "glaggle" || query === "main") {
+                window.location.href = "index.html";
+            } else if (query === "species") {
+                window.location.href = "species-index.html";
+            } else {
+                alert("Search functionality is limited on this static site. Try searching 'Species'.");
+            }
         }
-
-        a {
-            text-decoration: none;
-            color: #002bb8;
-        }
-
-        a:visited {
-            color: #5a3696;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Sidebar Styling */
-        #sidebar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 12em;
-            padding: 20px 10px;
-        }
-
-        .portlet {
-            margin-bottom: 1em;
-        }
-
-        .portlet h5 {
-            margin: 0;
-            padding: 0 0 0 5px;
-            font-weight: normal;
-            font-size: 90%;
-            border-bottom: 1px solid #aaa;
-        }
-
-        .portlet ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 5px 0 0 10px;
-            font-size: 90%;
-        }
-
-        .portlet ul li {
-            margin-bottom: 3px;
-        }
-
-        /* Top Tabs Styling */
-        #tabs {
-            margin-left: 12.5em;
-            padding-top: 1em;
-            white-space: nowrap;
-        }
-
-        #tabs ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        #tabs li {
-            display: inline;
-            margin: 0;
-            padding: 0;
-        }
-
-        #tabs a {
-            background-color: #fbfbfb;
-            border: 1px solid #aaa;
-            border-bottom: none;
-            padding: 3px 8px;
-            margin-right: 2px;
-            text-decoration: none;
-            color: #002bb8;
-        }
-
-        #tabs a.selected {
-            background-color: #ffffff;
-            font-weight: bold;
-            color: black;
-            z-index: 3;
-        }
-
-        /* Main Content Styling */
-        #content {
-            background-color: #ffffff;
-            border: 1px solid #aaa;
-            margin: 0 1em 1em 12.5em;
-            padding: 1.5em;
-            min-height: 80vh;
-        }
-
-        h1 {
-            border-bottom: 1px solid #aaa;
-            margin-top: 0;
-            font-family: "Times New Roman", Times, serif;
-            font-weight: normal;
-        }
-
-        h2 {
-            border-bottom: 1px solid #aaa;
-            font-weight: normal;
-            margin-top: 1.5em;
-        }
-
-        .tagline {
-            font-size: 80%;
-            color: #555;
-            margin-top: -10px;
-            margin-bottom: 20px;
-        }
-
-        /* Table of Contents */
-        #toc {
-            border: 1px solid #aaa;
-            background-color: #f9f9f9;
-            padding: 10px;
-            display: table;
-            font-size: 90%;
-        }
-
-        #toc h2 {
-            border: none;
-            margin: 0;
-            font-size: 100%;
-            font-weight: bold;
-            display: inline;
-        }
-
-        #toc ul {
-            list-style-type: none;
-            padding-left: 20px;
-            margin-top: 5px;
-        }
-
-        .locked-notice {
-            float: right;
-            border: 1px dashed #aaa;
-            background-color: #ffffe0;
-            padding: 5px;
-            font-size: 80%;
-        }
-
-        /* Footer */
-        #footer {
-            margin-left: 12.5em;
-            font-size: 80%;
-            text-align: center;
-            border-top: 1px solid #aaa;
-            padding-top: 10px;
-            color: #555;
-        }
-    </style>
+    </script>
 </head>
 <body>
 
     <div id="sidebar">
-        <h2 style="font-family: serif; margin-left: 10px;">RetroWiki</h2>
+        <h2 style="font-family: serif; margin-left: 10px;">Gazo-wiki</h2>
         
+        <div class="portlet">
+            <h5>Search</h5>
+            <div id="searchBody">
+                <form onsubmit="performSearch(event)">
+                    <input id="searchInput" type="text" placeholder="Search...">
+                    <input type="submit" value="Go">
+                </form>
+            </div>
+        </div>
+
         <div class="portlet">
             <h5>Navigation</h5>
             <ul>
-                <li><a href="#">Main Page</a></li>
-                <li><a href="#">Community portal</a></li>
-                <li><a href="#">Current events</a></li>
-                <li><a href="#">Recent changes</a></li>
+                <li><a href="index.html">Main Page</a></li>
+                <li><a href="species-index.html">Species Index</a></li>
+                <li><a href="#">Gluborg Geography</a></li>
+                <li><a href="#">Interstellar Treaties</a></li>
                 <li><a href="#">Random page</a></li>
-                <li><a href="#">Help</a></li>
             </ul>
         </div>
         
         <div class="portlet">
-            <h5>Toolbox</h5>
+            <h5>Gazo Archives</h5>
             <ul>
-                <li><a href="#">What links here</a></li>
-                <li><a href="#">Related changes</a></li>
-                <li><a href="#">Special pages</a></li>
-                <li><a href="#">Printable version</a></li>
-                <li><a href="#">Permanent link</a></li>
+                <li><a href="#">Human-Glag Relations</a></li>
+                <li><a href="#">Translation Logs</a></li>
+                <li><a href="#">Help & Guidelines</a></li>
             </ul>
         </div>
-    </div>
-
-    <div id="tabs">
-        <ul>
-            <li><a href="#" class="selected">Article</a></li>
-            <li><a href="#">Discussion</a></li>
-            <li><a href="#">View source</a></li> <li><a href="#">History</a></li>
-        </ul>
     </div>
 
     <div id="content">
-        <div class="locked-notice">
-            🔒 <i>This page is protected from editing.</i>
-        </div>
+        <div class="locked-notice">🔒 <i>This database is protected by the Interstellar Peace Coalition.</i></div>
         
-        <h1>Internet Nostalgia</h1>
-        <div class="tagline">From RetroWiki, the free encyclopedia</div>
-
-        <p><b>Internet nostalgia</b> refers to a cultural phenomenon where users reminisce about the early days of the World Wide Web, particularly the late 1990s and early 2000s. During this era, websites were largely static, text-heavy, and built using basic HTML tables and inline styling.</p>
-
-        <div id="toc">
-            <h2>Contents</h2>
-            <ul>
-                <li><a href="#Design_Trends">1 Design Trends</a></li>
-                <li><a href="#Web_Safe_Colors">2 Web Safe Colors</a></li>
-                <li><a href="#See_Also">3 See Also</a></li>
-            </ul>
+        <div style="text-align: center; border: 1px solid #aaa; background-color: #f8f9fa; padding: 20px; margin-bottom: 20px;">
+            <h1 style="border-bottom: none; margin: 0; font-size: 180%;">Welcome to Gazo-wiki</h1>
+            <p style="margin-top: 5px; font-size: 110%;">The universal, open-access database for Gluborgian studies.<br>
+            <i>Compiled by the Gazos, for the benefit of all Glags and our Human allies.</i></p>
         </div>
 
-        <h2 id="Design_Trends">Design Trends</h2>
-        <p>Common design trends included left-aligned sidebars, "web safe" fonts like Arial and Times New Roman, and default link colors. When a user clicked a link, it changed from its standard blue (<code>#0000ee</code>) to purple (<code>#551a8b</code>) to indicate it had been visited.</p>
+        <table class="infobox">
+            <tr><td colspan="2" class="infobox-title">Gluborg</td></tr>
+            <tr><th>Human Desig.</th><td>PRF-230K</td></tr>
+            <tr><th>Status</th><td>Protected System</td></tr>
+            <tr><th>Dominant Life</th><td>Glaggles</td></tr>
+            <tr><th>Primary Lang.</th><td>English (Universal)</td></tr>
+            <tr><th>Atmosphere</th><td>Stable / Breathable</td></tr>
+        </table>
 
-        <p>Because dynamic content management systems were not widely adopted by casual users, maintaining a site required manual coding or the use of early WYSIWYG editors.</p>
+        <h2>Greetings, Travelers!</h2>
+        <p>Whether you are a fellow spherical inhabitant of Gluborg or a visiting human researcher from the Sol system, we welcome you to our archives. Following the monumental signing of the <b>Interstellar Peace Coalition Treaty</b>, humanity and the Glaggles have enjoyed an unprecedented era of cooperation and shared knowledge.</p>
 
-        <h2 id="Web_Safe_Colors">Web Safe Colors</h2>
-        <p>Due to the limitations of early monitors, designers often restricted themselves to a palette of 216 "web safe" colors to ensure their sites looked the same across different operating systems and browsers.</p>
+        <p>Because the English language has been adopted as the universal standard, we Gazos have taken it upon ourselves to translate and compile the entirety of our planet's history, biology, and culture into this accessible network. We deeply thank humanity for their peaceful approach to PRF-230K, and we hope this database serves as a bridge between our two worlds.</p>
 
-        <h2 id="See_Also">See Also</h2>
-        <ul>
-            <li><a href="#">Web 1.0</a></li>
-            <li><a href="#">History of the World Wide Web</a></li>
-            <li><a href="#">Browser wars</a></li>
-        </ul>
+        <h2>Database Portals</h2>
+        <p>Explore the archives by selecting a category below:</p>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+            <tr>
+                <td style="width: 50%; padding: 10px; vertical-align: top;">
+                    <h3 style="margin-top: 0; font-family: serif; border-bottom: 1px dotted #aaa;">🧬 <a href="species-index.html">The 7 Core Species</a></h3>
+                    <p style="font-size: 90%;">Learn about the diverse biological makeup of our world. Discover the unique traits of the Giggler, Gazo, Gembo, Gleeber, Gloober, Glaaber, and Cheerer.</p>
+                </td>
+                <td style="width: 50%; padding: 10px; vertical-align: top;">
+                    <h3 style="margin-top: 0; font-family: serif; border-bottom: 1px dotted #aaa;">🌍 Planetary Geography</h3>
+                    <p style="font-size: 90%;">Detailed topographical maps and ecosystem analyses of Gluborg, from the sprawling Azure Plains to the deeply resonant Echo Canyons.</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%; padding: 10px; vertical-align: top;">
+                    <h3 style="margin-top: 0; font-family: serif; border-bottom: 1px dotted #aaa;">🤝 Interstellar Treaties</h3>
+                    <p style="font-size: 90%;">Review the legal documents that protect our system. Read the full text of the Non-Interference Acts and our ongoing trade agreements.</p>
+                </td>
+                <td style="width: 50%; padding: 10px; vertical-align: top;">
+                    <h3 style="margin-top: 0; font-family: serif; border-bottom: 1px dotted #aaa;">📚 Human-Glag Relations</h3>
+                    <p style="font-size: 90%;">A historical overview of first contact, the universal adoption of the English language, and the cultural exchanges that followed.</p>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+        <div class="stub-box">
+            🧩 <i>Notice to Gazo Archivists: Many portal pages are currently stubs. Please ensure your biological stabilizers are active before engaging in extended transcription sessions.</i>
+        </div>
+
+        <div class="catlinks">
+            <b>Categories:</b> <a href="#">Main Page</a> | <a href="#">Hubs</a> | <a href="#">Gluborg Portals</a>
+        </div>
     </div>
 
     <div id="footer">
-        <p>This page was last modified on 25 August 2005, at 14:32.</p>
-        <p><a href="#">Privacy policy</a> | <a href="#">About RetroWiki</a> | <a href="#">Disclaimers</a></p>
+        <p>This Main Page was last updated by the Head Gazo Archivist on 16 October 2007, at 08:00 Interstellar Standard Time.</p>
     </div>
 
 </body>
