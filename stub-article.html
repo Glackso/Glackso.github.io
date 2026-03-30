@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Lorem Ipsum - RetroWiki</title>
+    <style type="text/css">
+        body { font-family: sans-serif; background-color: #f9f9f9; color: black; margin: 0; padding: 0; }
+        a { text-decoration: none; color: #002bb8; }
+        a:visited { color: #5a3696; }
+        a:hover { text-decoration: underline; }
+
+        #sidebar { position: absolute; top: 0; left: 0; width: 12em; padding: 20px 10px; }
+        .portlet { margin-bottom: 1em; }
+        .portlet h5 { margin: 0; padding: 0 0 0 5px; font-weight: normal; font-size: 90%; border-bottom: 1px solid #aaa; }
+        .portlet ul { list-style-type: none; margin: 0; padding: 5px 0 0 10px; font-size: 90%; }
+        .portlet ul li { margin-bottom: 3px; }
+        #searchBody { padding: 5px 0 0 5px; font-size: 80%; }
+        #searchInput { width: 100px; margin-bottom: 2px; }
+
+        #tabs { margin-left: 12.5em; padding-top: 1em; white-space: nowrap; }
+        #tabs ul { list-style-type: none; margin: 0; padding: 0; }
+        #tabs li { display: inline; margin: 0; padding: 0; }
+        #tabs a { background-color: #fbfbfb; border: 1px solid #aaa; border-bottom: none; padding: 3px 8px; margin-right: 2px; text-decoration: none; color: #002bb8; }
+        #tabs a.selected { background-color: #ffffff; font-weight: bold; color: black; z-index: 3; }
+
+        #content { background-color: #ffffff; border: 1px solid #aaa; margin: 0 1em 1em 12.5em; padding: 1.5em; min-height: 80vh; }
+        h1 { border-bottom: 1px solid #aaa; margin-top: 0; font-family: "Times New Roman", Times, serif; font-weight: normal; }
+        .tagline { font-size: 80%; color: #555; margin-top: -10px; margin-bottom: 20px; }
+        .locked-notice { float: right; border: 1px dashed #aaa; background-color: #ffffe0; padding: 5px; font-size: 80%; margin-left: 10px; }
+
+        /* Stub Template Styling */
+        .stub-box { border: 1px solid #a2a9b1; background-color: #f8f9fa; padding: 8px 12px; margin: 1em 0; font-size: 90%; display: flex; align-items: center; }
+        
+        .catlinks { border: 1px solid #aaa; background-color: #f9f9f9; padding: 5px; margin-top: 2em; font-size: 90%; clear: both; }
+
+        #footer { margin-left: 12.5em; font-size: 80%; text-align: center; border-top: 1px solid #aaa; padding-top: 10px; color: #555; }
+    </style>
+    <script type="text/javascript">
+        function performSearch(event) {
+            event.preventDefault();
+            var query = document.getElementById("searchInput").value.toLowerCase();
+            if (query === "html") {
+                window.location.href = "html-article.html";
+            } else if (query === "stub" || query === "lorem") {
+                window.location.href = "stub-article.html";
+            } else {
+                alert("Search functionality is limited on this static site. Try searching 'html' or 'stub'.");
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="sidebar">
+        <h2 style="font-family: serif; margin-left: 10px;">RetroWiki</h2>
+        
+        <div class="portlet">
+            <h5>Search</h5>
+            <div id="searchBody">
+                <form onsubmit="performSearch(event)">
+                    <input id="searchInput" type="text" placeholder="Search...">
+                    <input type="submit" value="Go">
+                </form>
+            </div>
+        </div>
+
+        <div class="portlet">
+            <h5>Navigation</h5>
+            <ul>
+                <li><a href="html-article.html">HTML Article</a></li>
+                <li><a href="stub-article.html">Stub Article</a></li>
+                <li><a href="#">Random page</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="tabs">
+        <ul>
+            <li><a href="#" class="selected">Article</a></li>
+            <li><a href="#">Discussion</a></li>
+            <li><a href="#">View source</a></li>
+            <li><a href="#">History</a></li>
+        </ul>
+    </div>
+
+    <div id="content">
+        <div class="locked-notice">🔒 <i>This page is protected.</i></div>
+        
+        <h1>Lorem Ipsum</h1>
+        <div class="tagline">From RetroWiki, the free encyclopedia</div>
+
+        <div class="stub-box">
+            🧩 <i>This article is a stub. Even though this wiki is protected, designated editors can help by expanding it.</i>
+        </div>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <div class="catlinks">
+            <b>Categories:</b> <a href="#">Stubs</a> | <a href="#">Latin text</a>
+        </div>
+    </div>
+
+    <div id="footer">
+        <p>This page was last modified on 12 August 2003, at 11:04.</p>
+    </div>
+</body>
+</html>
