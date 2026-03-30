@@ -1,195 +1,245 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>WikiMain - The Free Encyclopedia (2000 Edition)</title>
-    <style>
-        /* Classic 2000s Web Aesthetic */
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>RetroWiki - 2000s Style</title>
+    <style type="text/css">
         body {
-            font-family: "Trebuchet MS", Verdana, sans-serif;
+            font-family: sans-serif;
             background-color: #f9f9f9;
+            color: black;
             margin: 0;
             padding: 0;
-            color: #000;
         }
 
-        /* Top Navigation Bar */
-        #header {
-            background-color: #ffffff;
-            border-bottom: 1px solid #aaaaaa;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #555;
+        a {
             text-decoration: none;
-        }
-
-        /* Main Layout Container */
-        #container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar Navigation */
-        #sidebar {
-            width: 160px;
-            padding: 20px 10px;
-            background-color: #f9f9f9;
-            font-size: 0.8em;
-            border-right: 1px solid #aaaaaa;
-        }
-
-        #sidebar h3 {
-            font-size: 1em;
-            margin-bottom: 5px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        #sidebar ul {
-            list-style-type: none;
-            padding-left: 5px;
-            margin-top: 0;
-        }
-
-        #sidebar ul li {
-            margin-bottom: 5px;
-        }
-
-        #sidebar a {
             color: #002bb8;
-            text-decoration: none;
         }
 
-        #sidebar a:hover {
+        a:visited {
+            color: #5a3696;
+        }
+
+        a:hover {
             text-decoration: underline;
         }
 
-        /* Content Area */
-        #content {
-            flex-grow: 1;
-            padding: 20px 40px;
+        /* Sidebar Styling */
+        #sidebar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 12em;
+            padding: 20px 10px;
+        }
+
+        .portlet {
+            margin-bottom: 1em;
+        }
+
+        .portlet h5 {
+            margin: 0;
+            padding: 0 0 0 5px;
+            font-weight: normal;
+            font-size: 90%;
+            border-bottom: 1px solid #aaa;
+        }
+
+        .portlet ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 5px 0 0 10px;
+            font-size: 90%;
+        }
+
+        .portlet ul li {
+            margin-bottom: 3px;
+        }
+
+        /* Top Tabs Styling */
+        #tabs {
+            margin-left: 12.5em;
+            padding-top: 1em;
+            white-space: nowrap;
+        }
+
+        #tabs ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #tabs li {
+            display: inline;
+            margin: 0;
+            padding: 0;
+        }
+
+        #tabs a {
+            background-color: #fbfbfb;
+            border: 1px solid #aaa;
+            border-bottom: none;
+            padding: 3px 8px;
+            margin-right: 2px;
+            text-decoration: none;
+            color: #002bb8;
+        }
+
+        #tabs a.selected {
             background-color: #ffffff;
-            border-left: 1px solid #aaaaaa;
-            margin-left: -1px; /* Overlap borders */
+            font-weight: bold;
+            color: black;
+            z-index: 3;
+        }
+
+        /* Main Content Styling */
+        #content {
+            background-color: #ffffff;
+            border: 1px solid #aaa;
+            margin: 0 1em 1em 12.5em;
+            padding: 1.5em;
+            min-height: 80vh;
         }
 
         h1 {
-            font-family: "Times New Roman", serif;
-            font-size: 2em;
-            border-bottom: 1px solid #aaaaaa;
+            border-bottom: 1px solid #aaa;
             margin-top: 0;
-            padding-bottom: 5px;
+            font-family: "Times New Roman", Times, serif;
+            font-weight: normal;
         }
 
-        .subtitle {
-            font-size: 0.8em;
+        h2 {
+            border-bottom: 1px solid #aaa;
+            font-weight: normal;
+            margin-top: 1.5em;
+        }
+
+        .tagline {
+            font-size: 80%;
             color: #555;
             margin-top: -10px;
             margin-bottom: 20px;
         }
 
-        /* Content Boxes */
-        .info-box {
-            float: right;
-            width: 250px;
-            border: 1px solid #aaaaaa;
-            background-color: #fbfbfb;
+        /* Table of Contents */
+        #toc {
+            border: 1px solid #aaa;
+            background-color: #f9f9f9;
             padding: 10px;
-            margin-left: 20px;
-            font-size: 0.9em;
+            display: table;
+            font-size: 90%;
         }
 
-        .info-box img {
-            width: 100%;
-            height: auto;
-            border: 1px solid #ccc;
+        #toc h2 {
+            border: none;
+            margin: 0;
+            font-size: 100%;
+            font-weight: bold;
+            display: inline;
         }
 
-        .footer {
-            margin-top: 50px;
-            font-size: 0.75em;
-            color: #666;
-            border-top: 1px solid #aaaaaa;
+        #toc ul {
+            list-style-type: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        .locked-notice {
+            float: right;
+            border: 1px dashed #aaa;
+            background-color: #ffffe0;
+            padding: 5px;
+            font-size: 80%;
+        }
+
+        /* Footer */
+        #footer {
+            margin-left: 12.5em;
+            font-size: 80%;
+            text-align: center;
+            border-top: 1px solid #aaa;
             padding-top: 10px;
+            color: #555;
         }
     </style>
 </head>
 <body>
 
-<div id="header">
-    <a href="#" id="logo">MyWiki</a>
-    <div>
-        <small><a href="#">Log in</a> | <a href="#">Create account</a></small>
-    </div>
-</div>
-
-<div id="container">
     <div id="sidebar">
-        <h3>Navigation</h3>
-        <ul>
-            <li><a href="#">Main Page</a></li>
-            <li><a href="#">Contents</a></li>
-            <li><a href="#">Featured Content</a></li>
-            <li><a href="#">Random Article</a></li>
-        </ul>
+        <h2 style="font-family: serif; margin-left: 10px;">RetroWiki</h2>
+        
+        <div class="portlet">
+            <h5>Navigation</h5>
+            <ul>
+                <li><a href="#">Main Page</a></li>
+                <li><a href="#">Community portal</a></li>
+                <li><a href="#">Current events</a></li>
+                <li><a href="#">Recent changes</a></li>
+                <li><a href="#">Random page</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+        </div>
+        
+        <div class="portlet">
+            <h5>Toolbox</h5>
+            <ul>
+                <li><a href="#">What links here</a></li>
+                <li><a href="#">Related changes</a></li>
+                <li><a href="#">Special pages</a></li>
+                <li><a href="#">Printable version</a></li>
+                <li><a href="#">Permanent link</a></li>
+            </ul>
+        </div>
+    </div>
 
-        <h3>Interaction</h3>
+    <div id="tabs">
         <ul>
-            <li><a href="#">About MyWiki</a></li>
-            <li><a href="#">Community portal</a></li>
-            <li><a href="#">Recent changes</a></li>
-            <li><a href="#">Contact us</a></li>
+            <li><a href="#" class="selected">Article</a></li>
+            <li><a href="#">Discussion</a></li>
+            <li><a href="#">View source</a></li> <li><a href="#">History</a></li>
         </ul>
-
-        <h3>Search</h3>
-        <input type="text" size="12">
-        <button style="margin-top:5px;">Go</button>
     </div>
 
     <div id="content">
-        <h1>HTML (HyperText Markup Language)</h1>
-        <div class="subtitle">From MyWiki, the free encyclopedia</div>
+        <div class="locked-notice">
+            🔒 <i>This page is protected from editing.</i>
+        </div>
+        
+        <h1>Internet Nostalgia</h1>
+        <div class="tagline">From RetroWiki, the free encyclopedia</div>
 
-        <div class="info-box">
-            <center><strong>HTML 4.01</strong></center>
-            <hr>
-            <div style="background:#eee; height:150px; text-align:center; padding-top:50px;">
-                [Image Placeholder]
-            </div>
-            <p><strong>Developed by:</strong> W3C</p>
-            <p><strong>Initial release:</strong> 1993</p>
-            <p><strong>Type:</strong> Markup Language</p>
+        <p><b>Internet nostalgia</b> refers to a cultural phenomenon where users reminisce about the early days of the World Wide Web, particularly the late 1990s and early 2000s. During this era, websites were largely static, text-heavy, and built using basic HTML tables and inline styling.</p>
+
+        <div id="toc">
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#Design_Trends">1 Design Trends</a></li>
+                <li><a href="#Web_Safe_Colors">2 Web Safe Colors</a></li>
+                <li><a href="#See_Also">3 See Also</a></li>
+            </ul>
         </div>
 
-        <p>
-            <b>HTML</b> is the standard markup language for documents designed to be displayed in a web browser. 
-            It can be assisted by technologies such as Cascading Style Sheets (CSS) and scripting languages such as JavaScript.
-        </p>
+        <h2 id="Design_Trends">Design Trends</h2>
+        <p>Common design trends included left-aligned sidebars, "web safe" fonts like Arial and Times New Roman, and default link colors. When a user clicked a link, it changed from its standard blue (<code>#0000ee</code>) to purple (<code>#551a8b</code>) to indicate it had been visited.</p>
 
-        <h3>History</h3>
-        <p>
-            In 1980, physicist Tim Berners-Lee, a contractor at CERN, proposed and prototyped ENQUIRE, a system for CERN researchers to use and share documents. 
-            In 1989, Berners-Lee wrote a memo proposing an Internet-based hypertext system.
-        </p>
+        <p>Because dynamic content management systems were not widely adopted by casual users, maintaining a site required manual coding or the use of early WYSIWYG editors.</p>
 
-        <h3>Markup</h3>
-        <p>
-            HTML markup consists of several key components, including those called <i>tags</i> (and their attributes), character-based <i>data types</i>, 
-            and <i>character references</i>.
-        </p>
+        <h2 id="Web_Safe_Colors">Web Safe Colors</h2>
+        <p>Due to the limitations of early monitors, designers often restricted themselves to a palette of 216 "web safe" colors to ensure their sites looked the same across different operating systems and browsers.</p>
 
-        <div class="footer">
-            This page was last modified on 29 March 2000, at 14:32.<br>
-            Text is available under the GNU Free Documentation License.
-        </div>
+        <h2 id="See_Also">See Also</h2>
+        <ul>
+            <li><a href="#">Web 1.0</a></li>
+            <li><a href="#">History of the World Wide Web</a></li>
+            <li><a href="#">Browser wars</a></li>
+        </ul>
     </div>
-</div>
+
+    <div id="footer">
+        <p>This page was last modified on 25 August 2005, at 14:32.</p>
+        <p><a href="#">Privacy policy</a> | <a href="#">About RetroWiki</a> | <a href="#">Disclaimers</a></p>
+    </div>
 
 </body>
 </html>
