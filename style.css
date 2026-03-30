@@ -1,203 +1,115 @@
-/* RetroWiki / Gazo-wiki Stylesheet 
-   Simulates an early 2000s static wiki layout 
-*/
+/* style.css - Universal Stylesheet for Gazowiki */
 
-body { 
-    font-family: sans-serif; 
-    background-color: #f9f9f9; 
-    color: black; 
-    margin: 0; 
-    padding: 0; 
+body {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #f6f6f6;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
 }
 
-a { 
-    text-decoration: none; 
-    color: #002bb8; 
+#container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 15px auto;
+    background-color: #ffffff;
+    border: 1px solid #a2a9b1;
+    display: table; /* Classic 2000s layout hack */
 }
 
-a:visited { 
-    color: #5a3696; 
+/* Sidebar Navigation */
+#sidebar {
+    display: table-cell;
+    width: 160px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    vertical-align: top;
+    border-right: 1px solid #a2a9b1;
 }
 
-a:hover { 
-    text-decoration: underline; 
+#sidebar h3 {
+    font-size: 12px;
+    margin-top: 0;
+    border-bottom: 1px solid #aaaaaa;
 }
 
-/* Sidebar & Search */
-#sidebar { 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 12em; 
-    padding: 20px 10px; 
+#sidebar ul {
+    list-style-type: square;
+    padding-left: 15px;
+    margin-bottom: 20px;
 }
 
-.portlet { 
-    margin-bottom: 1em; 
+#sidebar li {
+    margin-bottom: 5px;
 }
 
-.portlet h5 { 
-    margin: 0; 
-    padding: 0 0 0 5px; 
-    font-weight: normal; 
-    font-size: 90%; 
-    border-bottom: 1px solid #aaa; 
+/* Main Content Area */
+#content {
+    display: table-cell;
+    padding: 20px 30px;
+    vertical-align: top;
 }
 
-.portlet ul { 
-    list-style-type: none; 
-    margin: 0; 
-    padding: 5px 0 0 10px; 
-    font-size: 90%; 
+h1, h2, h3 {
+    font-family: "Trebuchet MS", sans-serif;
+    font-weight: normal;
 }
 
-.portlet ul li { 
-    margin-bottom: 3px; 
+h1 {
+    font-size: 24px;
+    border-bottom: 1px solid #a2a9b1;
+    padding-bottom: 5px;
+    margin-top: 0;
 }
 
-#searchBody { 
-    padding: 5px 0 0 5px; 
-    font-size: 80%; 
+h2 {
+    font-size: 18px;
+    border-bottom: 1px solid #a2a9b1;
+    padding-bottom: 3px;
 }
 
-#searchInput { 
-    width: 100px; 
-    margin-bottom: 2px; 
+/* Classic 2000s Link Colors */
+a {
+    color: #002bb8;
+    text-decoration: none;
 }
 
-/* Top Tabs (Used on article pages) */
-#tabs { 
-    margin-left: 12.5em; 
-    padding-top: 1em; 
-    white-space: nowrap; 
+a:visited {
+    color: #5a3696;
 }
 
-#tabs ul { 
-    list-style-type: none; 
-    margin: 0; 
-    padding: 0; 
+a:hover {
+    text-decoration: underline;
 }
 
-#tabs li { 
-    display: inline; 
-    margin: 0; 
-    padding: 0; 
+/* Info Box */
+.infobox {
+    float: right;
+    width: 250px;
+    border: 1px solid #a2a9b1;
+    background-color: #f8f9fa;
+    padding: 5px;
+    margin: 0 0 15px 15px;
+    font-size: 12px;
 }
 
-#tabs a { 
-    background-color: #fbfbfb; 
-    border: 1px solid #aaa; 
-    border-bottom: none; 
-    padding: 3px 8px; 
-    margin-right: 2px; 
-    text-decoration: none; 
-    color: #002bb8; 
+.infobox th {
+    background-color: #cedff2;
+    text-align: left;
+    padding: 5px;
 }
 
-#tabs a.selected { 
-    background-color: #ffffff; 
-    font-weight: bold; 
-    color: black; 
-    z-index: 3; 
+.infobox td {
+    padding: 5px;
+    border-bottom: 1px dotted #ccc;
 }
 
-/* Main Content */
-#content { 
-    background-color: #ffffff; 
-    border: 1px solid #aaa; 
-    margin: 1em 1em 1em 12.5em; /* Top margin at 1em accommodates pages without tabs */
-    padding: 1.5em; 
-    min-height: 80vh; 
-}
-
-h1 { 
-    border-bottom: 1px solid #aaa; 
-    margin-top: 0; 
-    font-family: "Times New Roman", Times, serif; 
-    font-weight: normal; 
-}
-
-h2 { 
-    border-bottom: 1px solid #aaa; 
-    font-weight: normal; 
-    margin-top: 1.5em; 
-}
-
-.tagline { 
-    font-size: 80%; 
-    color: #555; 
-    margin-top: -10px; 
-    margin-bottom: 20px; 
-}
-
-.locked-notice { 
-    float: right; 
-    border: 1px dashed #aaa; 
-    background-color: #ffffe0; 
-    padding: 5px; 
-    font-size: 80%; 
-    margin-left: 10px; 
-    margin-bottom: 10px; 
-}
-
-/* Wiki Features: Infobox, Stubs, Categories */
-.infobox { 
-    float: right; 
-    clear: right; 
-    width: 250px; 
-    border: 1px solid #aaa; 
-    background-color: #f9f9f9; 
-    margin: 0 0 1em 1em; 
-    padding: 5px; 
-    font-size: 90%; 
-}
-
-.infobox th { 
-    background-color: #e0e0e0; 
-    text-align: left; 
-    padding: 2px 5px; 
-    width: 40%; 
-}
-
-.infobox td { 
-    padding: 2px 5px; 
-}
-
-.infobox-title { 
-    text-align: center; 
-    font-weight: bold; 
-    font-size: 110%; 
-    background-color: #d0e0f5; 
-    padding: 5px; 
-    margin-bottom: 5px; 
-}
-
-.stub-box { 
-    border: 1px solid #a2a9b1; 
-    background-color: #f8f9fa; 
-    padding: 8px 12px; 
-    margin: 1em 0; 
-    font-size: 90%; 
-    display: flex; 
-    align-items: center; 
-}
-
-.catlinks { 
-    border: 1px solid #aaa; 
-    background-color: #f9f9f9; 
-    padding: 5px; 
-    margin-top: 2em; 
-    font-size: 90%; 
-    clear: both; 
-}
-
-/* Footer */
-#footer { 
-    margin-left: 12.5em; 
-    font-size: 80%; 
-    text-align: center; 
-    border-top: 1px solid #aaa; 
-    padding-top: 10px; 
-    color: #555; 
-    margin-bottom: 20px; 
+.footer {
+    text-align: center;
+    font-size: 10px;
+    color: #666;
+    margin-top: 20px;
+    border-top: 1px solid #a2a9b1;
+    padding-top: 10px;
 }
