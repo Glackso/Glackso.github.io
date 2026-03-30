@@ -22,7 +22,7 @@ const sidebarContent = `
         <li><a href="giggler.html">Gigglers</a></li>
         <li><a href="#">Gleebers</a></li>
         <li><a href="#">Glaabers</a></li>
-        <li><a href="#">Gloobers</a></li>
+        <li><a href="gloober.html">Gloobers</a></li>
         <li><a href="#">Cheerers</a></li>
     </ul>
 `;
