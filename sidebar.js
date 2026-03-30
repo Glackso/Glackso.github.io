@@ -20,10 +20,10 @@ const sidebarContent = `
         <li><a href="gembo.html">Gembos</a></li>
         <li><a href="gazo.html">Gazos</a></li>
         <li><a href="giggler.html">Gigglers</a></li>
-        <li><a href="#">Gleebers</a></li>
-        <li><a href="#">Glaabers</a></li>
+        <li><a href="gleeber.html">Gleebers</a></li>
+        <li><a href="glaaber.html">Glaabers</a></li>
         <li><a href="gloober.html">Gloobers</a></li>
-        <li><a href="#">Cheerers</a></li>
+        <li><a href="cheerer.html">Cheerers</a></li>
     </ul>
 `;
 
