@@ -2,107 +2,244 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Main Page - Gazo-wiki</title>
+    <title>Gazowiki - hi human</title>
     <style type="text/css">
-        body { font-family: sans-serif; background-color: #f9f9f9; color: black; margin: 0; padding: 0; }
-        a { text-decoration: none; color: #002bb8; }
-        a:visited { color: #5a3696; }
-        a:hover { text-decoration: underline; }
+        body {
+            font-family: sans-serif;
+            background-color: #f9f9f9;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
 
-        /* Sidebar & Search */
-        #sidebar { position: absolute; top: 0; left: 0; width: 12em; padding: 20px 10px; }
-        .portlet { margin-bottom: 1em; }
-        .portlet h5 { margin: 0; padding: 0 0 0 5px; font-weight: normal; font-size: 90%; border-bottom: 1px solid #aaa; }
-        .portlet ul { list-style-type: none; margin: 0; padding: 5px 0 0 10px; font-size: 90%; }
-        .portlet ul li { margin-bottom: 3px; }
-        #searchBody { padding: 5px 0 0 5px; font-size: 80%; }
-        #searchInput { width: 100px; margin-bottom: 2px; }
+        a {
+            text-decoration: none;
+            color: #002bb8;
+        }
 
-        /* Main Content - Adjusted top margin since tabs are removed */
-        #content { background-color: #ffffff; border: 1px solid #aaa; margin: 1em 1em 1em 12.5em; padding: 1.5em; min-height: 80vh; }
-        h1 { border-bottom: 1px solid #aaa; margin-top: 0; font-family: "Times New Roman", Times, serif; font-weight: normal; }
-        h2 { border-bottom: 1px solid #aaa; font-weight: normal; margin-top: 1.5em; }
-        .tagline { font-size: 80%; color: #555; margin-top: -10px; margin-bottom: 20px; }
-        .locked-notice { float: right; border: 1px dashed #aaa; background-color: #ffffe0; padding: 5px; font-size: 80%; margin-left: 10px; margin-bottom: 10px; }
+        a:visited {
+            color: #5a3696;
+        }
 
-        /* Wiki Features: Infobox & Categories */
-        .infobox { float: right; clear: right; width: 250px; border: 1px solid #aaa; background-color: #f9f9f9; margin: 0 0 1em 1em; padding: 5px; font-size: 90%; }
-        .infobox th { background-color: #e0e0e0; text-align: left; padding: 2px 5px; width: 40%; }
-        .infobox td { padding: 2px 5px; }
-        .infobox-title { text-align: center; font-weight: bold; font-size: 110%; background-color: #d0e0f5; padding: 5px; margin-bottom: 5px; }
-        
-        .catlinks { border: 1px solid #aaa; background-color: #f9f9f9; padding: 5px; margin-top: 2em; font-size: 90%; clear: both; }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 12em;
+            padding: 20px 10px;
+        }
+
+        .portlet {
+            margin-bottom: 1em;
+        }
+
+        .portlet h5 {
+            margin: 0;
+            padding: 0 0 0 5px;
+            font-weight: normal;
+            font-size: 90%;
+            border-bottom: 1px solid #aaa;
+        }
+
+        .portlet ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 5px 0 0 10px;
+            font-size: 90%;
+        }
+
+        .portlet ul li {
+            margin-bottom: 3px;
+        }
+
+        /* Top Tabs Styling */
+        #tabs {
+            margin-left: 12.5em;
+            padding-top: 1em;
+            white-space: nowrap;
+        }
+
+        #tabs ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #tabs li {
+            display: inline;
+            margin: 0;
+            padding: 0;
+        }
+
+        #tabs a {
+            background-color: #fbfbfb;
+            border: 1px solid #aaa;
+            border-bottom: none;
+            padding: 3px 8px;
+            margin-right: 2px;
+            text-decoration: none;
+            color: #002bb8;
+        }
+
+        #tabs a.selected {
+            background-color: #ffffff;
+            font-weight: bold;
+            color: black;
+            z-index: 3;
+        }
+
+        /* Main Content Styling */
+        #content {
+            background-color: #ffffff;
+            border: 1px solid #aaa;
+            margin: 0 1em 1em 12.5em;
+            padding: 1.5em;
+            min-height: 80vh;
+        }
+
+        h1 {
+            border-bottom: 1px solid #aaa;
+            margin-top: 0;
+            font-family: "Times New Roman", Times, serif;
+            font-weight: normal;
+        }
+
+        h2 {
+            border-bottom: 1px solid #aaa;
+            font-weight: normal;
+            margin-top: 1.5em;
+        }
+
+        .tagline {
+            font-size: 80%;
+            color: #555;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        /* Table of Contents */
+        #toc {
+            border: 1px solid #aaa;
+            background-color: #f9f9f9;
+            padding: 10px;
+            display: table;
+            font-size: 90%;
+        }
+
+        #toc h2 {
+            border: none;
+            margin: 0;
+            font-size: 100%;
+            font-weight: bold;
+            display: inline;
+        }
+
+        #toc ul {
+            list-style-type: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        .locked-notice {
+            float: right;
+            border: 1px dashed #aaa;
+            background-color: #ffffe0;
+            padding: 5px;
+            font-size: 80%;
+        }
 
         /* Footer */
-        #footer { margin-left: 12.5em; font-size: 80%; text-align: center; border-top: 1px solid #aaa; padding-top: 10px; color: #555; margin-bottom: 20px; }
-    </style>
-    <script type="text/javascript">
-        function performSearch(event) {
-            event.preventDefault();
-            var query = document.getElementById("searchInput").value.toLowerCase();
-            if (query === "gazo" || query === "glaggle") {
-                window.location.href = "index.html"; // Redirects to main page for now
-            } else {
-                alert("Search functionality is limited. Try searching 'Gazo' or 'Glaggle'.");
-            }
+        #footer {
+            margin-left: 12.5em;
+            font-size: 80%;
+            text-align: center;
+            border-top: 1px solid #aaa;
+            padding-top: 10px;
+            color: #555;
         }
-    </script>
+    </style>
 </head>
 <body>
 
     <div id="sidebar">
-        <h2 style="font-family: serif; margin-left: 10px;">Gazo-wiki</h2>
+        <h2 style="font-family: serif; margin-left: 10px;">RetroWiki</h2>
         
-        <div class="portlet">
-            <h5>Search</h5>
-            <div id="searchBody">
-                <form onsubmit="performSearch(event)">
-                    <input id="searchInput" type="text" placeholder="Search...">
-                    <input type="submit" value="Go">
-                </form>
-            </div>
-        </div>
-
         <div class="portlet">
             <h5>Navigation</h5>
             <ul>
-                <li><a href="index.html">Main Page</a></li>
-                <li><a href="#">Species Index</a></li>
-                <li><a href="#">Interstellar Treaties</a></li>
+                <li><a href="#">Main Page</a></li>
+                <li><a href="#">Community portal</a></li>
+                <li><a href="#">Current events</a></li>
+                <li><a href="#">Recent changes</a></li>
                 <li><a href="#">Random page</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+        </div>
+        
+        <div class="portlet">
+            <h5>Toolbox</h5>
+            <ul>
+                <li><a href="#">What links here</a></li>
+                <li><a href="#">Related changes</a></li>
+                <li><a href="#">Special pages</a></li>
+                <li><a href="#">Printable version</a></li>
+                <li><a href="#">Permanent link</a></li>
             </ul>
         </div>
     </div>
 
+    <div id="tabs">
+        <ul>
+            <li><a href="#" class="selected">Article</a></li>
+            <li><a href="#">Discussion</a></li>
+            <li><a href="#">View source</a></li> <li><a href="#">History</a></li>
+        </ul>
+    </div>
+
     <div id="content">
-        <div class="locked-notice">🔒 <i>This database is protected by the Interstellar Peace Coalition.</i></div>
-        
-        <h1>Welcome to Gazo-wiki</h1>
-        <div class="tagline">The universal database for Gluborgian studies.</div>
-
-        <table class="infobox">
-            <tr><td colspan="2" class="infobox-title">Gluborg</td></tr>
-            <tr><th>Human Desig.</th><td>PRF-230K</td></tr>
-            <tr><th>Status</th><td>Protected System</td></tr>
-            <tr><th>Dominant Life</th><td>Glaggles</td></tr>
-            <tr><th>Primary Lang.</th><td>English (Universal)</td></tr>
-        </table>
-
-        <p><b>Gluborg</b> (known to humanity under the star chart designation <b>PRF-230K</b>) is a planetary body primarily inhabited by sphere-shaped organisms. Due to the rapid expansion of human space exploration, the planet and its inhabitants are strictly protected under a universal space treaty designed to maintain peaceful relations with non-human systems.</p>
-
-        <h2>The Glaggles</h2>
-        <p>The dominant lifeforms on Gluborg are collectively referred to as <b>Glaggles</b>. Biologically, they are highly unusual sphere-shaped organisms. Despite their alien physiology, Glaggles communicate fluently in English, which has become the universal standard language across known systems.</p>
-
-        <h2>Gazos</h2>
-        <p>Within the broader Glaggle classification, the <b>Gazos</b> are a specific, notable sub-species. They are distinctly blue in coloration and are known for being highly biologically and emotionally stable. Out of all the organisms on Gluborg, Gazos exhibit behaviors and social structures most similar to humans, making them the primary point of contact for diplomatic relations under the space treaty.</p>
-
-        <div class="catlinks">
-            <b>Categories:</b> <a href="#">Planets</a> | <a href="#">Extraterrestrial Life</a> | <a href="#">Protected Systems</a>
+        <div class="locked-notice">
+            🔒 <i>This page is protected from editing.</i>
         </div>
+        
+        <h1>Internet Nostalgia</h1>
+        <div class="tagline">From RetroWiki, the free encyclopedia</div>
+
+        <p><b>Internet nostalgia</b> refers to a cultural phenomenon where users reminisce about the early days of the World Wide Web, particularly the late 1990s and early 2000s. During this era, websites were largely static, text-heavy, and built using basic HTML tables and inline styling.</p>
+
+        <div id="toc">
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#Design_Trends">1 Design Trends</a></li>
+                <li><a href="#Web_Safe_Colors">2 Web Safe Colors</a></li>
+                <li><a href="#See_Also">3 See Also</a></li>
+            </ul>
+        </div>
+
+        <h2 id="Design_Trends">Design Trends</h2>
+        <p>Common design trends included left-aligned sidebars, "web safe" fonts like Arial and Times New Roman, and default link colors. When a user clicked a link, it changed from its standard blue (<code>#0000ee</code>) to purple (<code>#551a8b</code>) to indicate it had been visited.</p>
+
+        <p>Because dynamic content management systems were not widely adopted by casual users, maintaining a site required manual coding or the use of early WYSIWYG editors.</p>
+
+        <h2 id="Web_Safe_Colors">Web Safe Colors</h2>
+        <p>Due to the limitations of early monitors, designers often restricted themselves to a palette of 216 "web safe" colors to ensure their sites looked the same across different operating systems and browsers.</p>
+
+        <h2 id="See_Also">See Also</h2>
+        <ul>
+            <li><a href="#">Web 1.0</a></li>
+            <li><a href="#">History of the World Wide Web</a></li>
+            <li><a href="#">Browser wars</a></li>
+        </ul>
     </div>
 
     <div id="footer">
-        <p>This database was last updated on 14 October 2007, at 16:42 Interstellar Standard Time.</p>
+        <p>This page was last modified on 25 August 2005, at 14:32.</p>
+        <p><a href="#">Privacy policy</a> | <a href="#">About RetroWiki</a> | <a href="#">Disclaimers</a></p>
     </div>
+
 </body>
 </html>
