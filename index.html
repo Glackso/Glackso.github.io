@@ -1,124 +1,102 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Main Page - Gazo-wiki</title>
-    
+    <meta charset="UTF-8">
+    <title>Gluborg - Gazowiki</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    
-    <script type="text/javascript">
-        function performSearch(event) {
-            event.preventDefault();
-            var query = document.getElementById("searchInput").value.toLowerCase();
-            if (query === "gazo" || query === "glaggle" || query === "main") {
-                window.location.href = "index.html";
-            } else if (query === "species") {
-                window.location.href = "species-index.html";
-            } else {
-                alert("Search functionality is limited on this static site. Try searching 'Species'.");
-            }
-        }
-    </script>
 </head>
 <body>
 
+<div id="container">
+    
     <div id="sidebar">
-        <h2 style="font-family: serif; margin-left: 10px;">Gazo-wiki</h2>
+        <center>
+            <img src="https://via.placeholder.com/120x120.png?text=Gazowiki+Logo" alt="Gazowiki Logo" width="120" height="120">
+            <br><i>The Free Glag Encyclopedia</i>
+        </center>
+        <br>
         
-        <div class="portlet">
-            <h5>Search</h5>
-            <div id="searchBody">
-                <form onsubmit="performSearch(event)">
-                    <input id="searchInput" type="text" placeholder="Search...">
-                    <input type="submit" value="Go">
-                </form>
-            </div>
-        </div>
+        <h3>Navigation</h3>
+        <ul>
+            <li><a href="#">Main Page</a></li>
+            <li><a href="#">Community Portal</a></li>
+            <li><a href="#">Recent Changes</a></li>
+            <li><a href="#">Random Page</a></li>
+        </ul>
 
-        <div class="portlet">
-            <h5>Navigation</h5>
-            <ul>
-                <li><a href="index.html">Main Page</a></li>
-                <li><a href="species-index.html">Species Index</a></li>
-                <li><a href="#">Gluborg Geography</a></li>
-                <li><a href="#">Interstellar Treaties</a></li>
-                <li><a href="#">Random page</a></li>
-                <li><a href="gazo.html">Gazos</a></li>
-            </ul>
-        </div>
-        
-        <div class="portlet">
-            <h5>Gazo Archives</h5>
-            <ul>
-                <li><a href="#">Human-Glag Relations</a></li>
-                <li><a href="#">Translation Logs</a></li>
-                <li><a href="#">Help & Guidelines</a></li>
-            </ul>
-        </div>
+        <h3>Species</h3>
+        <ul>
+            <li><a href="#">Gembos</a></li>
+            <li><a href="#">Gazos</a></li>
+            <li><a href="#">Gigglers</a></li>
+            <li><a href="#">Gleebers</a></li>
+            <li><a href="#">Glaabers</a></li>
+            <li><a href="#">Gloobers</a></li>
+            <li><a href="#">Cheerers</a></li>
+        </ul>
     </div>
 
     <div id="content">
-        <div class="locked-notice">🔒 <i>This database is protected by the Interstellar Peace Coalition.</i></div>
+        <h1>Gluborg</h1>
         
-        <div style="text-align: center; border: 1px solid #aaa; background-color: #f8f9fa; padding: 20px; margin-bottom: 20px;">
-            <h1 style="border-bottom: none; margin: 0; font-size: 180%;">Welcome to Gazo-wiki</h1>
-            <p style="margin-top: 5px; font-size: 110%;">The universal, open-access database for Gluborgian studies.<br>
-            <i>Compiled by the Gazos, for the benefit of all Glags and our Human allies.</i></p>
+        <div class="infobox">
+            <table width="100%" cellspacing="0">
+                <tr>
+                    <th colspan="2"><center><b>Gluborg</b></center></th>
+                </tr>
+                <tr>
+                    <td><b>Human Designation:</b></td>
+                    <td>Kepler-774b</td>
+                </tr>
+                <tr>
+                    <td><b>Inhabitants:</b></td>
+                    <td>Glags (7 sub-species)</td>
+                </tr>
+                <tr>
+                    <td><b>Status:</b></td>
+                    <td>Protected (Treaty of 2084)</td>
+                </tr>
+                <tr>
+                    <td><b>Major Exports:</b></td>
+                    <td>Space-moss, Gazo-tech</td>
+                </tr>
+            </table>
         </div>
 
-        <table class="infobox">
-            <tr><td colspan="2" class="infobox-title">Gluborg</td></tr>
-            <tr><th>Human Desig.</th><td>PRF-230K</td></tr>
-            <tr><th>Status</th><td>Protected System</td></tr>
-            <tr><th>Dominant Life</th><td>Glaggles</td></tr>
-            <tr><th>Primary Lang.</th><td>English (Universal)</td></tr>
-            <tr><th>Atmosphere</th><td>Stable / Breathable</td></tr>
-        </table>
+        <p><b>Gluborg</b> (known in the human star-charts as <i>Kepler-774b</i>) is a lush, temperate planet and the homeworld of the <b>Glags</b>. This wiki, <i>Gazowiki</i>, is maintained by the Gazos to document our shared history, culture, and day-to-day lives across the planet.</p>
 
-        <h2>Greetings, Travelers!</h2>
-        <p>Whether you are a fellow spherical inhabitant of Gluborg or a visiting human researcher from the Sol system, we welcome you to our archives. Following the monumental signing of the <b>Interstellar Peace Coalition Treaty</b>, humanity and the Glaggles have enjoyed an unprecedented era of cooperation and shared knowledge.</p>
+        <h2>Species of Gluborg</h2>
+        <p>The term "Glag" is an umbrella classification for the seven distinct sentient species that cohabit Gluborg. While we look and act differently, we share a common ancestor.</p>
+        <ul>
+            <li><b>Gazos:</b> The historians, engineers, and creators of this wiki. We like to keep things organized.</li>
+            <li><b>Gembos:</b> The builders of Gluborg, known for their incredible physical strength and rock-carving abilities.</li>
+            <li><b>Gigglers:</b> Yellow-hued, highly intuitive beings who possess the unique ability to seek and perceive the future. They are often our diplomats and guides.</li>
+            <li><b>Gleebers:</b> Aquatic glags who manage the underwater kelp forests.</li>
+            <li><b>Glaabers:</b> Tall, canopy-dwelling glags who harvest solar fruits.</li>
+            <li><b>Gloobers:</b> Subterranean miners who trade precious ores with the surface.</li>
+            <li><b>Cheerers:</b> The emotional core of our society, possessing empathic abilities that keep planetary morale high.</li>
+        </ul>
 
-        <p>Because the English language has been adopted as the universal standard, we Gazos have taken it upon ourselves to translate and compile the entirety of our planet's history, biology, and culture into this accessible network. We deeply thank humanity for their peaceful approach to PRF-230K, and we hope this database serves as a bridge between our two worlds.</p>
+        <h2>The Galactic Treaty</h2>
+        <p>Following the vast expansion of the Human Empire in the late 21st century, humans discovered Gluborg. Initial tensions were quickly resolved thanks to the foresight of our greatest diplomat.</p>
+        
+        <p><b>John J. Gig</b>, a prominent Giggler whose future-seeking abilities saw the potential for a golden age, stepped forward to negotiate. He met with human representative <b>Ambassador Elias Vance</b>.</p>
 
-        <h2>Database Portals</h2>
-        <p>Explore the archives by selecting a category below:</p>
+        <p>Together, they signed the <i>Kepler-Gluborg Accords</i>. The treaty dictates that:</p>
+        <ol>
+            <li>Gluborg remains an independently governed planet, protected from human colonization.</li>
+            <li>A permanent, peaceful trade route is established between Human-controlled space and Gluborg.</li>
+            <li>No human may alter the atmospheric composition of Gluborg.</li>
+        </ol>
 
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-            <tr>
-                <td style="width: 50%; padding: 10px; vertical-align: top;">
-                    <h3 style="margin-top: 0; font-family: serif; border-bottom: 1px dotted #aaa;">🧬 <a href="species-index.html">The 7 Core Species</a></h3>
-                    <p style="font-size: 90%;">Learn about the diverse biological makeup of our world. Discover the unique traits of the Giggler, Gazo, Gembo, Gleeber, Gloober, Glaaber, and Cheerer.</p>
-                </td>
-                <td style="width: 50%; padding: 10px; vertical-align: top;">
-                    <h3 style="margin-top: 0; font-family: serif; border-bottom: 1px dotted #aaa;">🌍 Planetary Geography</h3>
-                    <p style="font-size: 90%;">Detailed topographical maps and ecosystem analyses of Gluborg, from the sprawling Azure Plains to the deeply resonant Echo Canyons.</p>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 50%; padding: 10px; vertical-align: top;">
-                    <h3 style="margin-top: 0; font-family: serif; border-bottom: 1px dotted #aaa;">🤝 Interstellar Treaties</h3>
-                    <p style="font-size: 90%;">Review the legal documents that protect our system. Read the full text of the Non-Interference Acts and our ongoing trade agreements.</p>
-                </td>
-                <td style="width: 50%; padding: 10px; vertical-align: top;">
-                    <h3 style="margin-top: 0; font-family: serif; border-bottom: 1px dotted #aaa;">📚 Human-Glag Relations</h3>
-                    <p style="font-size: 90%;">A historical overview of first contact, the universal adoption of the English language, and the cultural exchanges that followed.</p>
-                </td>
-            </tr>
-        </table>
+        <p>Thanks to John J. Gig and Ambassador Vance, our planet thrives, and human cargo ships are now a regular, welcomed sight in our skies.</p>
 
-        <br>
-        <div class="stub-box">
-            🧩 <i>Notice to Gazo Archivists: Many portal pages are currently stubs. Please ensure your biological stabilizers are active before engaging in extended transcription sessions.</i>
-        </div>
-
-        <div class="catlinks">
-            <b>Categories:</b> <a href="#">Main Page</a> | <a href="#">Hubs</a> | <a href="#">Gluborg Portals</a>
+        <div class="footer">
+            This page was last modified by a Gazo. <br>
+            Content is available under Intergalactic Public Domain unless otherwise noted.
         </div>
     </div>
-
-    <div id="footer">
-        <p>This Main Page was last updated by the Head Gazo Archivist on 16 October 2007, at 08:00 Interstellar Standard Time.</p>
-    </div>
+</div>
 
 </body>
 </html>
