@@ -31,6 +31,7 @@ const sidebarContent = `
     <ul>
         <li><a href="great-glag.html">Great-Glag</a></li>
         <li><a href="john-j-gig.html">John</a></li>
+        <li><a href="ledger.html">Ledger</a></li>
     </ul>
 `;
 
