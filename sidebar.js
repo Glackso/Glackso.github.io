@@ -37,6 +37,7 @@ const sidebarContent = `
     <h3>locations</h3>
     <ul>
         <li><a href="splash-borg.html">Splashborg</a></li>
+        <li><a href="glaggleland.html">Glaggleland</a></li>
     </ul>
 `;
 
