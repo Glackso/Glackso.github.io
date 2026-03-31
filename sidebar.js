@@ -26,6 +26,11 @@ const sidebarContent = `
         <li><a href="cheerer.html">Cheerers</a></li>
         <li><a href="proto-gazoid.html">Protozoids</a></li>
     </ul>
+
+    <h3>Notable Figures</h3>
+    <ul>
+        <li><a href="great-glag.html">Great-Glag</a></li>
+    </ul>
 `;
 
 // Inject the HTML into the sidebar div
