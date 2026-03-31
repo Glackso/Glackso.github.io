@@ -39,6 +39,11 @@ const sidebarContent = `
         <li><a href="splash-borg.html">Splashborg</a></li>
         <li><a href="glaggleland.html">Glaggleland</a></li>
     </ul>
+
+    <h3>myths</h3>
+    <ul>
+        <li><a href="peripheral-glag.html">Peripheral glag</a></li>
+    </ul>
 `;
 
 // Inject the HTML into the sidebar div
