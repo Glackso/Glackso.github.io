@@ -1,9 +1,287 @@
-body { 
-    margin: 0; 
-    overflow: hidden; 
-    background: #c0c0c0; 
+:root {
+    /* Base Colors */
+    --bg-color: #f2f6f9;
+    --outline: #555555;
+    --bar-bg: #444444;
+    
+    /* Stat Colors extracted from your file */
+    --stat-regen: #fca882;
+    --stat-health: #e86bfd;
+    --stat-body: #966dfa;
+    --stat-bspeed: #68a1f7;
+    --stat-bpen: #f5d665;
+    --stat-bdmg: #f35e5f;
+    --stat-reload: #86f66a;
+    --stat-mspeed: #68f4ef;
 }
-canvas { 
-    display: block; 
-    background-color: #b4b4b4; 
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
 }
+
+canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* --- TEXT STROKE UTILITY --- */
+/* Simulates ctx.strokeText() */
+.stroke-text {
+    color: white;
+    text-shadow: 
+        -2px -2px 0 var(--outline),  
+         2px -2px 0 var(--outline),
+        -2px  2px 0 var(--outline),
+         2px  2px 0 var(--outline);
+    font-weight: bold;
+}
+
+/* --- HUD LAYER --- */
+#ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none; /* Let clicks pass through to canvas */
+}
+
+/* Reusable Rounded Bar mimicking drawRoundedBar() */
+.bar-bg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--bar-bg);
+    border-radius: 20px;
+    border: 3.5px solid var(--outline);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    border-radius: 16px;
+    transition: width 0.1s linear;
+}
+
+.bar-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* --- SCOREBOARD (Top Right) --- */
+#scoreboard {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    width: 220px;
+}
+
+#scoreboard h3 {
+    text-align: center;
+    font-size: 24px;
+    margin: 0 0 15px 0;
+}
+
+.score-bar {
+    height: 22px;
+    margin-bottom: 6px;
+}
+
+/* --- BOTTOM UI (Center) --- */
+#bottom-ui {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.player-name {
+    margin: 0;
+    font-size: 38px;
+}
+
+.info-bar-container {
+    height: 20px;
+}
+
+/* --- STAT MENU (Bottom Left) --- */
+#stat-menu {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    pointer-events: auto; /* Allow clicking buttons */
+}
+
+.stat-header {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px black;
+}
+
+.stat-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.stat-bar-bg {
+    position: relative;
+    width: 250px;
+    height: 22px;
+    background: var(--bar-bg);
+    border-radius: 11px;
+    border: 3.5px solid var(--outline);
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.stat-fill {
+    height: 100%;
+}
+
+.stat-name {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.stat-key {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.stat-btn {
+    width: 30px;
+    height: 22px;
+    border: 3.5px solid var(--outline);
+    border-radius: 0 11px 11px 0;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- MINIMAP (Bottom Right) --- */
+#minimap-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 130px;
+    height: 130px;
+    background: rgba(150, 150, 150, 0.4);
+    border: 4px solid var(--outline);
+    border-radius: 4px;
+}
+
+#minimap-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: black;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    /* Top/Left will be updated via JS */
+    top: 50%; 
+    left: 50%;
+}
+
+/* --- MENUS (Copied from your file) --- */
+.menu-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2000;
+}
+
+.menu-box {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    border: 4px solid #555555;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.game-title {
+    color: #555555;
+    font-size: 40px;
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.tank-logo {
+    width: 50px; height: 50px;
+    animation: spin-logo 8s linear infinite;
+}
+
+@keyframes spin-logo {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.menu-btn {
+    display: block;
+    width: 100%;
+    padding: 18px 0;
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: bold;
+    border: 3.5px solid #555555;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.btn-play { background: #00b2e1; }
