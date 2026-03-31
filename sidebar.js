@@ -33,6 +33,11 @@ const sidebarContent = `
         <li><a href="john-j-gig.html">John</a></li>
         <li><a href="ledger.html">Ledger</a></li>
     </ul>
+
+    <h3>locations</h3>
+    <ul>
+        <li><a href="splash-borg.html">Splashborg</a></li>
+    </ul>
 `;
 
 // Inject the HTML into the sidebar div
