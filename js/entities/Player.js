@@ -4,53 +4,90 @@ import { Bullet } from './Bullet.js';
 
 export class Player extends Entity {
     constructor(x, y) {
-        super(x, y);
-        this.speed = 4;
+        super(x, y, 20, '#00b2e1'); // Diep blue
+        
+        this.speed = 5;
         this.angle = 0;
-        this.cooldown = 0; // Prevents shooting 60 bullets a second
+        
+        // Shooting stats
+        this.cooldown = 0;
+        this.reloadTime = 15; // Frames between shots
+        this.bulletSpeed = 12;
+        this.bulletDamage = 10;
     }
-    
+
     update(game) {
-        // Movement
-        if (Input.keys['KeyW']) this.y -= this.speed;
-        if (Input.keys['KeyS']) this.y += this.speed;
-        if (Input.keys['KeyA']) this.x -= this.speed;
-        if (Input.keys['KeyD']) this.x += this.speed;
+        // 1. MOVEMENT (WASD / Arrows)
+        let dx = 0;
+        let dy = 0;
+        
+        if (Input.keys['w'] || Input.keys['arrowup']) dy -= 1;
+        if (Input.keys['s'] || Input.keys['arrowdown']) dy += 1;
+        if (Input.keys['a'] || Input.keys['arrowleft']) dx -= 1;
+        if (Input.keys['d'] || Input.keys['arrowright']) dx += 1;
 
-        // Aiming
-        this.angle = Math.atan2(Input.mouse.y - this.y, Input.mouse.x - this.x);
+        // Normalize diagonal movement so you don't move 1.4x faster
+        if (dx !== 0 && dy !== 0) {
+            const length = Math.sqrt(dx * dx + dy * dy);
+            dx /= length;
+            dy /= length;
+        }
 
-        // Shooting
+        this.x += dx * this.speed;
+        this.y += dy * this.speed;
+
+        // 2. AIMING
+        if (Input.toggles.autoSpin) {
+            // [C] Auto-Spin rotates slightly every frame
+            this.angle += 0.05; 
+        } else {
+            // Standard Aiming (Look at world mouse coordinates)
+            this.angle = Math.atan2(Input.mouse.worldY - this.y, Input.mouse.worldX - this.x);
+        }
+
+        // 3. SHOOTING
         if (this.cooldown > 0) this.cooldown--;
-        if (Input.mouse.down && this.cooldown === 0) {
-            // Spawn bullet at the tip of the barrel
-            let bx = this.x + Math.cos(this.angle) * 30;
-            let by = this.y + Math.sin(this.angle) * 30;
-            
-            game.bullets.push(new Bullet(bx, by, this.angle));
-            this.cooldown = 15; // Wait 15 frames before shooting again
+
+        // Fire if Mouse is down OR [E] Auto-Fire is on
+        if ((Input.mouse.down || Input.toggles.autoFire) && this.cooldown <= 0) {
+            this.shoot(game);
         }
     }
-    
+
+    shoot(game) {
+        // Calculate barrel tip position so bullet doesn't spawn in the center of the tank
+        const barrelLength = 40;
+        const tipX = this.x + Math.cos(this.angle) * barrelLength;
+        const tipY = this.y + Math.sin(this.angle) * barrelLength;
+
+        // Spawn bullet
+        game.bullets.push(new Bullet(tipX, tipY, this.angle, this.bulletSpeed, this.bulletDamage, this.color));
+        
+        // Reset cooldown
+        this.cooldown = this.reloadTime;
+    }
+
     draw(ctx) {
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
+
+        // Draw Barrel (Underneath the body)
+        ctx.fillStyle = '#999999';
+        ctx.strokeStyle = this.outlineColor;
+        ctx.lineWidth = this.lineWidth;
         
-        // Barrel
-        ctx.fillStyle = '#999';
-        ctx.strokeStyle = '#555';
-        ctx.lineWidth = 3;
-        ctx.fillRect(0, -12, 35, 24);
-        ctx.strokeRect(0, -12, 35, 24);
-        
-        // Body
-        ctx.fillStyle = '#00b2e1';
+        // params: x, y, width, height. Y is negative half the height to center it.
+        ctx.fillRect(0, -9, 40, 18);
+        ctx.strokeRect(0, -9, 40, 18);
+
+        // Draw Main Body
+        ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.arc(0, 0, 20, 0, Math.PI * 2);
+        ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
-        
+
         ctx.restore();
     }
 }
