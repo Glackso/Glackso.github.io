@@ -1,5 +1,6 @@
 import { Input } from './Input.js';
 import { Camera } from './Camera.js';
+import { Collision } from '../physics/Collision.js';
 
 export class Game {
     constructor() {
@@ -49,6 +50,7 @@ export class Game {
 
         // --- 3. UPDATE CAMERA ---
         this.camera.update(this.player.x, this.player.y);
+        Collision.update(this);
     }
 
     draw() {
