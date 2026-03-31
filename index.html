@@ -2,11 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Diep Modular</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
     <canvas id="gameCanvas"></canvas>
+
+    <div id="ui-layer">
+        
+        <div id="scoreboard">
+            <h3 class="stroke-text">Scoreboard</h3>
+            <div class="score-bar">
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width: 100%; background: #85e37d;"></div>
+                    <span class="bar-text stroke-text">Player - 0</span>
+                </div>
+            </div>
+            <div class="score-bar"><div class="bar-bg"><span class="bar-text stroke-text">N/A</span></div></div>
+            <div class="score-bar"><div class="bar-bg"><span class="bar-text stroke-text">N/A</span></div></div>
+        </div>
+
+        <div id="stat-menu">
+            <div class="stat-header">x33 Stats Available</div>
+            <div class="stat-row">
+                <div class="stat-bar-bg">
+                    <div class="stat-fill" style="width: 50%; background: var(--stat-regen);"></div>
+                    <span class="stat-name">Health Regen</span>
+                    <span class="stat-key">[1]</span>
+                </div>
+                <button class="stat-btn" style="background: var(--stat-regen);">+</button>
+            </div>
+            <div class="stat-row">
+                <div class="stat-bar-bg">
+                    <div class="stat-fill" style="width: 80%; background: var(--stat-health);"></div>
+                    <span class="stat-name">Max Health</span>
+                    <span class="stat-key">[2]</span>
+                </div>
+                <button class="stat-btn" style="background: var(--stat-health);">+</button>
+            </div>
+        </div>
+
+        <div id="bottom-ui">
+            <h2 class="player-name stroke-text">Player</h2>
+            <div class="info-bar-container" style="width: 300px;">
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width: 100%; background: #85e37d;"></div>
+                    <span class="bar-text stroke-text">Score: 0</span>
+                </div>
+            </div>
+            <div class="info-bar-container" style="width: 350px;">
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width: 25%; background: #ffe869;"></div>
+                    <span class="bar-text stroke-text">Lvl 1 Tank</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="minimap-container">
+            <div id="minimap-bg">
+                <div id="minimap-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-menu" class="menu-overlay">
+        <div class="menu-box">
+            <div class="title-container">
+                <svg class="tank-logo" viewBox="0 0 100 100">
+                    <rect x="50" y="32" width="45" height="36" fill="#999999" stroke="#555555" stroke-width="7" stroke-linejoin="round" />
+                    <circle cx="50" cy="50" r="35" fill="#00b2e1" stroke="#555555" stroke-width="7" />
+                </svg>
+                <h1 class="game-title">Diep Mechanics<br><span style="font-size: 28px;">Sandbox</span></h1>
+            </div>
+            <button id="btn-deploy" class="menu-btn btn-play">Deploy</button>
+        </div>
+    </div>
+
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
