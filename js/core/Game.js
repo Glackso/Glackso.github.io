@@ -2,6 +2,16 @@ import { Input } from './Input.js';
 import { Camera } from './Camera.js';
 import { Collision } from '../physics/Collision.js';
 
+// Import our Entities
+import { Player } from '../entities/Player.js';
+import { Bullet } from '../entities/Bullet.js';
+import { Enemy } from '../entities/Enemy.js';
+import { Shape } from '../entities/Shape.js';
+
+// Import our UI Modules
+import { HUD } from '../ui/HUD.js';
+import { Upgrades } from '../ui/Upgrades.js';
+
 export class Game {
     constructor() {
         this.canvas = document.getElementById('gameCanvas');
@@ -13,10 +23,26 @@ export class Game {
         this.resize();
         window.addEventListener('resize', () => this.resize());
 
-        // Placeholders (We will replace this with a real Player class later)
-        this.player = { x: 0, y: 0, radius: 20 };
-        this.entities = [];
+        // 1. Game Arrays
         this.bullets = [];
+        this.shapes = [];
+        this.enemies = [];
+
+        // 2. Spawn Player (Center of a hypothetical 3000x3000 world)
+        this.player = new Player(1500, 1500);
+        
+        // Add RPG stats to player so the UI has data to read
+        this.player.score = 0;
+        this.player.level = 1;
+        this.player.xp = 0;
+        this.player.skillPoints = 33; // Give a bunch of points to test the upgrade menu
+
+        // 3. Initialize UI Modules
+        this.hud = new HUD(this);
+        this.upgrades = new Upgrades(this);
+
+        // Pre-spawn some shapes so the map isn't empty
+        for(let i = 0; i < 50; i++) this.spawnRandomShape();
     }
 
     resize() {
@@ -25,32 +51,46 @@ export class Game {
         this.camera.resize(this.canvas.width, this.canvas.height);
     }
 
+    spawnRandomShape() {
+        const types = ['square', 'square', 'square', 'triangle', 'triangle', 'pentagon'];
+        const randomType = types[Math.floor(Math.random() * types.length)];
+        
+        // Spawn randomly within the 3000x3000 world
+        const x = Math.random() * 3000;
+        const y = Math.random() * 3000;
+        
+        this.shapes.push(new Shape(x, y, randomType));
+    }
+
     update() {
         // --- 1. PROCESS INPUTS ---
-        
-        // Calculate World Mouse Position for Aiming
         const worldMouse = this.camera.screenToWorld(Input.mouse.x, Input.mouse.y);
         Input.mouse.worldX = worldMouse.x;
         Input.mouse.worldY = worldMouse.y;
 
-        // Example: Process Stat Upgrades queued from Input.js
-        while (Input.upgradesToApply.length > 0) {
-            let statIndex = Input.upgradesToApply.shift();
-            // TODO: Pass this to your Player/Stats class (e.g., this.player.upgradeStat(statIndex); )
-            console.log(`Upgrading Stat Index: ${statIndex}`); 
+        // --- 2. SPAWNERS ---
+        // Keep the map populated with shapes (max 100)
+        if (this.shapes.length < 100 && Math.random() < 0.05) {
+            this.spawnRandomShape();
         }
 
-        // --- 2. UPDATE ENTITIES ---
-        
-        // Temporary movement just to test camera lerping
-        if (Input.keys['w'] || Input.keys['arrowup']) this.player.y -= 5;
-        if (Input.keys['s'] || Input.keys['arrowdown']) this.player.y += 5;
-        if (Input.keys['a'] || Input.keys['arrowleft']) this.player.x -= 5;
-        if (Input.keys['d'] || Input.keys['arrowright']) this.player.x += 5;
+        // --- 3. UPDATE ENTITIES ---
+        this.player.update(this);
+        this.bullets.forEach(b => b.update());
+        this.enemies.forEach(e => e.update(this));
+        this.shapes.forEach(s => s.update());
 
-        // --- 3. UPDATE CAMERA ---
-        this.camera.update(this.player.x, this.player.y);
+        // --- 4. PROCESS PHYSICS & COLLISIONS ---
         Collision.update(this);
+
+        // --- 5. UPDATE CAMERA & UI ---
+        this.camera.update(this.player.x, this.player.y);
+        this.hud.update();
+        this.upgrades.update();
+
+        // --- 6. CLEANUP ---
+        // Remove dead bullets from the array
+        this.bullets = this.bullets.filter(b => b.life > 0);
     }
 
     draw() {
@@ -66,14 +106,11 @@ export class Game {
         // 1. Draw Grid
         this.drawGrid();
 
-        // 2. Draw Dummy Player
-        this.ctx.fillStyle = '#00b2e1';
-        this.ctx.strokeStyle = '#555555';
-        this.ctx.lineWidth = 3.5;
-        this.ctx.beginPath();
-        this.ctx.arc(this.player.x, this.player.y, this.player.radius, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.stroke();
+        // 2. Draw Entities (Lowest z-index first)
+        this.shapes.forEach(s => s.draw(this.ctx));
+        this.bullets.forEach(b => b.draw(this.ctx));
+        this.enemies.forEach(e => e.draw(this.ctx));
+        this.player.draw(this.ctx);
 
         // Restore canvas state so UI doesn't get shifted by the camera
         this.ctx.restore();
