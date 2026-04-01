@@ -16,6 +16,7 @@ export class HUD {
         this.minimapDot = document.getElementById('minimap-dot');
         this.worldWidth = 3000; 
         this.worldHeight = 3000;
+        this.scoreboardText = document.querySelector('#scoreboard .score-bar:nth-child(2) .bar-text');
     }
 
     update() {
@@ -46,5 +47,9 @@ export class HUD {
         const mapY = Math.max(0, Math.min(100, (player.y / this.worldHeight) * 100));
         this.minimapDot.style.left = `${mapX}%`;
         this.minimapDot.style.top = `${mapY}%`;
+        // Update Scoreboard Text
+        if (this.scoreboardText) {
+            this.scoreboardText.innerText = `${player.name || "Player"} - ${Math.floor(player.score || 0)}`;
+        }
     }
 }
