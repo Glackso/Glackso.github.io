@@ -17,26 +17,25 @@ export class Player extends Entity {
     }
 
 gainXP(amount) {
-    if (this.level >= 45) return; // Cap at max level
+        if (this.level >= 45) return; 
 
-    this.xp += amount;
-    this.score += amount; 
+        this.xp += amount;
+        this.score += amount; 
 
-    // Calculate XP needed for next level 
-    let xpNeeded = this.level * 100;
+        // New Curve: Early levels require very little XP, scaling up later
+        let xpNeeded = Math.floor(20 * Math.pow(this.level, 1.5));
 
-    // Level up loop
-    while (this.xp >= xpNeeded && this.level < 45) {
-        this.xp -= xpNeeded; // Carry over leftover XP
-        this.level++;
-        this.skillPoints++; // Give a stat upgrade point
-        
-        xpNeeded = this.level * 100;
-    }
+        while (this.xp >= xpNeeded && this.level < 45) {
+            this.xp -= xpNeeded;
+            this.level++;
+            this.skillPoints++; 
+            
+            xpNeeded = Math.floor(20 * Math.pow(this.level, 1.5));
+        }
 
-    if (this.level >= 45) {
-        this.xp = xpNeeded; // Keep the bar visually full at max level
-    }
+        if (this.level >= 45) {
+            this.xp = xpNeeded; 
+        }
 }
 
     update(game) {
