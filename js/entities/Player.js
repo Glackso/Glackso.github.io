@@ -16,8 +16,6 @@ export class Player extends Entity {
         this.bulletDamage = 10;
     }
 
-    // Add this inside your Player class definition
-
 gainXP(amount) {
     if (this.level >= 45) return; // Cap at max level
 
