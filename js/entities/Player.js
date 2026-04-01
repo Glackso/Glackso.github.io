@@ -6,39 +6,55 @@ export class Player extends Entity {
     constructor(x, y) {
         super(x, y, 20, '#00b2e1'); // Diep blue
         
-        this.speed = 5;
-        this.angle = 0;
+        // --- RPG & Leveling Stats ---
+        this.score = 0;
+        this.level = 1;
+        this.xp = 0;
+        this.skillPoints = 0; 
         
-        // Shooting stats
+        // --- Upgradable Base Stats ---
+        this.maxHp = 100;
+        this.hp = this.maxHp;
+        this.regenRate = 0.02;  // Base healing per frame
+        this.bodyDamage = 5;    // Base damage when ramming
+        this.speed = 5;         // Movement speed
+
+        // --- Upgradable Shooting Stats ---
         this.cooldown = 0;
-        this.reloadTime = 15; // Frames between shots
-        this.bulletSpeed = 12;
+        this.reloadTime = 25;   // Base reload (frames between shots)
+        this.bulletSpeed = 10;
         this.bulletDamage = 10;
+        this.bulletPenetration = 1; // How many things a bullet can hit
     }
 
-gainXP(amount) {
-        if (this.level >= 45) return; 
+    gainXP(amount) {
+        if (this.level >= 45) return; // Cap at max level
 
         this.xp += amount;
         this.score += amount; 
 
-        // New Curve: Early levels require very little XP, scaling up later
+        // New Diep Curve: Early levels are fast!
         let xpNeeded = Math.floor(20 * Math.pow(this.level, 1.5));
 
         while (this.xp >= xpNeeded && this.level < 45) {
-            this.xp -= xpNeeded;
+            this.xp -= xpNeeded; 
             this.level++;
-            this.skillPoints++; 
+            this.skillPoints++; // Give a stat upgrade point
             
             xpNeeded = Math.floor(20 * Math.pow(this.level, 1.5));
         }
 
         if (this.level >= 45) {
-            this.xp = xpNeeded; 
+            this.xp = xpNeeded; // Keep the bar visually full at max level
         }
-}
+    }
 
     update(game) {
+        // --- PASSIVE REGEN ---
+        if (this.hp < this.maxHp) {
+            this.hp = Math.min(this.maxHp, this.hp + this.regenRate);
+        }
+
         // 1. MOVEMENT (WASD / Arrows)
         let dx = 0;
         let dy = 0;
@@ -48,7 +64,6 @@ gainXP(amount) {
         if (Input.keys['a'] || Input.keys['arrowleft']) dx -= 1;
         if (Input.keys['d'] || Input.keys['arrowright']) dx += 1;
 
-        // Normalize diagonal movement so you don't move 1.4x faster
         if (dx !== 0 && dy !== 0) {
             const length = Math.sqrt(dx * dx + dy * dy);
             dx /= length;
@@ -60,32 +75,30 @@ gainXP(amount) {
 
         // 2. AIMING
         if (Input.toggles.autoSpin) {
-            // [C] Auto-Spin rotates slightly every frame
             this.angle += 0.05; 
         } else {
-            // Standard Aiming (Look at world mouse coordinates)
             this.angle = Math.atan2(Input.mouse.worldY - this.y, Input.mouse.worldX - this.x);
         }
 
         // 3. SHOOTING
         if (this.cooldown > 0) this.cooldown--;
 
-        // Fire if Mouse is down OR [E] Auto-Fire is on
         if ((Input.mouse.down || Input.toggles.autoFire) && this.cooldown <= 0) {
             this.shoot(game);
         }
     }
 
     shoot(game) {
-        // Calculate barrel tip position so bullet doesn't spawn in the center of the tank
         const barrelLength = 40;
         const tipX = this.x + Math.cos(this.angle) * barrelLength;
         const tipY = this.y + Math.sin(this.angle) * barrelLength;
 
-        // Spawn bullet
-        game.bullets.push(new Bullet(tipX, tipY, this.angle, this.bulletSpeed, this.bulletDamage, this.color));
+        // NOTE: Make sure your Bullet.js constructor accepts penetration if you want it to pierce!
+        game.bullets.push(new Bullet(
+            tipX, tipY, this.angle, 
+            this.bulletSpeed, this.bulletDamage, this.color
+        ));
         
-        // Reset cooldown
         this.cooldown = this.reloadTime;
     }
 
@@ -94,16 +107,13 @@ gainXP(amount) {
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
 
-        // Draw Barrel (Underneath the body)
         ctx.fillStyle = '#999999';
-        ctx.strokeStyle = this.outlineColor;
-        ctx.lineWidth = this.lineWidth;
+        ctx.strokeStyle = this.outlineColor || '#555555';
+        ctx.lineWidth = this.lineWidth || 3.5;
         
-        // params: x, y, width, height. Y is negative half the height to center it.
         ctx.fillRect(0, -9, 40, 18);
         ctx.strokeRect(0, -9, 40, 18);
 
-        // Draw Main Body
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
