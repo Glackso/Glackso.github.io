@@ -8,6 +8,14 @@ export const Collision = {
         return dist < (entity1.radius + entity2.radius);
     },
 
+    // Helper to determine XP reward
+    getXPReward(shapeType) {
+        if (shapeType === 'square') return 10;
+        if (shapeType === 'triangle') return 25;
+        if (shapeType === 'pentagon') return 130;
+        return 10; // Default fallback
+    },
+
     // The main function called by Game.js every frame
     update(game) {
         this.checkBullets(game);
@@ -15,7 +23,7 @@ export const Collision = {
     },
 
     checkBullets(game) {
-        // Iterate backwards when removing items from an array to prevent index shifting bugs
+        // Iterate backwards
         for (let i = game.bullets.length - 1; i >= 0; i--) {
             let bullet = game.bullets[i];
             let hitSomething = false;
@@ -29,24 +37,30 @@ export const Collision = {
                     hitSomething = true;
                     
                     if (shape.health <= 0) {
-                        // TODO: Add score/XP to the player who shot the bullet
+                        // --- XP ADDED HERE ---
+                        // Only give XP if it's the player's bullet (assuming player bullets have a specific color or owner flag)
+                        // If you don't have an owner flag yet, we just give it to the player for now.
+                        const reward = this.getXPReward(shape.type);
+                        game.player.gainXP(reward);
+                        
                         game.shapes.splice(j, 1); 
                     }
-                    break; // Bullet is destroyed, stop checking other shapes
+                    break; 
                 }
             }
 
-            // 2. Bullets vs Enemies (Only if the bullet hasn't hit a shape yet)
+            // 2. Bullets vs Enemies
             if (!hitSomething) {
                 for (let e = game.enemies.length - 1; e >= 0; e--) {
                     let enemy = game.enemies[e];
                     
-                    // Don't let enemies shoot themselves or other enemies (basic friendly fire check)
                     if (bullet.color !== enemy.color && this.isColliding(bullet, enemy)) {
                         enemy.health -= bullet.damage;
                         hitSomething = true;
                         
                         if (enemy.health <= 0) {
+                            // Give XP for killing an enemy tank!
+                            game.player.gainXP(500); // Or calculate based on enemy level
                             game.enemies.splice(e, 1);
                         }
                         break;
@@ -54,7 +68,6 @@ export const Collision = {
                 }
             }
 
-            // If the bullet hit anything, remove it from the game
             if (hitSomething) {
                 game.bullets.splice(i, 1);
             }
@@ -63,19 +76,27 @@ export const Collision = {
 
     checkEntities(game) {
         // 1. Player vs Shapes (Body Damage & Bumping)
-        game.shapes.forEach((shape, index) => {
+        // Iterate backwards here too since we might remove items!
+        for (let i = game.shapes.length - 1; i >= 0; i--) {
+            let shape = game.shapes[i];
+            
             if (this.isColliding(game.player, shape)) {
                 Vector.preventOverlap(game.player, shape);
                 
-                // In Diep, bumping shapes hurts both the tank and the shape
-                shape.health -= 1; // Base body damage
+                shape.health -= 1; 
                 game.player.health -= 1; 
                 
-                if (shape.health <= 0) game.shapes.splice(index, 1);
+                if (shape.health <= 0) {
+                    // --- XP ADDED HERE FOR RAMMING ---
+                    const reward = this.getXPReward(shape.type);
+                    game.player.gainXP(reward);
+                    
+                    game.shapes.splice(i, 1);
+                }
             }
-        });
+        }
 
-        // 2. Shapes vs Shapes (So they don't clump up into a single point)
+        // 2. Shapes vs Shapes
         for (let i = 0; i < game.shapes.length; i++) {
             for (let j = i + 1; j < game.shapes.length; j++) {
                 if (this.isColliding(game.shapes[i], game.shapes[j])) {
