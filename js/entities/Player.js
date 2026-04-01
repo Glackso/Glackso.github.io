@@ -16,6 +16,31 @@ export class Player extends Entity {
         this.bulletDamage = 10;
     }
 
+    // Add this inside your Player class definition
+
+gainXP(amount) {
+    if (this.level >= 45) return; // Cap at max level
+
+    this.xp += amount;
+    this.score += amount; 
+
+    // Calculate XP needed for next level 
+    let xpNeeded = this.level * 100;
+
+    // Level up loop
+    while (this.xp >= xpNeeded && this.level < 45) {
+        this.xp -= xpNeeded; // Carry over leftover XP
+        this.level++;
+        this.skillPoints++; // Give a stat upgrade point
+        
+        xpNeeded = this.level * 100;
+    }
+
+    if (this.level >= 45) {
+        this.xp = xpNeeded; // Keep the bar visually full at max level
+    }
+}
+
     update(game) {
         // 1. MOVEMENT (WASD / Arrows)
         let dx = 0;
