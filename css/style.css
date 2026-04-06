@@ -1,287 +1,109 @@
 :root {
-    /* Base Colors */
-    --bg-color: #f2f6f9;
-    --outline: #555555;
-    --bar-bg: #444444;
-    
-    /* Stat Colors extracted from your file */
-    --stat-regen: #fca882;
-    --stat-health: #e86bfd;
-    --stat-body: #966dfa;
-    --stat-bspeed: #68a1f7;
-    --stat-bpen: #f5d665;
-    --stat-bdmg: #f35e5f;
-    --stat-reload: #86f66a;
-    --stat-mspeed: #68f4ef;
+    --xp-blue: #245edb;
+    --xp-taskbar: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #333 100%);
+    --xp-start-btn: linear-gradient(to bottom, #388e3c 0%, #4caf50 10%, #388e3c 90%, #1b5e20 100%);
 }
 
 body, html {
     margin: 0;
     padding: 0;
-    width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: var(--bg-color);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    user-select: none;
+    font-family: "Tahoma", sans-serif;
+    /* Connects to your backgrounds folder */
+    background: #3a6ea5 url('../images/backgrounds/bliss.png') no-repeat center center fixed;
+    background-size: cover;
 }
 
-canvas {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-
-/* --- TEXT STROKE UTILITY --- */
-/* Simulates ctx.strokeText() */
-.stroke-text {
-    color: white;
-    text-shadow: 
-        -2px -2px 0 var(--outline),  
-         2px -2px 0 var(--outline),
-        -2px  2px 0 var(--outline),
-         2px  2px 0 var(--outline);
-    font-weight: bold;
-}
-
-/* --- HUD LAYER --- */
-#ui-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    pointer-events: none; /* Let clicks pass through to canvas */
-}
-
-/* Reusable Rounded Bar mimicking drawRoundedBar() */
-.bar-bg {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: var(--bar-bg);
-    border-radius: 20px;
-    border: 3.5px solid var(--outline);
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.bar-fill {
-    height: 100%;
-    border-radius: 16px;
-    transition: width 0.1s linear;
-}
-
-.bar-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 14px;
-    white-space: nowrap;
-}
-
-/* --- SCOREBOARD (Top Right) --- */
-#scoreboard {
-    position: absolute;
-    top: 30px;
-    right: 20px;
-    width: 220px;
-}
-
-#scoreboard h3 {
-    text-align: center;
-    font-size: 24px;
-    margin: 0 0 15px 0;
-}
-
-.score-bar {
-    height: 22px;
-    margin-bottom: 6px;
-}
-
-/* --- BOTTOM UI (Center) --- */
-#bottom-ui {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
+/* Desktop Icons */
+.desktop {
+    height: calc(100vh - 30px);
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 8px;
+    gap: 20px;
 }
 
-.player-name {
-    margin: 0;
-    font-size: 38px;
-}
-
-.info-bar-container {
-    height: 20px;
-}
-
-/* --- STAT MENU (Bottom Left) --- */
-#stat-menu {
-    position: absolute;
-    bottom: 30px;
-    left: 20px;
-    pointer-events: auto; /* Allow clicking buttons */
-}
-
-.stat-header {
+.icon {
+    width: 70px;
+    text-align: center;
+    cursor: pointer;
     color: white;
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 10px;
     text-shadow: 1px 1px 2px black;
+    font-size: 12px;
 }
 
-.stat-row {
+.icon img {
+    width: 45px;
+    display: block;
+    margin: 0 auto 5px;
+}
+
+/* Taskbar */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    background: var(--xp-taskbar);
     display: flex;
     align-items: center;
-    margin-bottom: 6px;
+    z-index: 1000;
 }
 
-.stat-bar-bg {
-    position: relative;
-    width: 250px;
-    height: 22px;
-    background: var(--bar-bg);
-    border-radius: 11px;
-    border: 3.5px solid var(--outline);
-    border-right: none;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.stat-fill {
+.start-button {
     height: 100%;
-}
-
-.stat-name {
-    position: absolute;
-    top: 50%;
-    left: 15px;
-    transform: translateY(-50%);
+    padding: 0 15px;
+    background: var(--xp-start-btn);
     color: white;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.stat-key {
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    transform: translateY(-50%);
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.stat-btn {
-    width: 30px;
-    height: 22px;
-    border: 3.5px solid var(--outline);
-    border-radius: 0 11px 11px 0;
+    font-style: italic;
     font-weight: bold;
     font-size: 16px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
     cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-/* --- MINIMAP (Bottom Right) --- */
-#minimap-container {
+/* Window Styling */
+.window {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
-    width: 130px;
-    height: 130px;
-    background: rgba(150, 150, 150, 0.4);
-    border: 4px solid var(--outline);
-    border-radius: 4px;
+    top: 100px;
+    left: 150px;
+    width: 400px;
+    min-height: 250px;
+    background: #ece9d8;
+    border: 3px solid var(--xp-blue);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+    display: none;
 }
 
-#minimap-dot {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: black;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    /* Top/Left will be updated via JS */
-    top: 50%; 
-    left: 50%;
-}
-
-/* --- MENUS (Copied from your file) --- */
-.menu-overlay {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+.title-bar {
+    background: linear-gradient(to right, #245edb 0%, #3f8cf3 100%);
+    height: 25px;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 2000;
-}
-
-.menu-box {
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 8px;
-    border: 4px solid #555555;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-.title-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 35px;
-}
-
-.game-title {
-    color: #555555;
-    font-size: 40px;
-    margin: 0;
-    font-weight: 900;
-    letter-spacing: -1px;
-}
-
-.tank-logo {
-    width: 50px; height: 50px;
-    animation: spin-logo 8s linear infinite;
-}
-
-@keyframes spin-logo {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.menu-btn {
-    display: block;
-    width: 100%;
-    padding: 18px 0;
-    font-family: inherit;
-    font-size: 22px;
-    font-weight: bold;
-    border: 3.5px solid #555555;
-    border-radius: 6px;
+    padding: 2px 5px;
     color: white;
-    cursor: pointer;
-    text-transform: uppercase;
+    font-weight: bold;
+    cursor: move;
 }
 
-.btn-play { background: #00b2e1; }
+.window-controls button {
+    width: 21px;
+    height: 21px;
+    border: 1px solid white;
+    border-radius: 3px;
+    margin-left: 2px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+.close { background: #e04343; }
+.content { padding: 20px; font-size: 14px; }
