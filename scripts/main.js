@@ -127,8 +127,6 @@ document.querySelectorAll('.window').forEach(win => {
 
 // ================= BOOT SEQUENCE =================
 const bootScreen = document.getElementById('bootScreen');
-
-// Make sure you download an MP3 and save it as 'startup.mp3' in your audio folder!
 const startupSound = new Audio('audio/startup.mp3'); 
 
 bootScreen.addEventListener('click', () => {
@@ -139,6 +137,10 @@ bootScreen.addEventListener('click', () => {
     
     // Hide the boot screen
     bootScreen.style.display = 'none';
+
+    // NEW FIX: Tell the OS to open these apps immediately after booting!
+    openApp('myComputer');
+    openApp('notepad');
 });
 
 // ================= START MENU LOGIC =================
