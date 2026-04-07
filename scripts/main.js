@@ -51,3 +51,19 @@ document.addEventListener('mouseup', () => {
 document.querySelectorAll('.window').forEach(win => {
     win.addEventListener('mousedown', () => bringToFront(win));
 });
+
+// ================= BOOT SEQUENCE =================
+const bootScreen = document.getElementById('bootScreen');
+
+// Make sure you download an MP3 and save it as 'startup.mp3' in your audio folder!
+const startupSound = new Audio('audio/startup.mp3'); 
+
+bootScreen.addEventListener('click', () => {
+    // Play the sound
+    startupSound.play().catch(error => {
+        console.log("Audio failed to play, but booting anyway.", error);
+    });
+    
+    // Hide the boot screen
+    bootScreen.style.display = 'none';
+});
