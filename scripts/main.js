@@ -1,12 +1,56 @@
-// Universal App Opener/Closer
+// App Data (Tells the taskbar what icon and name to use)
+const appData = {
+    'myComputer': { title: 'My Computer', icon: 'images/icons/16x16/computer.png' },
+    'notepad': { title: 'Untitled - Notepad', icon: 'images/icons/16x16/notepad.png' }
+};
+
+// Open App (or restore from taskbar)
 function openApp(appId) {
     const appWindow = document.getElementById(appId);
     appWindow.style.display = "flex";
     bringToFront(appWindow);
+    
+    // Check if the taskbar button already exists
+    let tbBtn = document.getElementById('tb-' + appId);
+    
+    // If it doesn't exist, create it!
+    if (!tbBtn) {
+        tbBtn = document.createElement('div');
+        tbBtn.className = 'taskbar-btn';
+        tbBtn.id = 'tb-' + appId;
+        tbBtn.innerHTML = `<img src="${appData[appId].icon}" onerror="this.src='images/icons/16x16/computer.png'"> <span>${appData[appId].title}</span>`;
+        
+        // Add click logic to the taskbar button
+        tbBtn.onclick = () => {
+            if (appWindow.style.display === "none") {
+                // If minimized, show it
+                appWindow.style.display = "flex";
+                bringToFront(appWindow);
+            } else if (appWindow.style.zIndex == highestZIndex) {
+                // If open AND currently on top, minimize it
+                minimizeApp(appId);
+            } else {
+                // If open but hidden behind another window, bring to front
+                bringToFront(appWindow);
+            }
+        };
+        
+        document.getElementById('taskbarApps').appendChild(tbBtn);
+    }
 }
 
+// Minimize App (Hides window, keeps taskbar button)
+function minimizeApp(appId) {
+    document.getElementById(appId).style.display = "none";
+}
+
+// Close App (Hides window, completely removes taskbar button)
 function closeApp(appId) {
     document.getElementById(appId).style.display = "none";
+    const tbBtn = document.getElementById('tb-' + appId);
+    if (tbBtn) {
+        tbBtn.remove(); // Deletes the button from the taskbar
+    }
 }
 
 // Universal Window Dragging Engine
