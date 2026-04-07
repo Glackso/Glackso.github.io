@@ -252,6 +252,45 @@ body, html {
     cursor: pointer;
 }
 
+/* ================= TASKBAR APPS ================= */
+.taskbar-apps {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-left: 10px;
+    flex-grow: 1;
+    overflow: hidden; /* Prevents overflow if you open too many apps */
+}
+
+.taskbar-btn {
+    background: linear-gradient(to bottom, #3a8df4 0%, #1555c8 100%);
+    color: white;
+    height: 24px;
+    width: 150px;
+    border: 1px solid #003399;
+    border-radius: 3px;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    font-size: 11px;
+    cursor: pointer;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.4);
+    white-space: nowrap;
+}
+
+.taskbar-btn img {
+    width: 16px; /* Perfect for your 16x16 folder! */
+    height: 16px;
+    margin-right: 8px;
+}
+
+/* When the app is focused, the taskbar button looks pressed in */
+.taskbar-btn.active {
+    background: linear-gradient(to bottom, #1d61d1 0%, #0d3b94 100%);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+}
+
 .footer-btn img {
     width: 22px;
     height: 22px;
