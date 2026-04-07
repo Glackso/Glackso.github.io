@@ -10,7 +10,7 @@ body, html {
     height: 100%;
     overflow: hidden;
     font-family: "Tahoma", sans-serif;
-    /* Connects to your backgrounds folder */
+    /* Connects to your bliss image */
     background: #3a6ea5 url('../images/backgrounds/bliss.png') no-repeat center center fixed;
     background-size: cover;
 }
@@ -21,11 +21,12 @@ body, html {
     padding: 20px;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap; /* Allows icons to flow into columns */
     gap: 20px;
 }
 
 .icon {
-    width: 70px;
+    width: 75px;
     text-align: center;
     cursor: pointer;
     color: white;
@@ -34,9 +35,11 @@ body, html {
 }
 
 .icon img {
-    width: 45px;
+    width: 48px; /* Perfectly sized for your 48x48 folder! */
+    height: 48px;
     display: block;
     margin: 0 auto 5px;
+    image-rendering: pixelated;
 }
 
 /* Taskbar */
@@ -48,7 +51,7 @@ body, html {
     background: var(--xp-taskbar);
     display: flex;
     align-items: center;
-    z-index: 1000;
+    z-index: 9999; /* Keeps taskbar above everything */
 }
 
 .start-button {
@@ -66,44 +69,3 @@ body, html {
     box-shadow: 2px 0 5px rgba(0,0,0,0.3);
     cursor: pointer;
 }
-
-/* Window Styling */
-.window {
-    position: absolute;
-    top: 100px;
-    left: 150px;
-    width: 400px;
-    min-height: 250px;
-    background: #ece9d8;
-    border: 3px solid var(--xp-blue);
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
-    display: none;
-}
-
-.title-bar {
-    background: linear-gradient(to right, #245edb 0%, #3f8cf3 100%);
-    height: 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2px 5px;
-    color: white;
-    font-weight: bold;
-    cursor: move;
-}
-
-.window-controls button {
-    width: 21px;
-    height: 21px;
-    border: 1px solid white;
-    border-radius: 3px;
-    margin-left: 2px;
-    cursor: pointer;
-    font-weight: bold;
-    color: white;
-}
-
-.close { background: #e04343; }
-.content { padding: 20px; font-size: 14px; }
