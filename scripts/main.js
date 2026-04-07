@@ -67,3 +67,28 @@ bootScreen.addEventListener('click', () => {
     // Hide the boot screen
     bootScreen.style.display = 'none';
 });
+
+// ================= START MENU LOGIC =================
+const startBtn = document.querySelector('.start-button');
+const startMenu = document.getElementById('startMenu');
+
+// Toggle the start menu when clicking the start button
+startBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevents the document click listener from firing immediately
+    if (startMenu.style.display === 'flex') {
+        startMenu.style.display = 'none';
+    } else {
+        startMenu.style.display = 'flex';
+        // Bring the start menu above any open windows
+        highestZIndex++;
+        startMenu.style.zIndex = highestZIndex;
+    }
+});
+
+// Close the start menu if you click anywhere else on the desktop or windows
+document.addEventListener('click', (e) => {
+    // If the menu is open, and the click was NOT inside the start menu
+    if (startMenu.style.display === 'flex' && !startMenu.contains(e.target)) {
+        startMenu.style.display = 'none';
+    }
+});
