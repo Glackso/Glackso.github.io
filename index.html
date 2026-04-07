@@ -136,6 +136,25 @@
     </div>
 </div>
 
+<div class="window error-window" id="corruptedApp" style="display: none; width: 350px;">
+    <div class="title-bar error-bar">
+        <span>GPL32.EXE - Fatal Error</span>
+        <div class="window-controls">
+            <button onclick="closeApp('corruptedApp')" class="close">X</button>
+        </div>
+    </div>
+    <div class="content error-content">
+        <div class="error-graphic">X</div>
+        <div class="error-text">
+            <strong>Fatal Exception 0E has occurred at 0028:C00068F8.</strong><br><br>
+            The current application will be terminated.
+        </div>
+    </div>
+    <div class="error-footer">
+        <button class="xp-btn" onclick="closeApp('corruptedApp')">OK</button>
+    </div>
+</div>
+
 <div class="taskbar">
     <div class="start-button">start</div>
     <div class="taskbar-apps" id="taskbarApps"></div>
