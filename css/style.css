@@ -69,3 +69,33 @@ body, html {
     box-shadow: 2px 0 5px rgba(0,0,0,0.3);
     cursor: pointer;
 }
+
+/* Boot Screen Overlay */
+.boot-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999; /* Highest possible layer */
+    cursor: pointer;
+}
+
+.boot-content {
+    text-align: center;
+    font-family: "Courier New", Courier, monospace;
+}
+
+.boot-content p {
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
