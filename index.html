@@ -5,22 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows XP Simulator</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/apps.css">
 </head>
 <body>
 
 <div class="desktop">
-    <div class="icon" onclick="openWindow()">
-        <img src="images/icons/computer.png" alt="My Computer">
+    <div class="icon" onclick="openApp('myComputer')">
+        <img src="images/icons/48x48/computer.png" alt="My Computer">
         My Computer
+    </div>
+    
+    <div class="icon" onclick="openApp('notepad')">
+        <img src="images/icons/48x48/notepad.png" alt="Notepad" onerror="this.src='images/icons/48x48/computer.png'">
+        Notepad
     </div>
 </div>
 
-<div class="window" id="myComputer">
-    <div class="title-bar" id="windowHeader">
+<div class="window" id="myComputer" style="top: 50px; left: 100px;">
+    <div class="title-bar">
         <span>My Computer</span>
         <div class="window-controls">
-            <button onclick="closeWindow()">_</button>
-            <button onclick="closeWindow()" class="close">X</button>
+            <button onclick="closeApp('myComputer')">_</button>
+            <button onclick="closeApp('myComputer')" class="close">X</button>
         </div>
     </div>
     <div class="content">
@@ -28,10 +34,25 @@
         <ul>
             <li>View system information</li>
             <li>Add or remove programs</li>
-            <li>Change a setting</li>
         </ul>
         <hr>
         <p>Hard Disk Drives: (C:)</p>
+    </div>
+</div>
+
+<div class="window" id="notepad" style="top: 150px; left: 200px;">
+    <div class="title-bar">
+        <span>Untitled - Notepad</span>
+        <div class="window-controls">
+            <button onclick="closeApp('notepad')">_</button>
+            <button onclick="closeApp('notepad')" class="close">X</button>
+        </div>
+    </div>
+    <div class="menu-bar">
+        <span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span>
+    </div>
+    <div class="notepad-content">
+        <textarea spellcheck="false"></textarea>
     </div>
 </div>
 
