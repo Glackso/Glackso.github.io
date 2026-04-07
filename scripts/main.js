@@ -1,8 +1,17 @@
+// ================= CORE VARIABLES & DATA =================
+let highestZIndex = 10;
+
 // App Data (Tells the taskbar what icon and name to use)
 const appData = {
     'myComputer': { title: 'My Computer', icon: 'images/icons/16x16/computer.png' },
     'notepad': { title: 'Untitled - Notepad', icon: 'images/icons/16x16/notepad.png' }
 };
+
+// ================= WINDOW MANAGEMENT =================
+function bringToFront(element) {
+    highestZIndex++;
+    element.style.zIndex = highestZIndex;
+}
 
 // Open App (or restore from taskbar)
 function openApp(appId) {
@@ -23,14 +32,11 @@ function openApp(appId) {
         // Add click logic to the taskbar button
         tbBtn.onclick = () => {
             if (appWindow.style.display === "none") {
-                // If minimized, show it
                 appWindow.style.display = "flex";
                 bringToFront(appWindow);
             } else if (appWindow.style.zIndex == highestZIndex) {
-                // If open AND currently on top, minimize it
                 minimizeApp(appId);
             } else {
-                // If open but hidden behind another window, bring to front
                 bringToFront(appWindow);
             }
         };
@@ -53,11 +59,34 @@ function closeApp(appId) {
     }
 }
 
+// ================= REAL-TIME CLOCK =================
+function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    // Convert military time to 12-hour format
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    
+    // Add a leading zero to minutes if they are less than 10
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    
+    const timeString = hours + ':' + minutes + ' ' + ampm;
+    document.getElementById('clock').innerText = timeString;
+}
+
+// Run the clock immediately, then update it every 1 second
+updateClock();
+setInterval(updateClock, 1000);
+
+// (Keep your existing dragging and start menu logic down here...)
+
 // Universal Window Dragging Engine
 let activeWindow = null;
 let offsetX = 0;
 let offsetY = 0;
-let highestZIndex = 10;
 
 function bringToFront(element) {
     highestZIndex++;
