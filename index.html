@@ -9,12 +9,18 @@
 </head>
 <body>
 
+<div id="bootScreen" class="boot-screen">
+    <div class="boot-content">
+        <h2>Windows XP Simulator</h2>
+        <p>Click anywhere to power on...</p>
+    </div>
+</div>
+
 <div class="desktop">
     <div class="icon" onclick="openApp('myComputer')">
         <img src="images/icons/48x48/computer.png" alt="My Computer">
         My Computer
     </div>
-    
     <div class="icon" onclick="openApp('notepad')">
         <img src="images/icons/48x48/notepad.png" alt="Notepad" onerror="this.src='images/icons/48x48/computer.png'">
         Notepad
@@ -49,7 +55,11 @@
         </div>
     </div>
     <div class="menu-bar">
-        <span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span>
+        <span onclick="saveNotepadText()">File (Save)</span>
+        <span>Edit</span>
+        <span>Format</span>
+        <span>View</span>
+        <span>Help</span>
     </div>
     <div class="notepad-content">
         <textarea spellcheck="false"></textarea>
@@ -61,6 +71,7 @@
 </div>
 
 <script src="scripts/main.js"></script>
+<script src="scripts/apps/notepad.js"></script>
 
 </body>
 </html>
