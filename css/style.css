@@ -296,3 +296,18 @@ body, html {
     height: 22px;
     margin-right: 5px;
 }
+
+/* ================= SYSTEM TRAY & CLOCK ================= */
+.system-tray {
+    height: 100%;
+    /* XP System Tray used a slightly lighter blue gradient */
+    background: linear-gradient(to bottom, #1290e9 0%, #19b9f3 9%, #1290e9 18%, #1290e9 92%, #333 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    font-size: 11px;
+    border-left: 1px solid #1042af;
+    box-shadow: inset 1px 0 1px rgba(255,255,255,0.4);
+    cursor: default;
+}
