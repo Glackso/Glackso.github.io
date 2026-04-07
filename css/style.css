@@ -311,3 +311,14 @@ body, html {
     box-shadow: inset 1px 0 1px rgba(255,255,255,0.4);
     cursor: default;
 }
+
+/* ================= DESKTOP SELECTION BOX ================= */
+.selection-box {
+    position: absolute;
+    /* The authentic look: blue dotted border with very transparent light blue background */
+    border: 1px dotted blue;
+    background-color: rgba(0, 80, 239, 0.1); 
+    display: none; /* Hidden by default */
+    z-index: 50; /* Above wallpaper, below icons and windows */
+    pointer-events: none; /* Ensure it doesn't block clicking on icons! */
+}
