@@ -202,9 +202,6 @@ const wallpapers = [
     "url('images/backgrounds/bliss.png')",
     "url('images/backgrounds/bless.png')",
     "url('images/backgrounds/dark.png')",
-    "url('images/backgrounds/dunes.png')",
-    "url('images/backgrounds/space.png')",
-    "url('images/backgrounds/stonehenge.png')",
     "#3a6ea5", // Classic Windows Solid Blue Background
     "#000000"  // Solid Black
 ];
