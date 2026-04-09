@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows XP Simulator</title>
+    <title>Windows XP Simulator - V2.0</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/apps.css">
 </head>
@@ -23,19 +23,33 @@
     </div>
 </div>
 
-<div class="desktop">
+<div class="desktop" id="desktop">
     <div class="icon" onclick="openApp('myComputer')">
-        <img src="images/icons/48x48/computer.png" alt="My Computer">
+        <img src="images/icons/32x32/computer.png" alt="My Computer" onerror="this.src='images/icons/48x48/computer.png'">
         My Computer
     </div>
+    
     <div class="icon" onclick="openApp('notepad')">
-        <img src="images/icons/48x48/notepad.png" alt="Notepad" onerror="this.src='images/icons/48x48/computer.png'">
+        <img src="images/icons/32x32/notepad.png" alt="Notepad" onerror="this.src='images/icons/48x48/computer.png'">
         Notepad
     </div>
+
+    <div class="icon" onclick="openApp('internetExplorer')">
+        <img src="images/icons/32x32/ie.png" alt="Internet Explorer" onerror="this.src='images/icons/48x48/computer.png'">
+        Internet Explorer
+    </div>
+    
+    <div class="icon" onclick="openApp('paint')">
+        <img src="images/icons/32x32/paint.png" alt="Paint" onerror="this.src='images/icons/48x48/computer.png'">
+        MS Paint
+    </div>
+
     <div class="icon error-trigger" onclick="triggerError('corruptedApp')">
-        <img src="images/icons/48x48/broken.png" alt="Broken App" onerror="this.src='images/icons/48x48/computer.png'">
+        <img src="images/icons/32x32/broken.png" alt="Broken App" onerror="this.src='images/icons/48x48/computer.png'">
         Super Game 3D
     </div>
+
+    <div id="selectionBox" class="selection-box"></div>
 </div>
 
 <div class="window" id="myComputer" style="top: 50px; left: 100px;">
@@ -46,14 +60,29 @@
             <button onclick="closeApp('myComputer')" class="close">X</button>
         </div>
     </div>
+    <div class="menu-bar">
+        <div class="menu-item dropdown">
+            <span>File</span>
+            <div class="dropdown-content">
+                <a href="#">Rename</a>
+                <a href="#">Download</a>
+                <a href="#">Important</a>
+            </div>
+        </div>
+        <div class="menu-item"><span>Edit</span></div>
+        <div class="menu-item"><span>View</span></div>
+        <div class="menu-item"><span>Favorites</span></div>
+        <div class="menu-item"><span>Tools</span></div>
+        <div class="menu-item"><span>Help</span></div>
+    </div>
     <div class="content">
-        <p><strong>System Tasks</strong></p>
-        <ul>
-            <li>View system information</li>
-            <li>Add or remove programs</li>
-        </ul>
-        <hr>
-        <p>Hard Disk Drives: (C:)</p>
+        <div class="disk-drive">
+            <img src="images/icons/48x48/drive.png" alt="Drive" onerror="this.src='images/icons/48x48/computer.png'">
+            <div>
+                <strong>Local Disk (C:)</strong><br>
+                Local Disk
+            </div>
+        </div>
     </div>
 </div>
 
@@ -66,14 +95,56 @@
         </div>
     </div>
     <div class="menu-bar">
-        <span onclick="saveNotepadText()">File (Save)</span>
-        <span>Edit</span>
-        <span>Format</span>
-        <span>View</span>
-        <span>Help</span>
+        <div class="menu-item dropdown">
+            <span>File</span>
+            <div class="dropdown-content">
+                <a href="#">Rename</a>
+                <a href="#">Download</a>
+                <a href="#">Important</a>
+                <div class="divider"></div>
+                <a href="#" onclick="saveNotepadText()">Save</a>
+            </div>
+        </div>
+        <div class="menu-item"><span>Edit</span></div>
+        <div class="menu-item"><span>Format</span></div>
+        <div class="menu-item"><span>View</span></div>
+        <div class="menu-item"><span>Help</span></div>
     </div>
     <div class="notepad-content">
         <textarea spellcheck="false"></textarea>
+    </div>
+</div>
+
+<div class="window" id="mediaPlayer" style="display: none; top: 120px; left: 150px; width: 450px;">
+    <div class="title-bar" style="background: linear-gradient(to bottom, #2158d0 0%, #2562df 100%);">
+        <span>Windows Media Player</span>
+        <div class="window-controls">
+            <button onclick="minimizeApp('mediaPlayer')">_</button>
+            <button onclick="closeApp('mediaPlayer')" class="close">X</button>
+        </div>
+    </div>
+    <div class="menu-bar">
+        <div class="menu-item"><span>File</span></div>
+        <div class="menu-item"><span>View</span></div>
+        <div class="menu-item"><span>Play</span></div>
+        <div class="menu-item"><span>Tools</span></div>
+        <div class="menu-item"><span>Help</span></div>
+    </div>
+    <div class="media-content" style="background: #000; height: 220px; display: flex; align-items: center; justify-content: center; color: #fff; font-family: Arial;">
+        <div style="text-align: center;">
+            <p style="font-size: 24px; margin: 0; color: #4fa3e7;">Windows Media Player</p>
+            <p style="font-size: 12px; color: #888;">Ready</p>
+        </div>
+    </div>
+    <div class="media-controls" style="background: linear-gradient(to bottom, #d4e6f8 0%, #a5c9ea 100%); padding: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #fff;">
+        <div class="play-buttons">
+            <button class="xp-btn">▶ Play</button>
+            <button class="xp-btn">⏸ Pause</button>
+            <button class="xp-btn">⏹ Stop</button>
+        </div>
+        <div class="volume-slider" style="font-size: 12px; color: #00136b;">
+            Volume: <input type="range" min="0" max="100" value="50">
+        </div>
     </div>
 </div>
 
@@ -95,75 +166,67 @@
         <button class="xp-btn" onclick="closeApp('corruptedApp')">OK</button>
     </div>
 </div>
+
 <div id="startMenu" class="start-menu">
     <div class="start-header">
-        <img src="" alt="User" class="user-pic" style="background: #ccc;"> 
-        <span class="user-name">Student</span>
+        <img src="images/icons/48x48/user.png" alt="Admin" class="user-pic" style="background: orange;" onerror="this.src='images/icons/48x48/computer.png'"> 
+        <span class="user-name">Admin</span>
     </div>
 
     <div class="start-body">
         <div class="start-left">
-            <div class="start-item large">
-                <img src="" alt="IE">
-                <div class="item-text"><b>Internet</b><br><span>Internet Explorer</span></div>
+            <div class="start-item" onclick="openApp('internetExplorer')">
+                <img src="images/icons/32x32/ie.png" alt="Internet" onerror="this.src='images/icons/48x48/computer.png'">
+                <div class="item-text"><b>Internet Explorer</b><br><span>Browse the Web</span></div>
             </div>
-            <div class="start-item large">
-                <img src="" alt="Email">
-                <div class="item-text"><b>E-mail</b><br><span>Outlook Express</span></div>
-            </div>
+            
             <div class="start-divider"></div>
             
-            <div class="start-item"><img src="" alt="MSN"><span>MSN Explorer</span></div>
-            <div class="start-item"><img src="" alt="WMP"><span>Windows Media Player</span></div>
-            <div class="start-item"><img src="" alt="WMM"><span>Windows Movie Maker</span></div>
-            <div class="start-item"><img src="" alt="Tour"><span>Tour Windows XP</span></div>
-            <div class="start-item"><img src="" alt="Transfer"><span>Files and Settings Transfer Wizard</span></div>
-            
-            <div class="start-divider" style="margin-top: auto;"></div>
-            <div class="all-programs">
-                <b>All Programs</b>
-                <div class="green-arrow">▶</div>
+            <div class="start-item" onclick="openApp('paint')">
+                <img src="images/icons/32x32/paint.png" alt="Paint" onerror="this.src='images/icons/48x48/computer.png'">
+                <div class="item-text"><b>MS Paint</b></div>
+            </div>
+            <div class="start-item" onclick="openApp('notepad')">
+                <img src="images/icons/32x32/notepad.png" alt="Notepad" onerror="this.src='images/icons/48x48/computer.png'">
+                <div class="item-text"><b>Notepad</b></div>
             </div>
         </div>
 
         <div class="start-right">
-            <div class="start-item right-item"><img src="" alt="Docs"><b>My Documents</b></div>
-            <div class="start-item right-item"><img src="" alt="Pics"><b>My Pictures</b></div>
-            <div class="start-item right-item"><img src="" alt="Music"><b>My Music</b></div>
-            <div class="start-item right-item" onclick="openApp('myComputer')">
-                <img src="images/icons/32x32/computer.png" alt="Computer">
-                <b>My Computer</b>
-            </div>
-            <div class="start-item right-item"><img src="" alt="Network"><b>My Network Places</b></div>
+            <div class="start-item right-item"><b>My Documents</b></div>
+            <div class="start-item right-item"><b>My Recent Documents</b></div>
+            <div class="start-item right-item"><b>My Pictures</b></div>
+            <div class="start-item right-item" onclick="openApp('mediaPlayer')"><b>My Music</b></div>
+            <div class="start-item right-item" onclick="openApp('myComputer')"><b>My Computer</b></div>
             
             <div class="start-divider right-div"></div>
             
-            <div class="start-item right-item"><img src="" alt="Control"><span>Control Panel</span></div>
-            <div class="start-item right-item"><img src="" alt="Printers"><span>Printers and Faxes</span></div>
+            <div class="start-item right-item"><span>Control Panel</span></div>
+            <div class="start-item right-item" onclick="changeWallpaper()"><span>Change Wallpaper</span></div>
+            <div class="start-item right-item"><span>Printers and Faxes</span></div>
             
             <div class="start-divider right-div"></div>
             
-            <div class="start-item right-item"><img src="" alt="Help"><span>Help and Support</span></div>
-            <div class="start-item right-item"><img src="" alt="Search"><span>Search</span></div>
-            <div class="start-item right-item"><img src="" alt="Run"><span>Run...</span></div>
+            <div class="start-item right-item"><span>Help and Support</span></div>
+            <div class="start-item right-item"><span>Search</span></div>
+            <div class="start-item right-item"><span>Run...</span></div>
         </div>
     </div>
 
     <div class="start-footer">
         <div class="footer-btn">
-            <img src="" alt="Log Off" style="background: orange; border-radius: 3px;">
+            <img src="images/icons/32x32/logoff.png" alt="Log Off" style="background: orange; border-radius: 3px;" onerror="this.src='images/icons/48x48/computer.png'">
             <span>Log Off</span>
         </div>
         <div class="footer-btn">
-            <img src="" alt="Turn Off" style="background: red; border-radius: 3px;">
+            <img src="images/icons/32x32/turnoff.png" alt="Turn Off" style="background: red; border-radius: 3px;" onerror="this.src='images/icons/48x48/computer.png'">
             <span>Turn Off Computer</span>
         </div>
     </div>
 </div>
 
-
 <div class="taskbar">
-    <div class="start-button">start</div>
+    <div class="start-button"><i>start</i></div>
     <div class="taskbar-apps" id="taskbarApps"></div>
     
     <div class="system-tray">
@@ -172,8 +235,6 @@
 </div>
 
 <script src="scripts/main.js"></script>
-<script src="scripts/apps/notepad.js"></script>
 
-    <div id="selectionBox" class="selection-box"></div>
 </body>
 </html>
