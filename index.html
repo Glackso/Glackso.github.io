@@ -9,10 +9,17 @@
 </head>
 <body>
 
-<div id="bootScreen" class="boot-screen">
-    <div class="boot-content">
-        <h2>Windows XP Simulator</h2>
-        <p>Click anywhere to power on...</p>
+<div id="loginScreen" class="login-screen">
+    <div class="login-left">
+        <h1 class="welcome-text">welcome</h1>
+        <p>Click on your user name to begin</p>
+    </div>
+    <div class="login-divider"></div>
+    <div class="login-right">
+        <div class="user-account" onclick="login()">
+            <img src="images/icons/48x48/user.png" alt="Admin" class="user-icon" style="background: orange;" onerror="this.src='images/icons/48x48/computer.png'">
+            <span class="username">Admin</span>
+        </div>
     </div>
 </div>
 
