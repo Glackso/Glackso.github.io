@@ -153,6 +153,54 @@
     </div>
 </div>
 
+<div class="window" id="calculator" style="top: 80px; left: 350px; width: 260px; min-height: auto;">
+    <div class="title-bar">
+        <span>Calculator</span>
+        <div class="window-controls">
+            <button onclick="minimizeApp('calculator')">_</button>
+            <button onclick="closeApp('calculator')" class="close">X</button>
+        </div>
+    </div>
+    <div class="menu-bar">
+        <div class="menu-item"><span>Edit</span></div>
+        <div class="menu-item"><span>View</span></div>
+        <div class="menu-item"><span>Help</span></div>
+    </div>
+    <div class="calc-content">
+        <div class="calc-display" id="calcDisplay">0</div>
+        
+        <div class="calc-grid">
+            <button class="calc-btn mem-btn">MC</button>
+            <button class="calc-btn num-btn" onclick="calcInput('7')">7</button>
+            <button class="calc-btn num-btn" onclick="calcInput('8')">8</button>
+            <button class="calc-btn num-btn" onclick="calcInput('9')">9</button>
+            <button class="calc-btn op-btn" onclick="calcOp('/')">/</button>
+            
+            <button class="calc-btn mem-btn">MR</button>
+            <button class="calc-btn num-btn" onclick="calcInput('4')">4</button>
+            <button class="calc-btn num-btn" onclick="calcInput('5')">5</button>
+            <button class="calc-btn num-btn" onclick="calcInput('6')">6</button>
+            <button class="calc-btn op-btn" onclick="calcOp('*')">*</button>
+            
+            <button class="calc-btn mem-btn">MS</button>
+            <button class="calc-btn num-btn" onclick="calcInput('1')">1</button>
+            <button class="calc-btn num-btn" onclick="calcInput('2')">2</button>
+            <button class="calc-btn num-btn" onclick="calcInput('3')">3</button>
+            <button class="calc-btn op-btn" onclick="calcOp('-')">-</button>
+            
+            <button class="calc-btn mem-btn">M+</button>
+            <button class="calc-btn num-btn" onclick="calcInput('0')">0</button>
+            <button class="calc-btn num-btn" onclick="calcInput('.')">.</button>
+            <button class="calc-btn text-btn" onclick="clearCalc()">C</button>
+            <button class="calc-btn op-btn" onclick="calcOp('+')">+</button>
+            
+            <div style="grid-column: span 5;">
+                <button class="calc-btn op-btn" style="width: 100%; height: 28px;" onclick="calcEquals()">=</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="window error-window" id="corruptedApp" style="display: none; width: 350px; top: 250px; left: 350px;">
     <div class="title-bar error-bar">
         <span>GPL32.EXE - Fatal Error</span>
