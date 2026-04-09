@@ -1,40 +1,73 @@
-// ================= CORE VARIABLES & DATA =================
+// =========================================================================
+// WINDOWS XP SIMULATOR - CORE ENGINE V2.0
+// =========================================================================
+
+// --- Variables & Elements ---
 let highestZIndex = 10;
-const desktop = document.querySelector('.desktop');
+const desktop = document.getElementById('desktop');
+const startMenu = document.getElementById('startMenu');
+const startBtn = document.querySelector('.start-button');
+const selectionBox = document.getElementById('selectionBox');
 
-// App Data (Tells the taskbar what icon and name to use)
-const appData = {
-    'myComputer': { title: 'My Computer', icon: 'images/icons/16x16/computer.png' },
-    'notepad': { title: 'Untitled - Notepad', icon: 'images/icons/16x16/notepad.png' }
-    // Error dialogs don't need taskbar data
-};
-
-// Define Error Sound (make sure you added audio/error.mp3!)
+// --- Audio ---
+// Ensure you have startup.mp3 and error.mp3 inside your audio/ folder!
+const startupSound = new Audio('audio/startup.mp3');
 const errorSound = new Audio('audio/error.mp3');
 
+// --- Application Registry ---
+// Defines taskbar titles and 16x16 taskbar icons for apps
+const appData = {
+    'myComputer': { title: 'My Computer', icon: 'images/icons/16x16/computer.png' },
+    'notepad': { title: 'Untitled - Notepad', icon: 'images/icons/16x16/notepad.png' },
+    'internetExplorer': { title: 'Internet Explorer', icon: 'images/icons/16x16/ie.png' },
+    'paint': { title: 'untitled - Paint', icon: 'images/icons/16x16/paint.png' },
+    'mediaPlayer': { title: 'Windows Media Player', icon: 'images/icons/16x16/wmp.png' }
+};
+
+// ================= LOGIN & BOOT SEQUENCE =================
+
+function login() {
+    // Play the startup chime
+    startupSound.play().catch(() => console.log("startup.mp3 not found. Add it to audio/!"));
+    
+    // Hide the welcome screen
+    document.getElementById('loginScreen').style.display = 'none';
+    
+    // Optional: Boot up default apps immediately
+    // openApp('myComputer'); 
+}
+
+
 // ================= WINDOW MANAGEMENT =================
+
+// Brings a clicked window to the very front
 function bringToFront(element) {
     highestZIndex++;
     element.style.zIndex = highestZIndex;
 }
 
-// Open App (or restore from taskbar)
+// Opens an application and creates a taskbar button
 function openApp(appId) {
     const appWindow = document.getElementById(appId);
+    if (!appWindow) return; // Prevent crashes if app doesn't exist yet
+
     appWindow.style.display = "flex";
     bringToFront(appWindow);
     
-    // Check if the taskbar button already exists (only for standard apps)
-    if (!appData[appId]) return; // Stop here for error dialogs
+    // If it's an error window or unregistered app, don't put it on the taskbar
+    if (!appData[appId]) return; 
 
+    // Check if taskbar button exists
     let tbBtn = document.getElementById('tb-' + appId);
     
     if (!tbBtn) {
+        // Create new taskbar button
         tbBtn = document.createElement('div');
         tbBtn.className = 'taskbar-btn';
         tbBtn.id = 'tb-' + appId;
         tbBtn.innerHTML = `<img src="${appData[appId].icon}" onerror="this.src='images/icons/16x16/computer.png'"> <span>${appData[appId].title}</span>`;
         
+        // Taskbar button click logic
         tbBtn.onclick = () => {
             if (appWindow.style.display === "none") {
                 appWindow.style.display = "flex";
@@ -50,33 +83,30 @@ function openApp(appId) {
     }
 }
 
-// Special Function for the Corrupted App
-function triggerError(appId) {
-    // 1. Play the Critical Stop sound
-    errorSound.play().catch(() => console.log("error.mp3 not found. Add it to audio/!"));
-    
-    // 2. Open the error dialog
-    openApp(appId);
-}
-
-// Minimize App (Hides window, keeps taskbar button)
+// Minimizes to taskbar
 function minimizeApp(appId) {
     document.getElementById(appId).style.display = "none";
 }
 
-// Close App (Hides window, completely removes taskbar button)
+// Closes completely and removes taskbar button
 function closeApp(appId) {
     document.getElementById(appId).style.display = "none";
     const tbBtn = document.getElementById('tb-' + appId);
-    if (tbBtn) {
-        tbBtn.remove(); // Deletes the button from the taskbar
-    }
+    if (tbBtn) tbBtn.remove(); 
 }
 
-// Find all title bars and make them draggable (Universal)
+// Corrupted App / Error Trigger
+function triggerError(appId) {
+    errorSound.play().catch(() => console.log("error.mp3 not found. Add it to audio/!"));
+    openApp(appId);
+}
+
+
+// ================= DRAG & DROP ENGINE =================
+
+// Universal Title Bar Dragging
 document.querySelectorAll('.title-bar').forEach(header => {
     header.addEventListener('mousedown', (e) => {
-        // Universal Dragging Logic
         let activeWindow = header.parentElement; 
         bringToFront(activeWindow);
 
@@ -103,7 +133,97 @@ document.querySelectorAll('.window').forEach(win => {
     win.addEventListener('mousedown', () => bringToFront(win));
 });
 
+
+// ================= START MENU LOGIC =================
+
+startBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); 
+    if (startMenu.style.display === 'flex') {
+        startMenu.style.display = 'none';
+        startBtn.style.boxShadow = "inset 1px 1px 1px rgba(255,255,255,0.4), 2px 0 5px rgba(0,0,0,0.4)"; // Unpressed
+    } else {
+        startMenu.style.display = 'flex';
+        bringToFront(startMenu);
+        startBtn.style.boxShadow = "inset 2px 2px 5px rgba(0,0,0,0.5)"; // Pressed in
+    }
+});
+
+// Close start menu if clicking anywhere outside of it
+document.addEventListener('click', (e) => {
+    if (startMenu.style.display === 'flex' && !startMenu.contains(e.target)) {
+        startMenu.style.display = 'none';
+        startBtn.style.boxShadow = "inset 1px 1px 1px rgba(255,255,255,0.4), 2px 0 5px rgba(0,0,0,0.4)";
+    }
+});
+
+
+// ================= DESKTOP SELECTION BOX =================
+
+let isDrawing = false;
+let startX, startY;
+
+desktop.addEventListener('mousedown', (e) => {
+    if (e.target !== desktop) return; // Only draw if clicking bare wallpaper
+    
+    isDrawing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    
+    selectionBox.style.left = startX + 'px';
+    selectionBox.style.top = startY + 'px';
+    selectionBox.style.width = '0px';
+    selectionBox.style.height = '0px';
+    selectionBox.style.display = 'block';
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (!isDrawing) return;
+
+    let width = e.clientX - startX;
+    let height = e.clientY - startY;
+
+    selectionBox.style.width = Math.abs(width) + 'px';
+    selectionBox.style.height = Math.abs(height) + 'px';
+    selectionBox.style.left = (width < 0) ? e.clientX + 'px' : startX + 'px';
+    selectionBox.style.top = (height < 0) ? e.clientY + 'px' : startY + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+    if (isDrawing) {
+        isDrawing = false;
+        selectionBox.style.display = 'none';
+    }
+});
+
+
+// ================= WALLPAPER CHANGER =================
+
+const wallpapers = [
+    "url('images/backgrounds/bliss.png')",
+    "url('images/backgrounds/autumn.png')",  // You can add an autumn.png to your folder!
+    "#3a6ea5", // Classic Windows Solid Blue Background
+    "#000000"  // Solid Black
+];
+let currentWallpaper = 0;
+
+function changeWallpaper() {
+    currentWallpaper++;
+    if (currentWallpaper >= wallpapers.length) {
+        currentWallpaper = 0; // Loop back to the beginning
+    }
+    
+    // Apply the new background to the desktop
+    if (wallpapers[currentWallpaper].startsWith('#')) {
+        desktop.style.background = wallpapers[currentWallpaper];
+    } else {
+        desktop.style.background = `${wallpapers[currentWallpaper]} no-repeat center center fixed`;
+        desktop.style.backgroundSize = "cover";
+    }
+}
+
+
 // ================= REAL-TIME CLOCK =================
+
 function updateClock() {
     const now = new Date();
     let hours = now.getHours();
@@ -117,81 +237,16 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
-// ================= START MENU LOGIC =================
-const startBtn = document.querySelector('.start-button');
-const startMenu = document.getElementById('startMenu');
 
-startBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); 
-    if (startMenu.style.display === 'flex') {
-        startMenu.style.display = 'none';
-    } else {
-        startMenu.style.display = 'flex';
-        bringToFront(startMenu);
-    }
-});
+// ================= APP SPECIFIC LOGIC =================
 
-document.addEventListener('click', (e) => {
-    if (startMenu.style.display === 'flex' && !startMenu.contains(e.target)) {
-        startMenu.style.display = 'none';
-    }
-});
-
-// ================= BOOT SEQUENCE =================
-const bootScreen = document.getElementById('bootScreen');
-const startupSound = new Audio('audio/startup.mp3'); 
-
-bootScreen.addEventListener('click', () => {
-    startupSound.play().catch(() => console.log("startup.mp3 not found"));
-    bootScreen.style.display = 'none';
-    openApp('myComputer');
-    openApp('notepad');
-});
-
-// ================= DESKTOP SELECTION BOX LOGIC =================
-const selectionBox = document.getElementById('selectionBox');
-let isDrawing = false;
-let startX, startY;
-
-// Start drawing when clicking on the desktop wallpaper
-desktop.addEventListener('mousedown', (e) => {
-    // CRITICAL: Only trigger if clicking directly on the desktop wallpaper container,
-    // not on a desktop icon within it!
-    if (e.target !== desktop) return;
-
-    isDrawing = true;
-    startX = e.clientX;
-    startY = e.clientY;
-
-    // Reset the box position/size and show it
-    selectionBox.style.left = startX + 'px';
-    selectionBox.style.top = startY + 'px';
-    selectionBox.style.width = '0px';
-    selectionBox.style.height = '0px';
-    selectionBox.style.display = 'block';
-});
-
-// Update the size while dragging
-document.addEventListener('mousemove', (e) => {
-    if (!isDrawing) return;
-
-    // Calculate current width/height from the start position
-    let width = e.clientX - startX;
-    let height = e.clientY - startY;
-
-    // The math must handle dragging backwards (negative width/height)!
-    selectionBox.style.width = Math.abs(width) + 'px';
-    selectionBox.style.height = Math.abs(height) + 'px';
-
-    // If dragging backwards, the top/left anchor point must move!
-    selectionBox.style.left = (width < 0) ? e.clientX + 'px' : startX + 'px';
-    selectionBox.style.top = (height < 0) ? e.clientY + 'px' : startY + 'px';
-});
-
-// Hide the box when the mouse button is released
-document.addEventListener('mouseup', () => {
-    if (isDrawing) {
-        isDrawing = false;
-        selectionBox.style.display = 'none';
-    }
-});
+// Notepad Download Logic
+function saveNotepadText() {
+    const textArea = document.querySelector('#notepad textarea');
+    const blob = new Blob([textArea.value], { type: 'text/plain' });
+    const anchor = document.createElement('a');
+    anchor.download = 'MyXP_Document.txt';
+    anchor.href = window.URL.createObjectURL(blob);
+    anchor.click();
+    window.URL.revokeObjectURL(anchor.href);
+}
