@@ -125,8 +125,7 @@
     </div>
 </div>
 
-<div class="window" id="mediaPlayer" style="top: 120px; left: 250px; width: 400px; min-height: 300px;">
-    <div class="title-bar">
+<div class="title-bar">
         <span>Windows Media Player</span>
         <div class="window-controls">
             <button onclick="minimizeApp('mediaPlayer')">_</button>
@@ -134,18 +133,21 @@
         </div>
     </div>
     
-    <audio id="wmpAudio" src="audio/song.mp3" crossorigin="anonymous"></audio>
+    <audio id="wmpAudio" crossorigin="anonymous"></audio>
 
     <div class="wmp-content">
         <div class="wmp-screen">
-            <canvas id="wmpVisualizer" width="380" height="180"></canvas>
+            <div class="wmp-track-info" id="wmpTrackName">Ready...</div>
+            <canvas id="wmpVisualizer" width="380" height="150"></canvas>
         </div>
         
         <div class="wmp-controls">
             <div class="wmp-buttons">
+                <button class="wmp-btn" onclick="prevWMPTrack()">⏮</button>
                 <button class="wmp-btn play-btn" onclick="playWMP()">▶</button>
                 <button class="wmp-btn" onclick="pauseWMP()">⏸</button>
                 <button class="wmp-btn" onclick="stopWMP()">⏹</button>
+                <button class="wmp-btn" onclick="nextWMPTrack()">⏭</button>
             </div>
             
             <div class="wmp-volume-container">
@@ -155,7 +157,6 @@
             </div>
         </div>
     </div>
-</div>
 
 <div class="window" id="calculator" style="top: 80px; left: 350px; width: 260px; min-height: auto;">
     <div class="title-bar">
