@@ -490,8 +490,8 @@ const wmpTrackName = document.getElementById('wmpTrackName');
 // Here is where you tell it what the file is named, and what title to display!
 const playlist = [
     { file: 'audio/song.mp3', title: '1. Windows XP Setup Music' },
-    { file: 'audio/song2.mp3', title: '2. Linkin Park - Numb' },
-    { file: 'audio/song3.mp3', title: '3. Smash Mouth - All Star' }
+    { file: 'audio/song2.mp3', title: '2. Spawn - Toby Fox (cover by @nwcr_ on yt)' },
+    { file: 'audio/song3.mp3', title: '3. Mice on Venus - C418' }
 ];
 
 let currentTrackIndex = 0;
