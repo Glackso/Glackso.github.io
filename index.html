@@ -125,35 +125,34 @@
     </div>
 </div>
 
-<div class="window" id="mediaPlayer" style="display: none; top: 120px; left: 150px; width: 450px;">
-    <div class="title-bar" style="background: linear-gradient(to bottom, #2158d0 0%, #2562df 100%);">
+<div class="window" id="mediaPlayer" style="top: 120px; left: 250px; width: 400px; min-height: 300px;">
+    <div class="title-bar">
         <span>Windows Media Player</span>
         <div class="window-controls">
             <button onclick="minimizeApp('mediaPlayer')">_</button>
             <button onclick="closeApp('mediaPlayer')" class="close">X</button>
         </div>
     </div>
-    <div class="menu-bar">
-        <div class="menu-item"><span>File</span></div>
-        <div class="menu-item"><span>View</span></div>
-        <div class="menu-item"><span>Play</span></div>
-        <div class="menu-item"><span>Tools</span></div>
-        <div class="menu-item"><span>Help</span></div>
-    </div>
-    <div class="media-content" style="background: #000; height: 220px; display: flex; align-items: center; justify-content: center; color: #fff; font-family: Arial;">
-        <div style="text-align: center;">
-            <p style="font-size: 24px; margin: 0; color: #4fa3e7;">Windows Media Player</p>
-            <p style="font-size: 12px; color: #888;">Ready</p>
+    
+    <audio id="wmpAudio" src="audio/song.mp3" crossorigin="anonymous"></audio>
+
+    <div class="wmp-content">
+        <div class="wmp-screen">
+            <canvas id="wmpVisualizer" width="380" height="180"></canvas>
         </div>
-    </div>
-    <div class="media-controls" style="background: linear-gradient(to bottom, #d4e6f8 0%, #a5c9ea 100%); padding: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #fff;">
-        <div class="play-buttons">
-            <button class="xp-btn">▶ Play</button>
-            <button class="xp-btn">⏸ Pause</button>
-            <button class="xp-btn">⏹ Stop</button>
-        </div>
-        <div class="volume-slider" style="font-size: 12px; color: #00136b;">
-            Volume: <input type="range" min="0" max="100" value="50">
+        
+        <div class="wmp-controls">
+            <div class="wmp-buttons">
+                <button class="wmp-btn play-btn" onclick="playWMP()">▶</button>
+                <button class="wmp-btn" onclick="pauseWMP()">⏸</button>
+                <button class="wmp-btn" onclick="stopWMP()">⏹</button>
+            </div>
+            
+            <div class="wmp-volume-container">
+                <span style="font-size: 16px;">🔈</span>
+                <input type="range" id="wmpVolume" class="wmp-slider" min="0" max="1" step="0.01" value="0.5" oninput="changeWMPVolume()">
+                <span style="font-size: 18px;">🔊</span>
+            </div>
         </div>
     </div>
 </div>
