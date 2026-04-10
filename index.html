@@ -206,6 +206,28 @@
     </div>
 </div>
 
+<div class="window" id="minesweeper" style="top: 100px; left: 400px; width: 180px; min-height: auto;">
+    <div class="title-bar">
+        <span>Minesweeper</span>
+        <div class="window-controls">
+            <button onclick="minimizeApp('minesweeper')">_</button>
+            <button onclick="closeApp('minesweeper')" class="close">X</button>
+        </div>
+    </div>
+    <div class="menu-bar">
+        <div class="menu-item"><span>Game</span></div>
+        <div class="menu-item"><span>Help</span></div>
+    </div>
+    <div class="mine-content">
+        <div class="mine-header">
+            <div class="mine-counter" id="mineCount">010</div>
+            <button class="mine-face" id="mineFace" onclick="initMinesweeper()">🙂</button>
+            <div class="mine-counter" id="mineTimer">000</div>
+        </div>
+        <div class="mine-grid" id="mineGrid"></div>
+    </div>
+</div>
+
 <div class="window error-window" id="corruptedApp" style="display: none; width: 350px; top: 250px; left: 350px;">
     <div class="title-bar error-bar">
         <span>GPL32.EXE - Fatal Error</span>
