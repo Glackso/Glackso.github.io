@@ -454,3 +454,23 @@ function checkWin() {
         gameOver(true);
     }
 }
+
+// ================= INTERNET EXPLORER LOGIC =================
+function browseWeb() {
+    const contentBox = document.getElementById('ieContent');
+    const inputBar = document.getElementById('ieAddressInput');
+    
+    // Quick fake loading effect
+    contentBox.style.opacity = '0.3';
+    
+    setTimeout(() => {
+        // Bring the opacity back up to simulate page load
+        contentBox.style.opacity = '1';
+        
+        // If they changed the URL, trick them by bringing it back to Lorem Ipsum
+        if (!inputBar.value.includes('lorem-ipsum')) {
+            alert('Internet Explorer could not find "' + inputBar.value + '". Redirecting to default page.');
+            inputBar.value = 'http://www.lorem-ipsum.com';
+        }
+    }, 500);
+}
