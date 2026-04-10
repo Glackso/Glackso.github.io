@@ -262,3 +262,105 @@
 .op-btn { color: #ff0000; }  /* Red operators */
 .mem-btn { color: #ff0000; font-weight: normal; } /* Red memory */
 .text-btn { color: #ff0000; } /* Clear button */
+
+/* ================= MINESWEEPER ================= */
+.mine-content {
+    background: #bdbdbd;
+    padding: 5px;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #7b7b7b;
+    border-bottom: 2px solid #7b7b7b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mine-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 2px solid #7b7b7b;
+    border-top: 2px solid #7b7b7b;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    padding: 4px;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+}
+
+.mine-counter {
+    background: black;
+    color: red;
+    font-family: "Courier New", Courier, monospace; /* Closest standard font to digital */
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 2px;
+    border: 1px solid #7b7b7b;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+}
+
+.mine-face {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    cursor: pointer;
+    background: #bdbdbd;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #7b7b7b;
+    border-bottom: 2px solid #7b7b7b;
+}
+
+.mine-face:active {
+    border-left: 2px solid #7b7b7b;
+    border-top: 2px solid #7b7b7b;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.mine-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 16px);
+    grid-template-rows: repeat(9, 16px);
+    border-left: 2px solid #7b7b7b;
+    border-top: 2px solid #7b7b7b;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.mine-cell {
+    width: 16px;
+    height: 16px;
+    background: #bdbdbd;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #7b7b7b;
+    border-bottom: 2px solid #7b7b7b;
+    box-sizing: border-box;
+    cursor: default;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.mine-cell.revealed {
+    border: 1px solid #7b7b7b;
+    border-right-color: #bdbdbd;
+    border-bottom-color: #bdbdbd;
+}
+
+/* Number Colors */
+.mine-1 { color: blue; }
+.mine-2 { color: green; }
+.mine-3 { color: red; }
+.mine-4 { color: darkblue; }
+.mine-5 { color: darkred; }
