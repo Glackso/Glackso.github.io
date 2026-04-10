@@ -251,3 +251,56 @@ function saveNotepadText() {
     anchor.click();
     window.URL.revokeObjectURL(anchor.href);
 }
+
+// ================= CALCULATOR LOGIC =================
+let calcCurrent = '0';
+let calcPrevious = '';
+let calcOperator = null;
+let shouldResetDisplay = false;
+
+function updateCalcDisplay() {
+    document.getElementById('calcDisplay').innerText = calcCurrent;
+}
+
+function calcInput(num) {
+    if (calcCurrent === '0' || shouldResetDisplay) {
+        calcCurrent = num;
+        shouldResetDisplay = false;
+    } else {
+        calcCurrent += num;
+    }
+    updateCalcDisplay();
+}
+
+function calcOp(op) {
+    if (calcOperator !== null) calcEquals();
+    calcPrevious = calcCurrent;
+    calcOperator = op;
+    shouldResetDisplay = true;
+}
+
+function calcEquals() {
+    if (calcOperator === null || shouldResetDisplay) return;
+    let a = parseFloat(calcPrevious);
+    let b = parseFloat(calcCurrent);
+    let result = 0;
+    
+    switch(calcOperator) {
+        case '+': result = a + b; break;
+        case '-': result = a - b; break;
+        case '*': result = a * b; break;
+        case '/': result = b !== 0 ? a / b : 'Error'; break;
+    }
+    
+    calcCurrent = String(result);
+    calcOperator = null;
+    shouldResetDisplay = true;
+    updateCalcDisplay();
+}
+
+function clearCalc() {
+    calcCurrent = '0';
+    calcPrevious = '';
+    calcOperator = null;
+    updateCalcDisplay();
+}
