@@ -484,31 +484,77 @@ let visualizerAnimation;
 const wmpAudio = document.getElementById('wmpAudio');
 const wmpCanvas = document.getElementById('wmpVisualizer');
 const wmpCanvasCtx = wmpCanvas.getContext('2d');
+const wmpTrackName = document.getElementById('wmpTrackName');
 
-// Initialize the Web Audio API (Must be done after a user click)
+// --- THE PLAYLIST ---
+// Here is where you tell it what the file is named, and what title to display!
+const playlist = [
+    { file: 'audio/song.mp3', title: '1. Windows XP Setup Music' },
+    { file: 'audio/song2.mp3', title: '2. Linkin Park - Numb' },
+    { file: 'audio/song3.mp3', title: '3. Smash Mouth - All Star' }
+];
+
+let currentTrackIndex = 0;
+
+// Load the very first track when the system boots
+window.addEventListener('DOMContentLoaded', () => {
+    loadWMPTrack(0, false); // Load it, but don't play yet
+});
+
+// Auto-play the next song when the current one finishes!
+wmpAudio.addEventListener('ended', () => {
+    nextWMPTrack();
+});
+
+// The master function to load a track and update the UI
+function loadWMPTrack(index, autoPlay = true) {
+    currentTrackIndex = index;
+    wmpAudio.src = playlist[currentTrackIndex].file;
+    wmpTrackName.innerText = playlist[currentTrackIndex].title;
+    
+    // Ensure volume stays correct when switching tracks
+    changeWMPVolume(); 
+    
+    if (autoPlay) {
+        playWMP();
+    }
+}
+
+// Skip Forward
+function nextWMPTrack() {
+    let nextIndex = currentTrackIndex + 1;
+    if (nextIndex >= playlist.length) {
+        nextIndex = 0; // Loop back to the first song if at the end
+    }
+    loadWMPTrack(nextIndex, true);
+}
+
+// Skip Backward
+function prevWMPTrack() {
+    let prevIndex = currentTrackIndex - 1;
+    if (prevIndex < 0) {
+        prevIndex = playlist.length - 1; // Loop to the last song if at the beginning
+    }
+    loadWMPTrack(prevIndex, true);
+}
+
+// Initialize the Web Audio API
 function initWMPAudio() {
     if (!wmpAudioCtx) {
-        // Create audio context
         wmpAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // Route the audio element through the analyzer
         wmpAnalyser = wmpAudioCtx.createAnalyser();
         wmpSource = wmpAudioCtx.createMediaElementSource(wmpAudio);
         
         wmpSource.connect(wmpAnalyser);
         wmpAnalyser.connect(wmpAudioCtx.destination);
         
-        // Define how many bars the visualizer has (lower number = wider bars)
         wmpAnalyser.fftSize = 128; 
-        
-        // Start drawing the visualizer
         drawWMPVisualizer();
     }
 }
 
 function playWMP() {
     initWMPAudio();
-    // Browsers sometimes suspend audio context until resume is called
     if (wmpAudioCtx.state === 'suspended') {
         wmpAudioCtx.resume();
     }
@@ -521,7 +567,7 @@ function pauseWMP() {
 
 function stopWMP() {
     wmpAudio.pause();
-    wmpAudio.currentTime = 0; // Reset track to beginning
+    wmpAudio.currentTime = 0; 
 }
 
 function changeWMPVolume() {
@@ -529,18 +575,14 @@ function changeWMPVolume() {
     wmpAudio.volume = slider.value;
 }
 
-// The loop that draws the live spectrum
+// Live Spectrum Visualizer
 function drawWMPVisualizer() {
-    // Keep looping this function synced with the monitor's refresh rate
     visualizerAnimation = requestAnimationFrame(drawWMPVisualizer);
-
     const bufferLength = wmpAnalyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
     
-    // Grab the live frequency data
     wmpAnalyser.getByteFrequencyData(dataArray);
 
-    // Clear the canvas black for the new frame
     wmpCanvasCtx.fillStyle = '#000000';
     wmpCanvasCtx.fillRect(0, 0, wmpCanvas.width, wmpCanvas.height);
 
@@ -549,20 +591,15 @@ function drawWMPVisualizer() {
     let x = 0;
 
     for (let i = 0; i < bufferLength; i++) {
-        barHeight = dataArray[i] / 1.5; // Scale the height to fit the canvas
+        barHeight = dataArray[i] / 1.5; 
 
-        // Create the classic XP green-to-yellow visualizer color
         const r = barHeight + (25 * (i / bufferLength));
         const g = 250 * (i / bufferLength);
         const b = 50;
 
         wmpCanvasCtx.fillStyle = `rgb(${r},${g},${b})`;
-        // Draw the bar (x, y, width, height) - drawn from bottom up
         wmpCanvasCtx.fillRect(x, wmpCanvas.height - barHeight, barWidth, barHeight);
 
-        x += barWidth + 1; // Add 1px gap between bars
+        x += barWidth + 1; 
     }
 }
-
-// Set initial volume based on the slider's default position
-wmpAudio.volume = document.getElementById('wmpVolume').value;
