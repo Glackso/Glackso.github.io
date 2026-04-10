@@ -22,6 +22,7 @@ const appData = {
     'internetExplorer': { title: 'Internet Explorer', icon: 'images/icons/16x16/ie.png' },
     'paint': { title: 'untitled - Paint', icon: 'images/icons/16x16/paint.png' },
     'mediaPlayer': { title: 'Windows Media Player', icon: 'images/icons/16x16/wmp.png' }
+    'calculator': { title: 'Calculator', icon: 'images/icons/16x16/calc.png' },
 };
 
 // ================= LOGIN & BOOT SEQUENCE =================
