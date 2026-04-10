@@ -474,3 +474,95 @@ function browseWeb() {
         }
     }, 500);
 }
+
+// ================= WINDOWS MEDIA PLAYER LOGIC =================
+let wmpAudioCtx;
+let wmpAnalyser;
+let wmpSource;
+let visualizerAnimation;
+
+const wmpAudio = document.getElementById('wmpAudio');
+const wmpCanvas = document.getElementById('wmpVisualizer');
+const wmpCanvasCtx = wmpCanvas.getContext('2d');
+
+// Initialize the Web Audio API (Must be done after a user click)
+function initWMPAudio() {
+    if (!wmpAudioCtx) {
+        // Create audio context
+        wmpAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Route the audio element through the analyzer
+        wmpAnalyser = wmpAudioCtx.createAnalyser();
+        wmpSource = wmpAudioCtx.createMediaElementSource(wmpAudio);
+        
+        wmpSource.connect(wmpAnalyser);
+        wmpAnalyser.connect(wmpAudioCtx.destination);
+        
+        // Define how many bars the visualizer has (lower number = wider bars)
+        wmpAnalyser.fftSize = 128; 
+        
+        // Start drawing the visualizer
+        drawWMPVisualizer();
+    }
+}
+
+function playWMP() {
+    initWMPAudio();
+    // Browsers sometimes suspend audio context until resume is called
+    if (wmpAudioCtx.state === 'suspended') {
+        wmpAudioCtx.resume();
+    }
+    wmpAudio.play();
+}
+
+function pauseWMP() {
+    wmpAudio.pause();
+}
+
+function stopWMP() {
+    wmpAudio.pause();
+    wmpAudio.currentTime = 0; // Reset track to beginning
+}
+
+function changeWMPVolume() {
+    const slider = document.getElementById('wmpVolume');
+    wmpAudio.volume = slider.value;
+}
+
+// The loop that draws the live spectrum
+function drawWMPVisualizer() {
+    // Keep looping this function synced with the monitor's refresh rate
+    visualizerAnimation = requestAnimationFrame(drawWMPVisualizer);
+
+    const bufferLength = wmpAnalyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    
+    // Grab the live frequency data
+    wmpAnalyser.getByteFrequencyData(dataArray);
+
+    // Clear the canvas black for the new frame
+    wmpCanvasCtx.fillStyle = '#000000';
+    wmpCanvasCtx.fillRect(0, 0, wmpCanvas.width, wmpCanvas.height);
+
+    const barWidth = (wmpCanvas.width / bufferLength) * 2.5;
+    let barHeight;
+    let x = 0;
+
+    for (let i = 0; i < bufferLength; i++) {
+        barHeight = dataArray[i] / 1.5; // Scale the height to fit the canvas
+
+        // Create the classic XP green-to-yellow visualizer color
+        const r = barHeight + (25 * (i / bufferLength));
+        const g = 250 * (i / bufferLength);
+        const b = 50;
+
+        wmpCanvasCtx.fillStyle = `rgb(${r},${g},${b})`;
+        // Draw the bar (x, y, width, height) - drawn from bottom up
+        wmpCanvasCtx.fillRect(x, wmpCanvas.height - barHeight, barWidth, barHeight);
+
+        x += barWidth + 1; // Add 1px gap between bars
+    }
+}
+
+// Set initial volume based on the slider's default position
+wmpAudio.volume = document.getElementById('wmpVolume').value;
