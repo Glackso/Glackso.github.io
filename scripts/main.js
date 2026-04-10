@@ -17,12 +17,13 @@ const errorSound = new Audio('audio/error.mp3');
 // --- Application Registry ---
 // Defines taskbar titles and 16x16 taskbar icons for apps
 const appData = {
+    'minesweeper': { title: 'Minesweeper', icon: 'images/icons/16x16/mine.png' },
+    'calculator': { title: 'Calculator', icon: 'images/icons/16x16/calc.png' },
     'myComputer': { title: 'My Computer', icon: 'images/icons/16x16/computer.png' },
     'notepad': { title: 'Untitled - Notepad', icon: 'images/icons/16x16/notepad.png' },
     'internetExplorer': { title: 'Internet Explorer', icon: 'images/icons/16x16/ie.png' },
     'paint': { title: 'untitled - Paint', icon: 'images/icons/16x16/paint.png' },
-    'mediaPlayer': { title: 'Windows Media Player', icon: 'images/icons/16x16/wmp.png' },
-    'calculator': { title: 'Calculator', icon: 'images/icons/16x16/calc.png' }
+    'mediaPlayer': { title: 'Windows Media Player', icon: 'images/icons/16x16/wmp.png' }
 };
 
 // ================= LOGIN & BOOT SEQUENCE =================
