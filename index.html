@@ -228,6 +228,54 @@
     </div>
 </div>
 
+<div class="window" id="internetExplorer" style="top: 60px; left: 180px; width: 600px; height: 450px;">
+    <div class="title-bar">
+        <span>Internet Explorer</span>
+        <div class="window-controls">
+            <button onclick="minimizeApp('internetExplorer')">_</button>
+            <button onclick="closeApp('internetExplorer')" class="close">X</button>
+        </div>
+    </div>
+    
+    <div class="menu-bar">
+        <div class="menu-item"><span>File</span></div>
+        <div class="menu-item"><span>Edit</span></div>
+        <div class="menu-item"><span>View</span></div>
+        <div class="menu-item"><span>Favorites</span></div>
+        <div class="menu-item"><span>Tools</span></div>
+        <div class="menu-item"><span>Help</span></div>
+    </div>
+    
+    <div class="ie-toolbar">
+        <button class="ie-btn">⇦ Back</button>
+        <button class="ie-btn" style="color: #ccc;">⇨</button> <button class="ie-btn">✖ Stop</button>
+        <button class="ie-btn" onclick="browseWeb()">↻ Refresh</button>
+        <button class="ie-btn">🏠 Home</button>
+    </div>
+    
+    <div class="ie-address-bar">
+        <span class="address-label">Address</span>
+        <div class="address-input-container">
+            <img src="images/icons/16x16/ie.png" alt="IE" onerror="this.src='images/icons/16x16/computer.png'">
+            <input type="text" id="ieAddressInput" value="http://www.lorem-ipsum.com" onkeydown="if(event.key === 'Enter') browseWeb()">
+        </div>
+        <button class="ie-go-btn" onclick="browseWeb()">Go</button>
+    </div>
+    
+    <div class="ie-content" id="ieContent">
+        <div style="padding: 20px; font-family: 'Times New Roman', Times, serif; color: black;">
+            <h1 style="color: #003399;">The Standard Lorem Ipsum Passage</h1>
+            <p style="font-size: 14px; line-height: 1.5;">
+                <strong>Lorem ipsum dolor sit amet</strong>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            <h3 style="color: #003399; margin-top: 20px;">Why do we use it?</h3>
+            <p style="font-size: 14px; line-height: 1.5;">
+                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
+            </p>
+        </div>
+    </div>
+</div>
+
 <div class="window error-window" id="corruptedApp" style="display: none; width: 350px; top: 250px; left: 350px;">
     <div class="title-bar error-bar">
         <span>GPL32.EXE - Fatal Error</span>
