@@ -4,6 +4,7 @@
 
 // --- Variables & Elements ---
 let highestZIndex = 10;
+let currentUser = null; // Tracks who is currently logged in!
 const desktop = document.getElementById('desktop');
 const startMenu = document.getElementById('startMenu');
 const startBtn = document.querySelector('.start-button');
