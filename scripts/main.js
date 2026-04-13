@@ -640,3 +640,46 @@ function drawWMPVisualizer() {
         x += barWidth + 1; 
     }
 }
+
+// ================= MY DOCUMENTS LOGIC =================
+const userFiles = {
+    'Admin': [
+        { name: 'System Config.txt', icon: 'notepad.png' },
+        { name: 'Top Secret.txt', icon: 'notepad.png' },
+        { name: 'Passwords.txt', icon: 'notepad.png' }
+    ],
+    'Mike': [
+        { name: 'Homework.txt', icon: 'notepad.png' },
+        { name: 'Skate Tricks.txt', icon: 'notepad.png' },
+        { name: 'Cool Links.txt', icon: 'ie.png' }
+    ]
+};
+
+// We intercept the normal openApp function just for My Documents
+function openMyDocuments() {
+    // 1. Open the window normally
+    openApp('myDocuments');
+    
+    // 2. Update the Title Bar to show whose documents these are
+    document.getElementById('docsTitle').innerText = `${currentUser}'s Documents`;
+    
+    // 3. Grab the content area and clear it out
+    const contentArea = document.getElementById('docsContent');
+    contentArea.innerHTML = '';
+    
+    // 4. Check if we have files for the logged-in user
+    if (userFiles[currentUser]) {
+        // Loop through their files and generate HTML for each one
+        userFiles[currentUser].forEach(file => {
+            const fileHTML = `
+                <div class="icon" style="color: black; text-shadow: none;" onclick="alert('Opening ${file.name}...')">
+                    <img src="images/icons/48x48/${file.icon}" alt="${file.name}" onerror="this.src='images/icons/48x48/computer.png'">
+                    <br>${file.name}
+                </div>
+            `;
+            contentArea.innerHTML += fileHTML;
+        });
+    } else {
+        contentArea.innerHTML = '<p style="color: gray;">This folder is empty.</p>';
+    }
+}
