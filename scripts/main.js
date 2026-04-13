@@ -21,6 +21,7 @@ const appData = {
     'minesweeper': { title: 'Minesweeper', icon: 'images/icons/16x16/mine.png' },
     'calculator': { title: 'Calculator', icon: 'images/icons/16x16/calc.png' },
     'myComputer': { title: 'My Computer', icon: 'images/icons/16x16/computer.png' },
+    'myDocuments': { title: 'My Documents', icon: 'images/icons/16x16/folder.png' },
     'notepad': { title: 'Untitled - Notepad', icon: 'images/icons/16x16/notepad.png' },
     'internetExplorer': { title: 'Internet Explorer', icon: 'images/icons/16x16/ie.png' },
     'paint': { title: 'untitled - Paint', icon: 'images/icons/16x16/paint.png' },
