@@ -53,6 +53,28 @@ function login(username, color) {
     // Put your startup audio play logic here if you have it!
 }
 
+// ================= SYSTEM POWER & LOGOFF =================
+function logOff() {
+    currentUser = null;
+    
+    // Hide the Start Menu
+    document.getElementById('startMenu').style.display = 'none';
+    
+    // Bring the login screen back to the front
+    const loginScreen = document.getElementById('loginScreen');
+    if (loginScreen) {
+        loginScreen.style.display = 'flex';
+    }
+    
+    // Optional: You could loop through and close all open app windows here!
+    console.log("User logged off.");
+}
+
+function turnOffComputer() {
+    // We will build the actual shutdown sequence later!
+    alert("Turn Off Computer sequence coming soon!");
+}
+
 
 // ================= WINDOW MANAGEMENT =================
 
