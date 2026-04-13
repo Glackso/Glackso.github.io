@@ -29,15 +29,28 @@ const appData = {
 
 // ================= LOGIN & BOOT SEQUENCE =================
 
-function login() {
-    // Play the startup chime
-    startupSound.play().catch(() => console.log("startup.mp3 not found. Add it to audio/!"));
+function login(username, color) {
+    // 1. Set the global tracker
+    currentUser = username;
     
-    // Hide the welcome screen
-    document.getElementById('loginScreen').style.display = 'none';
+    // 2. Hide the login screen to reveal the desktop
+    const loginScreen = document.getElementById('loginScreen');
+    if (loginScreen) {
+        loginScreen.style.display = 'none';
+    }
     
-    // Optional: Boot up default apps immediately
-    // openApp('myComputer'); 
+    // 3. Personalize the Start Menu for the logged-in user
+    const startUserText = document.getElementById('startMenuUser');
+    const startUserIcon = document.getElementById('startMenuIcon');
+    
+    if (startUserText && startUserIcon) {
+        startUserText.innerText = currentUser;
+        startUserIcon.style.background = color;
+    }
+    
+    console.log(`System logged in as: ${currentUser}`);
+    
+    // Put your startup audio play logic here if you have it!
 }
 
 
