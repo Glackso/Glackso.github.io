@@ -100,6 +100,28 @@
     </div>
 </div>
 
+<div class="window" id="myDocuments" style="top: 80px; left: 150px; width: 500px; height: 350px;">
+    <div class="title-bar">
+        <span id="docsTitle">My Documents</span>
+        <div class="window-controls">
+            <button onclick="minimizeApp('myDocuments')">_</button>
+            <button onclick="closeApp('myDocuments')" class="close">X</button>
+        </div>
+    </div>
+    
+    <div class="menu-bar">
+        <div class="menu-item"><span>File</span></div>
+        <div class="menu-item"><span>Edit</span></div>
+        <div class="menu-item"><span>View</span></div>
+        <div class="menu-item"><span>Favorites</span></div>
+        <div class="menu-item"><span>Tools</span></div>
+        <div class="menu-item"><span>Help</span></div>
+    </div>
+    
+    <div class="content" id="docsContent" style="display: flex; gap: 20px; padding: 20px; flex-wrap: wrap; background: white; flex-grow: 1;">
+        </div>
+</div>
+
 <div class="window" id="notepad" style="top: 150px; left: 200px;">
     <div class="title-bar">
         <span>Untitled - Notepad</span>
