@@ -1,362 +1,40 @@
-/* ================= ROOT VARIABLES (XP LUNA THEME) ================= */
-:root {
-    --xp-blue: #245edb;
-    --taskbar-gradient: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #333 100%);
-    --start-btn: linear-gradient(to bottom, #388e3c 0%, #4caf50 10%, #388e3c 90%, #1b5e20 100%);
-    --tray-gradient: linear-gradient(to bottom, #1290e9 0%, #19b9f3 9%, #1290e9 18%, #1290e9 92%, #333 100%);
-    --window-bg: #ece9d8;
-}
-
 body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
     overflow: hidden;
-    font-family: "Tahoma", "Segoe UI", sans-serif;
+    font-family: 'Tahoma', sans-serif;
+    user-select: none;
 }
 
-/* ================= DESKTOP & WALLPAPER ================= */
 .desktop {
-    height: calc(100vh - 30px);
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    gap: 15px 30px;
-    
-    /* Bliss is the default, but we can change this via JS now! */
-    background: #3a6ea5 url('../images/backgrounds/bliss.png') no-repeat center center fixed;
-    background-size: cover;
-    transition: background 0.3s ease-in-out;
-}
-
-/* Desktop Icons */
-.icon {
-    width: 75px;
-    text-align: center;
-    cursor: pointer;
-    color: white;
-    font-size: 11px;
-    text-shadow: 1px 1px 2px black;
-    padding: 5px;
-    border: 1px solid transparent;
-}
-
-.icon img {
-    width: 32px;
-    height: 32px;
-    display: block;
-    margin: 0 auto 5px;
-    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));
-}
-
-/* Authentic icon hover/select state */
-.icon:hover, .icon:active {
-    background-color: rgba(0, 0, 150, 0.3);
-    border: 1px dotted rgba(255, 255, 255, 0.7);
-}
-
-.selection-box {
-    position: absolute;
-    border: 1px dotted #ece9d8;
-    background-color: rgba(0, 80, 239, 0.3); 
-    display: none;
-    z-index: 50;
-    pointer-events: none;
-}
-
-/* ================= LOGIN SCREEN ================= */
-.login-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(to bottom, #5375ce 0%, #3d51b3 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999999;
-    color: white;
-}
-
-.login-left {
-    text-align: right;
-    padding-right: 40px;
-}
-
-.welcome-text {
-    font-size: 48px;
-    font-style: italic;
-    margin: 0;
-    font-weight: normal;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-}
-
-.login-divider {
-    width: 2px;
-    height: 300px;
-    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8), transparent);
-    margin: 0 40px;
-}
-
-.login-right {
-    padding-left: 20px;
-}
-
-.user-account {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    opacity: 0.5; /* Transparent by default */
-    transition: opacity 0.2s ease, background-color 0.2s ease; /* Smooth fade effect */
-}
-
-.user-account:hover {
-    opacity: 1; /* Fully visible when hovered */
-    background-color: rgba(255, 255, 255, 0.1); /* Subtle white highlight box */
-}
-
-.user-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 5px;
-    border: 2px solid white;
-    margin-right: 15px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-}
-
-.username {
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
-
-/* ================= TASKBAR ================= */
-.taskbar {
-    position: fixed;
-    bottom: 0;
     width: 100%;
+    height: calc(100% - 30px); /* Leave room for taskbar */
+    background: url('../assets/backgrounds/Bliss.png') no-repeat center center;
+    background-size: cover; /* Stretches 800x600 safely to fit any screen */
+    position: relative;
+}
+
+#alpha-watermark {
+    position: absolute;
+    bottom: 10px; right: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+}
+
+.taskbar {
     height: 30px;
-    background: var(--taskbar-gradient);
+    width: 100%;
+    background: linear-gradient(to bottom, var(--xp-light-blue), var(--xp-blue));
+    position: absolute;
+    bottom: 0;
     display: flex;
     align-items: center;
-    z-index: 9999;
+    padding: 0 5px;
 }
 
-.start-button {
-    height: 100%;
-    padding: 0 15px 0 10px;
-    background: var(--start-btn);
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    display: flex;
-    align-items: center;
-    box-shadow: inset 1px 1px 1px rgba(255,255,255,0.4), 2px 0 5px rgba(0,0,0,0.4);
-    cursor: pointer;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-}
-
-.start-button:hover {
-    background: linear-gradient(to bottom, #4caf50 0%, #66bb6a 10%, #4caf50 90%, #2e7d32 100%);
-}
-
-.taskbar-apps {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    margin-left: 10px;
-    flex-grow: 1;
-    overflow: hidden;
-}
-
-.taskbar-btn {
-    background: linear-gradient(to bottom, #3a8df4 0%, #1555c8 100%);
-    color: white;
-    height: 24px;
-    width: 150px;
-    border: 1px solid #003399;
-    border-radius: 3px;
-    margin-right: 5px;
-    display: flex;
-    align-items: center;
-    padding: 0 8px;
-    font-size: 11px;
-    cursor: pointer;
-    box-shadow: inset 0 1px 1px rgba(255,255,255,0.4);
-    white-space: nowrap;
-}
-
-.taskbar-btn:hover {
-    background: linear-gradient(to bottom, #5ba4ff 0%, #2369ea 100%);
-}
-
-.taskbar-btn.active {
-    background: linear-gradient(to bottom, #1d61d1 0%, #0d3b94 100%);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
-}
-
-.taskbar-btn img {
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
-}
-
-.system-tray {
-    height: 100%;
-    background: var(--tray-gradient);
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    font-size: 11px;
-    border-left: 1px solid #1042af;
-    box-shadow: inset 1px 0 1px rgba(255,255,255,0.4);
-    cursor: default;
-}
-
-/* ================= START MENU ================= */
-.start-menu {
-    position: fixed;
-    bottom: 30px;
-    left: 0;
-    width: 380px;
-    height: 480px;
-    background: #fff;
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
-    box-shadow: 2px -2px 10px rgba(0,0,0,0.5);
-    display: none;
-    flex-direction: column;
-    z-index: 9998;
-    border: 1px solid #003399;
-}
-
-.start-header {
-    background: linear-gradient(to bottom, #175bd2 0%, #1643ab 100%);
-    height: 55px;
-    border-top-right-radius: 7px;
-    border-top-left-radius: 7px;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    color: white;
-    box-shadow: inset 0 1px 1px rgba(255,255,255,0.4);
-}
-
-.user-pic {
-    width: 42px;
-    height: 42px;
-    border: 2px solid rgba(255,255,255,0.8);
-    border-radius: 3px;
-    margin-right: 10px;
-}
-
-.user-name {
-    font-size: 16px;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px black;
-}
-
-.start-body {
-    display: flex;
-    flex-grow: 1;
-    background: #fff;
-}
-
-.start-left {
-    width: 50%;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-}
-
-.start-item {
-    display: flex;
-    align-items: center;
-    padding: 8px 5px;
-    cursor: pointer;
-    font-size: 11px;
-    color: #000;
-}
-
-.start-item:hover {
-    background: #2f71cd;
-    color: white;
-}
-
-.start-item img {
-    width: 32px;
-    height: 32px;
-    margin-right: 8px;
-}
-
-.item-text span {
-    color: #666;
-}
-.start-item:hover .item-text span {
-    color: #fff;
-}
-
-.start-divider {
-    height: 1px;
-    background: linear-gradient(to right, transparent, #d3d3d3, transparent);
-    margin: 4px 0;
-}
-
-.start-right {
-    width: 50%;
-    background: #d4e6f8;
-    border-left: 1px solid #95bdee;
-    padding: 5px 0;
-}
-
-.right-item {
-    color: #00136b;
-    padding: 6px 15px;
-    font-weight: normal;
-}
-
-.right-item b {
-    font-weight: bold;
-}
-
-.right-div {
-    background: linear-gradient(to right, transparent, #8ebef0, transparent);
-}
-
-.start-footer {
-    background: linear-gradient(to bottom, #175bd2 0%, #1643ab 100%);
-    height: 40px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0 15px;
-    gap: 15px;
-}
-
-.footer-btn {
-    display: flex;
-    align-items: center;
-    color: white;
-    font-size: 11px;
-    cursor: pointer;
-}
-
-.footer-btn img {
-    width: 22px;
-    height: 22px;
-    margin-right: 5px;
-}
-
-.footer-btn:hover {
-    opacity: 0.8;
+#start-btn {
+    background: green; color: white;
+    font-weight: bold; font-style: italic;
+    border: 1px solid white; border-radius: 5px;
+    height: 25px; padding: 0 15px; cursor: pointer;
 }
