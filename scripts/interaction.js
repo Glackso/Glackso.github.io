@@ -4,7 +4,13 @@ const InteractionEngine = {
     offsetX: 0, offsetY: 0,
 
     startDrag: function(e, winId) {
-        this.activeWindow = document.getElementById(winId);
+        const win = document.getElementById(winId);
+        if (!win) return;
+
+        // Prevent dragging if the window is maximized!
+        if (win.classList.contains('maximized')) return;
+
+        this.activeWindow = win;
         this.bringToFront(winId);
         
         // Calculate click offset relative to the window
