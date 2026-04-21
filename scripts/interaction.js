@@ -1,12 +1,13 @@
+// ================= INTERACTION ENGINE =================
 const InteractionEngine = {
     activeWindow: null,
     offsetX: 0, offsetY: 0,
 
     startDrag: function(e, winId) {
         this.activeWindow = document.getElementById(winId);
-        this.activeWindow.style.zIndex = ++globalZIndex; // Bring to front on click
+        this.bringToFront(winId);
         
-        // Calculate where the user clicked relative to the window
+        // Calculate click offset relative to the window
         this.offsetX = e.clientX - this.activeWindow.getBoundingClientRect().left;
         this.offsetY = e.clientY - this.activeWindow.getBoundingClientRect().top;
         
@@ -24,5 +25,13 @@ const InteractionEngine = {
         InteractionEngine.activeWindow = null;
         document.removeEventListener('mousemove', InteractionEngine.doDrag);
         document.removeEventListener('mouseup', InteractionEngine.stopDrag);
+    },
+
+    bringToFront: function(winId) {
+        const win = document.getElementById(winId);
+        if (win) {
+            globalZIndex++;
+            win.style.zIndex = globalZIndex;
+        }
     }
 };
