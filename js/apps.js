@@ -1,4 +1,3 @@
-// Notepad Application Logic
 const notepadApp = {
     currentFile: null,
 
@@ -6,43 +5,39 @@ const notepadApp = {
         this.currentFile = null;
         document.querySelector('#notepad textarea').value = "";
         document.getElementById('notepad-title').innerText = "Untitled - Notepad";
-        
-        // Uses the main.js openApp function to handle taskbar integration
         openApp('notepad', 'Untitled - Notepad', 'assets/icons/32/notepad.png');
+    },
+
+    openExisting: function(file) {
+        this.currentFile = file;
+        document.querySelector('#notepad textarea').value = file.content;
+        document.getElementById('notepad-title').innerText = `${file.name} - Notepad`;
+        openApp('notepad', `${file.name} - Notepad`, 'assets/icons/32/notepad.png');
     },
 
     save: function() {
         const content = document.querySelector('#notepad textarea').value;
-        
-        // Hide the dropdown menu after clicking save
-        document.getElementById('file-menu').style.display = 'none';
+        document.getElementById('file-menu').style.display = 'none'; // Hide menu
 
         if (this.currentFile) {
-            alert(`File "${this.currentFile.name}" overwritten successfully!`);
-            // In a real version, you'd update your fileSystem object here
+            this.currentFile.content = content;
+            alert(`Saved changes to ${this.currentFile.name}!`);
         } else {
             let fileName = prompt("Save As:", "New Note.txt");
             if (!fileName) return;
-
             if (!fileName.endsWith('.txt')) fileName += '.txt';
             
             this.currentFile = { name: fileName, type: "file", content: content };
             
-            // Update UI
+            // Save to filesystem
+            driveC["C:\\My Notes"].push(this.currentFile);
             document.getElementById('notepad-title').innerText = `${fileName} - Notepad`;
             
-            // Update Taskbar button text
-            const taskbarBtn = document.getElementById('taskbar-btn-notepad');
-            if (taskbarBtn) {
-                taskbarBtn.innerHTML = `<img src="assets/icons/32/notepad.png" style="width: 14px; margin-right: 5px;"> ${fileName} - Notepad`;
+            // Refresh folder if open
+            if (document.getElementById('current-path').innerText === "C:\\My Notes") {
+                renderFiles("C:\\My Notes");
             }
-            
-            alert(`Saved "${fileName}" to virtual storage!`);
+            alert(`Saved "${fileName}" to C:\\My Notes!`);
         }
     }
 };
-
-// Map the HTML shortcut to our new apps.js logic
-function openEmptyNotepad() {
-    notepadApp.openEmpty();
-}
