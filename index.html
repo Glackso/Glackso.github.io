@@ -2,38 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Windows XP Simulator - V3.0 Alpha</title>
-    <link rel="stylesheet" href="css/themes/luna-blue.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows XP Simulator</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/xp.css">
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/windows.css">
 </head>
 <body>
-    <div class="desktop" id="desktop">
-        <div id="alpha-watermark">V3.0 Early Alpha</div>
+
+    <div id="desktop" class="desktop">
+        <div class="shortcut" onclick="openApp('my-computer')">
+            <img src="assets/icons/explorer.png" alt="">
+            <span>My Computer</span>
         </div>
 
-    <div id="window-layer"></div>
-
-    <div class="taskbar">
-        <button id="start-btn" onclick="AudioEngine.play('click'); alert('Start menu coming soon!')">Start</button>
-        <div id="taskbar-tray"></div>
+        <div id="my-computer" class="window draggable">
+            <div class="title-bar">
+                <div class="title-bar-text">My Computer</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" onclick="closeApp('my-computer')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="nav-bar">
+                    <button onclick="goBack()">Back</button>
+                    <span id="current-path">C:\</span>
+                </div>
+                <ul id="file-viewer" class="tree-view"></ul>
+            </div>
+        </div>
     </div>
 
-    <script src="scripts/audioSystem.js"></script>
-    <script src="scripts/fileSystem.js"></script>
-    <script src="scripts/core.js"></script>
-    <script src="scripts/interaction.js"></script>
-    
-    <script src="apps/notepad.js"></script>
+    <div class="taskbar">
+        <button class="start-button">start</button>
+        <div class="tray">
+            <span id="clock">12:00 PM</span>
+        </div>
+    </div>
 
-    <script>
-        window.onload = () => {
-            // Give it a 1-second delay for dramatic effect
-            setTimeout(() => {
-                AudioEngine.play('startup');
-                SystemEngine.launchApp('notepad'); // Auto-launch Notepad for the demo!
-            }, 1000);
-        };
-    </script>
+    <script src="js/filesystem.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
