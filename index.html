@@ -2,13 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows XP Simulator</title>
-    
     <link rel="stylesheet" href="https://unpkg.com/xp.css">
-    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-    
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 <body>
 
@@ -17,10 +14,10 @@
             <img src="assets/icons/32/computer.png" alt="My Computer">
             <span>My Computer</span>
         </div>
-    <div class="shortcut" onclick="openApp('notepad')">
-        <img src="assets/icons/32/notepad.png" alt="Notepad">
-        <span>Notepad</span>
-    </div>
+        <div class="shortcut" onclick="openEmptyNotepad()">
+            <img src="assets/icons/32/notepad.png" alt="Notepad">
+            <span>Notepad</span>
+        </div>
 
         <div id="my-computer" class="window draggable">
             <div class="title-bar">
@@ -32,18 +29,30 @@
             <div class="window-body">
                 <div class="nav-bar">
                     <button onclick="goBack()">Back</button>
-                    <span id="current-path">C:\</span>
+                    <span id="current-path" style="margin-left: 10px; font-weight: bold;">C:\</span>
                 </div>
-                <ul id="file-viewer" class="tree-view"></ul>
+                <ul id="file-viewer" class="tree-view" style="height: 200px; overflow-y: auto;"></ul>
+            </div>
+        </div>
+
+        <div id="notepad" class="window draggable" style="width: 350px;">
+            <div class="title-bar">
+                <div class="title-bar-text">Untitled - Notepad</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" onclick="closeApp('notepad')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div style="margin-bottom: 5px;">
+                    <button onclick="saveNote()">File -> Save</button>
+                </div>
+                <textarea style="width: 100%; height: 200px; resize: none; font-family: monospace;"></textarea>
             </div>
         </div>
     </div>
 
     <div class="taskbar">
         <button class="start-button">start</button>
-        <div class="tray">
-            <span id="clock">12:00 PM</span>
-        </div>
     </div>
 
     <script src="js/filesystem.js"></script>
