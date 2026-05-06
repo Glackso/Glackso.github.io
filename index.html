@@ -10,52 +10,70 @@
 <body>
 
     <div id="desktop" class="desktop">
-        <div class="shortcut" onclick="openApp('my-computer')">
-            <img src="assets/icons/32/computer.png" alt="My Computer">
-            <span>My Computer</span>
-        </div>
-        <div class="shortcut" onclick="openEmptyNotepad()">
-            <img src="assets/icons/32/notepad.png" alt="Notepad">
-            <span>Notepad</span>
-        </div>
-
-        <div id="my-computer" class="window draggable">
-            <div class="title-bar">
-                <div class="title-bar-text">My Computer</div>
-                <div class="title-bar-controls">
-                    <button aria-label="Close" onclick="closeApp('my-computer')"></button>
-                </div>
+        <div class="icon-grid">
+            <div class="shortcut" onclick="openApp('my-computer', 'My Computer', 'assets/icons/32/computer.png')">
+                <img src="assets/icons/32/computer.png" alt="My Computer" onerror="this.src='https://winxp.vercel.app/icons/explorer.png'">
+                <span>My Computer</span>
             </div>
-            <div class="window-body">
-                <div class="nav-bar">
-                    <button onclick="goBack()">Back</button>
-                    <span id="current-path" style="margin-left: 10px; font-weight: bold;">C:\</span>
-                </div>
-                <ul id="file-viewer" class="tree-view" style="height: 200px; overflow-y: auto;"></ul>
+            <div class="shortcut" onclick="openEmptyNotepad()">
+                <img src="assets/icons/32/notepad.png" alt="Notepad" onerror="this.src='https://winxp.vercel.app/icons/notepad.png'">
+                <span>Notepad</span>
+            </div>
+            <div class="shortcut">
+                <img src="https://winxp.vercel.app/icons/recycle_bin_empty.png" alt="Recycle Bin">
+                <span>Recycle Bin</span>
+            </div>
+            <div class="shortcut">
+                <img src="https://winxp.vercel.app/icons/ie.png" alt="Internet Explorer">
+                <span>Internet Explorer</span>
             </div>
         </div>
 
-        <div id="notepad" class="window draggable" style="width: 350px;">
+        <div id="notepad" class="window draggable" style="width: 450px; display: none;">
             <div class="title-bar">
-                <div class="title-bar-text">Untitled - Notepad</div>
+                <div class="title-bar-text">
+                    <img src="https://winxp.vercel.app/icons/notepad.png" style="width: 14px; margin-right: 3px; vertical-align: middle;">
+                    <span id="notepad-title">Untitled - Notepad</span>
+                </div>
                 <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
                     <button aria-label="Close" onclick="closeApp('notepad')"></button>
                 </div>
             </div>
-            <div class="window-body">
-                <div style="margin-bottom: 5px;">
-                    <button onclick="saveNote()">File -> Save</button>
-                </div>
-                <textarea style="width: 100%; height: 200px; resize: none; font-family: monospace;"></textarea>
+            <div class="window-body" style="margin: 0; padding: 0;">
+                <ul class="menu-bar">
+                    <li onclick="toggleMenu('file-menu')">File
+                        <ul class="dropdown" id="file-menu">
+                            <li>New</li>
+                            <li>Open...</li>
+                            <li onclick="notepadApp.save()">Save</li>
+                            <li class="divider"></li>
+                            <li onclick="closeApp('notepad')">Exit</li>
+                        </ul>
+                    </li>
+                    <li>Edit</li>
+                    <li>Format</li>
+                    <li>View</li>
+                    <li>Help</li>
+                </ul>
+                <textarea spellcheck="false"></textarea>
             </div>
         </div>
     </div>
 
     <div class="taskbar">
-        <button class="start-button">start</button>
+        <button class="start-button"><img src="https://winxp.vercel.app/icons/windows.png" style="width: 16px; margin-right: 5px;">start</button>
+        
+        <div id="taskbar-apps" class="taskbar-apps"></div>
+
+        <div class="tray">
+            <img src="https://winxp.vercel.app/icons/sound.png" style="width: 14px; margin-right: 8px;">
+            <span id="clock">12:00 PM</span>
+        </div>
     </div>
 
-    <script src="js/filesystem.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/apps.js"></script>
 </body>
 </html>
