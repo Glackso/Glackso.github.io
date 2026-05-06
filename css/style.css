@@ -1,40 +1,52 @@
-body, html {
-    margin: 0; padding: 0;
-    width: 100%; height: 100%;
+body {
+    margin: 0;
+    height: 100vh;
+    /* Use a high-res Bliss here */
+    background: url('../assets/wallpapers/bliss.jpg') no-repeat center center fixed;
+    background-size: cover;
     overflow: hidden;
-    font-family: 'Tahoma', sans-serif;
-    user-select: none;
 }
 
 .desktop {
-    width: 100%;
-    height: calc(100% - 30px); /* Leave room for taskbar */
-    background: url('../assets/backgrounds/Bliss.png') no-repeat center center;
-    background-size: cover; /* Stretches 800x600 safely to fit any screen */
-    position: relative;
+    height: calc(100vh - 30px);
+    padding: 15px;
 }
 
-#alpha-watermark {
+.shortcut {
+    width: 75px;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.window {
+    display: none; /* Controlled by JS */
     position: absolute;
-    bottom: 10px; right: 10px;
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: bold;
+    width: 400px;
+    z-index: 10;
 }
 
 .taskbar {
-    height: 30px;
-    width: 100%;
-    background: linear-gradient(to bottom, var(--xp-light-blue), var(--xp-blue));
-    position: absolute;
+    position: fixed;
     bottom: 0;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #1941a5 100%);
     display: flex;
     align-items: center;
-    padding: 0 5px;
+    z-index: 999;
 }
 
-#start-btn {
-    background: green; color: white;
-    font-weight: bold; font-style: italic;
-    border: 1px solid white; border-radius: 5px;
-    height: 25px; padding: 0 15px; cursor: pointer;
+.start-button {
+    height: 100%;
+    background: linear-gradient(to bottom, #388e3c 0%, #4caf50 10%, #388e3c 100%);
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    border-top-right-radius: 8px;
+    padding: 0 15px;
+    cursor: pointer;
 }
