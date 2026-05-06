@@ -15,21 +15,42 @@ function renderFiles(path) {
     document.getElementById('current-path').innerText = path;
     viewer.innerHTML = '';
 
-    const items = driveC[path] || ["(Empty)"];
+    const items = driveC[path] || [];
+    
     items.forEach(item => {
         const li = document.createElement('li');
-        li.innerText = "📁 " + item;
-        li.style.cursor = "pointer";
+        // Use your new icon folder
+        const icon = item.type === 'folder' ? 'folder.png' : 'notepad.png';
+        
+        li.innerHTML = `<img src="assets/icons/32/${icon}" width="16"> ${item.name}`;
+        li.className = "file-item"; 
+        
         li.onclick = () => {
-            const nextPath = path === "C:\\" ? path + item : path + "\\" + item;
-            if (driveC[nextPath]) {
+            if (item.type === 'folder') {
+                const nextPath = path === "C:\\" ? path + item.name : path + "\\" + item.name;
                 currentHistory.push(nextPath);
                 renderFiles(nextPath);
+            } else {
+                openFile(item);
             }
         };
         viewer.appendChild(li);
     });
 }
+
+function openFile(file) {
+    // If it's a .txt file, open Notepad and inject the content
+    if (file.name.endsWith('.txt')) {
+        openApp('notepad');
+        const notepadTextArea = document.querySelector('#notepad textarea');
+        const notepadTitle = document.querySelector('#notepad .title-bar-text');
+        
+        notepadTextArea.value = file.content;
+        notepadTitle.innerText = `${file.name} - Notepad`;
+    }
+}
+
+// ... include your existing goBack and interact.js code here ...
 
 function goBack() {
     if (currentHistory.length > 1) {
