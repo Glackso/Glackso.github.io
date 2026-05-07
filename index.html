@@ -71,25 +71,26 @@
             </div>
         </div>
 
-        <div id="cmd" class="window draggable" onmousedown="focusWindow('cmd')" style="display: none; width: 400px; top: 150px; left: 150px; height: 250px;">
-            <div class="title-bar">
-                <div class="title-bar-text">
-                    <img src="assets/icons/16/cmd.png" style="width: 14px; margin-right: 3px; vertical-align: middle;" onerror="this.src='https://winxp.vercel.app/icons/cmd.png'">
-                    Command Prompt
-                </div>
-                <div class="title-bar-controls">
-                    <button aria-label="Minimize" onclick="minimizeApp('cmd')"></button>
-                    <button aria-label="Maximize" onclick="maximizeApp('cmd')"></button>
-                    <button aria-label="Close" onclick="closeApp('cmd')"></button>
-                </div>
-            </div>
-            <div class="window-body cmd-body">
-                Microsoft Windows XP [Version 5.1.2600]<br>
-                (C) Copyright 1985-2001 Microsoft Corp.<br><br>
-                C:\Documents and Settings\Guest> hi<br>
-                <span style="animation: blink 1s step-end infinite;">_</span>
-            </div>
+        <div id="cmd" class="window draggable" onmousedown="focusWindow('cmd')" style="display: none; width: 500px; top: 150px; left: 150px; height: 300px;">
+    <div class="title-bar">
+        <div class="title-bar-text">
+            <img src="assets/icons/16/cmd.png" style="width: 14px; margin-right: 3px; vertical-align: middle;" onerror="this.src='https://winxp.vercel.app/icons/cmd.png'">
+            Command Prompt
         </div>
+        <div class="title-bar-controls">
+            <button aria-label="Minimize" onclick="minimizeApp('cmd')"></button>
+            <button aria-label="Maximize" onclick="maximizeApp('cmd')"></button>
+            <button aria-label="Close" onclick="closeApp('cmd')"></button>
+        </div>
+    </div>
+    <div class="window-body" style="background-color: black; color: #c0c0c0; font-family: 'Lucida Console', monospace; font-size: 12px; display: flex; flex-direction: column; padding: 5px;">
+        <div id="cmd-history" style="flex-grow: 1; overflow-y: auto; white-space: pre-wrap;">Microsoft Windows XP [Version 5.1.2600]<br>(C) Copyright 1985-2001 Microsoft Corp.<br><br></div>
+        <div style="display: flex;">
+            <span>C:\Documents and Settings\Guest&gt;&nbsp;</span>
+            <input type="text" id="cmd-input" autofocus style="background: transparent; border: none; color: white; outline: none; font-family: inherit; font-size: inherit; flex-grow: 1;">
+        </div>
+    </div>
+</div>
     
     </div>
 
