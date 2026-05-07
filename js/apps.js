@@ -89,6 +89,9 @@ const ieApp = {
             content.innerHTML = this.pages["google.com"];
         } else if (address.includes("windows")) {
             content.innerHTML = this.pages["windows.com"];
+        } else if (address.includes("archive")) {
+            content.innerHTML = this.pages["archive"];
+            this.loadArchive(); // Fill in the template
         } else {
             content.innerHTML = this.pages["error"];
         }
