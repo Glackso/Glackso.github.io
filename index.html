@@ -86,17 +86,28 @@
                 <span style="animation: blink 1s step-end infinite;">_</span>
             </div>
         </div>
+    
+    </div>
+
+    <div class="taskbar">
+        <button class="start-button" onclick="toggleStartMenu()">
+            <span style="font-style: italic; font-weight: bold;">start</span>
+        </button>
+        <div id="taskbar-apps" class="taskbar-apps"></div>
+        <div class="tray">
+            <span id="clock">12:00 PM</span>
+        </div>
     </div>
 
     <div id="start-menu" class="start-menu" style="display: none;">
+        <div class="start-menu-header">
+            <span style="padding: 10px; color: white; font-weight: bold;">Guest</span>
+        </div>
         <div class="start-menu-body">
             <div class="start-menu-left">
                 <div class="start-item" onclick="notepadApp.openEmpty(); toggleStartMenu();">
                     <img src="assets/icons/32/notepad.png" style="width: 32px;" onerror="this.src='https://winxp.vercel.app/icons/notepad.png'"> 
-                    <div style="display: flex; flex-direction: column;">
-                        <span style="font-weight: bold;">Notepad</span>
-                        <span style="color: gray; font-size: 10px;">Text Editor</span>
-                    </div>
+                    <span style="font-weight: bold;">Notepad</span>
                 </div>
                 <div class="start-item" onclick="openApp('cmd', 'Command Prompt', 'assets/icons/16/cmd.png'); toggleStartMenu();">
                     <img src="assets/icons/32/cmd.png" style="width: 32px;" onerror="this.src='https://winxp.vercel.app/icons/cmd.png'"> 
@@ -110,7 +121,7 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
     <script src="js/filesystem.js"></script>
     <script src="js/apps.js"></script>
