@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Windows XP Simulator</title>
@@ -7,6 +8,7 @@
     <script src="js/interact.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
     <div id="desktop" class="desktop">
@@ -51,27 +53,50 @@
         </div>
 
         <div id="internet-explorer" class="window draggable" onmousedown="focusWindow('internet-explorer')" style="display: none; width: 700px; height: 500px; top: 50px; left: 50px;">
-    <div class="title-bar">
-        <div class="title-bar-text">
-            <img src="assets/icons/16/ie.png" width="14" onerror="this.src='https://winxp.vercel.app/icons/ie.png'">
-            Microsoft Internet Explorer
-        </div>
-        <div class="title-bar-controls">
-            <button aria-label="Minimize" onclick="minimizeApp('internet-explorer')"></button>
-            <button aria-label="Maximize" onclick="maximizeApp('internet-explorer')"></button>
-            <button aria-label="Close" onclick="closeApp('internet-explorer')"></button>
-        </div>
-    </div>
-    <div class="window-body" style="margin: 0; display: flex; flex-direction: column; height: calc(100% - 30px); background: #f1f1f1;">
-        <div class="nav-bar" style="background: #efefde; border-bottom: 1px solid #aca899; padding: 2px;">
-            <span style="font-size: 11px; margin-right: 5px;">Address</span>
-            <input type="text" id="ie-address" value="http://www.google.com" style="flex-grow: 1; padding: 2px; font-family: Tahoma; font-size: 11px;" onkeydown="if(event.key==='Enter') ieApp.navigate()">
-            <button style="min-width: 40px; margin-left: 5px;" onclick="ieApp.navigate()">Go</button>
-        </div>
-        <div id="ie-content" style="flex-grow: 1; overflow-y: auto; background: white; border: 2px inset #fff; padding: 10px;">
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="assets/icons/16/ie.png" width="14" onerror="this.src='https://winxp.vercel.app/icons/ie.png'">
+                    Microsoft Internet Explorer
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeApp('internet-explorer')"></button>
+                    <button aria-label="Maximize" onclick="maximizeApp('internet-explorer')"></button>
+                    <button aria-label="Close" onclick="closeApp('internet-explorer')"></button>
+                </div>
             </div>
-    </div>
-</div>
+            <div class="window-body" style="margin: 0; display: flex; flex-direction: column; height: calc(100% - 30px); background: #f1f1f1;">
+                <div class="nav-bar" style="background: #efefde; border-bottom: 1px solid #aca899; padding: 2px;">
+                    <span style="font-size: 11px; margin-right: 5px;">Address</span>
+                    <input type="text" id="ie-address" value="http://www.google.com" style="flex-grow: 1; padding: 2px; font-family: Tahoma; font-size: 11px;" onkeydown="if(event.key==='Enter') ieApp.navigate()">
+                    <button style="min-width: 40px; margin-left: 5px;" onclick="ieApp.navigate()">Go</button>
+                </div>
+                <div id="ie-content" style="flex-grow: 1; overflow-y: auto; background: white; border: 2px inset #fff; padding: 10px;">
+                </div>
+            </div>
+        </div>
+
+        <div id="run-dialog" class="window draggable" onmousedown="focusWindow('run-dialog')" style="display: none; width: 400px; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            <div class="title-bar">
+                <div class="title-bar-text">Run</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" onclick="closeApp('run-dialog')"></button>
+                </div>
+            </div>
+            <div class="window-body" style="display: flex; gap: 10px; padding: 15px;">
+                <img src="assets/icons/32/run.png" width="32" height="32">
+                <div style="flex-grow: 1;">
+                    <p style="margin: 0 0 10px 0;">Type the name of a program, folder, or document, and Windows will open it for you.</p>
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <span>Open:</span>
+                        <input type="text" id="run-input" style="flex-grow: 1;" onkeydown="if(event.key==='Enter') executeRun()">
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: right; padding: 10px; background: #f0f0f0;">
+                <button onclick="executeRun()" style="width: 80px;">OK</button>
+                <button onclick="closeApp('run-dialog')" style="width: 80px;">Cancel</button>
+            </div>
+        </div>
 
         <div id="notepad" class="window draggable" onmousedown="focusWindow('notepad')" style="display: none; width: 450px; top: 100px; left: 100px;">
             <div class="title-bar">
@@ -164,4 +189,5 @@
     <script src="js/apps.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>
