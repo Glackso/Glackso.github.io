@@ -80,27 +80,27 @@
         </div>
 
         <div id="run-dialog" class="window draggable" onmousedown="focusWindow('run-dialog')" style="display: none; width: 400px; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-            <div class="title-bar">
-                <div class="title-bar-text">Run</div>
-                <div class="title-bar-controls">
-                    <button aria-label="Close" onclick="closeApp('run-dialog')"></button>
-                </div>
-            </div>
-            <div class="window-body" style="display: flex; gap: 10px; padding: 15px;">
-                <img src="assets/icons/32/run.png" width="32" height="32">
-                <div style="flex-grow: 1;">
-                    <p style="margin: 0 0 10px 0;">Type the name of a program, folder, or document, and Windows will open it for you.</p>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <span>Open:</span>
-                        <input type="text" id="run-input" style="flex-grow: 1;" onkeydown="if(event.key==='Enter') executeRun()">
-                    </div>
-                </div>
-            </div>
-            <div style="text-align: right; padding: 10px; background: #f0f0f0;">
-                <button onclick="executeRun()" style="width: 80px;">OK</button>
-                <button onclick="closeApp('run-dialog')" style="width: 80px;">Cancel</button>
+    <div class="title-bar">
+        <div class="title-bar-text">Run</div>
+        <div class="title-bar-controls">
+            <button aria-label="Close" onclick="closeApp('run-dialog')"></button>
+        </div>
+    </div>
+    <div class="window-body" style="display: flex; gap: 10px; padding: 15px;">
+        <img src="assets/icons/32/run.png" width="32" height="32" onerror="this.src='https://winxp.vercel.app/icons/run.png'">
+        <div style="flex-grow: 1;">
+            <p style="margin: 0 0 10px 0; font-size: 11px;">Type the name of a program, folder, or document, and Windows will open it for you.</p>
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <span>Open:</span>
+                <input type="text" id="run-input" style="flex-grow: 1; padding: 2px;" onkeydown="if(event.key==='Enter') executeRun()">
             </div>
         </div>
+    </div>
+    <div style="text-align: right; padding: 10px; background: #f0f0f0; border-top: 1px solid #aca899;">
+        <button onclick="executeRun()" style="width: 80px; padding: 2px;">OK</button>
+        <button onclick="closeApp('run-dialog')" style="width: 80px; padding: 2px;">Cancel</button>
+    </div>
+</div>
 
         <div id="notepad" class="window draggable" onmousedown="focusWindow('notepad')" style="display: none; width: 450px; top: 100px; left: 100px;">
             <div class="title-bar">
