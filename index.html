@@ -11,20 +11,24 @@
 
     <div id="desktop" class="desktop">
         <div class="icon-grid">
-            <div class="shortcut draggable-icon" onclick="openApp('my-computer', 'My Computer', 'assets/icons/32/computer.png')">
+            <div class="shortcut draggable-icon" onclick="selectIcon(this, event)" ondblclick="openApp('my-computer', 'My Computer', 'assets/icons/16/computer.png')">
                 <img src="assets/icons/32/computer.png" alt="My Computer" onerror="this.src='https://winxp.vercel.app/icons/explorer.png'">
                 <span>My Computer</span>
             </div>
-            <div class="shortcut draggable-icon" onclick="notepadApp.openEmpty()">
+            <div class="shortcut draggable-icon" onclick="selectIcon(this, event)" ondblclick="notepadApp.openEmpty()">
                 <img src="assets/icons/32/notepad.png" alt="Notepad" onerror="this.src='https://winxp.vercel.app/icons/notepad.png'">
                 <span>Notepad</span>
+            </div>
+            <div class="shortcut draggable-icon" onclick="selectIcon(this, event)" ondblclick="openApp('cmd', 'Command Prompt', 'assets/icons/16/cmd.png')">
+                <img src="assets/icons/32/cmd.png" alt="Command Prompt" onerror="this.src='https://winxp.vercel.app/icons/cmd.png'">
+                <span>Command Prompt</span>
             </div>
         </div>
 
         <div id="my-computer" class="window draggable" onmousedown="focusWindow('my-computer')" style="display: none; width: 450px; top: 50px; left: 50px;">
             <div class="title-bar">
                 <div class="title-bar-text">
-                    <img src="assets/icons/32/computer.png" style="width: 14px; margin-right: 3px; vertical-align: middle;" onerror="this.style.display='none'"> 
+                    <img src="assets/icons/16/computer.png" style="width: 14px; margin-right: 3px; vertical-align: middle;" onerror="this.src='https://winxp.vercel.app/icons/explorer.png'"> 
                     My Computer
                 </div>
                 <div class="title-bar-controls">
@@ -45,15 +49,10 @@
         <div id="notepad" class="window draggable" onmousedown="focusWindow('notepad')" style="display: none; width: 450px; top: 100px; left: 100px;">
             <div class="title-bar">
                 <div class="title-bar-text">
-                    <img src="assets/icons/32/notepad.png" style="width: 14px; margin-right: 3px; vertical-align: middle;" onerror="this.style.display='none'">
+                    <img src="assets/icons/16/notepad.png" style="width: 14px; margin-right: 3px; vertical-align: middle;" onerror="this.src='https://winxp.vercel.app/icons/notepad.png'">
                     <span id="notepad-title">Untitled - Notepad</span>
                 </div>
-                <div class="title-bar-controls">
-                    <button aria-label="Minimize" onclick="minimizeApp('notepad')"></button>
-                    <button aria-label="Maximize" onclick="maximizeApp('notepad')"></button>
-                    <button aria-label="Close" onclick="closeApp('notepad')"></button>
                 </div>
-            </div>
             <div class="window-body" style="margin: 0; padding: 0; display: flex; flex-direction: column; height: 100%;">
                 <ul class="menu-bar">
                     <li onclick="toggleMenu('file-menu')">File
@@ -63,49 +62,55 @@
                             <li onclick="closeApp('notepad')">Exit</li>
                         </ul>
                     </li>
-                    <li>Edit</li>
-                    <li>Format</li>
                 </ul>
                 <textarea spellcheck="false" style="flex-grow: 1;"></textarea>
+            </div>
+        </div>
+
+        <div id="cmd" class="window draggable" onmousedown="focusWindow('cmd')" style="display: none; width: 400px; top: 150px; left: 150px; height: 250px;">
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="assets/icons/16/cmd.png" style="width: 14px; margin-right: 3px; vertical-align: middle;" onerror="this.src='https://winxp.vercel.app/icons/cmd.png'">
+                    Command Prompt
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="minimizeApp('cmd')"></button>
+                    <button aria-label="Maximize" onclick="maximizeApp('cmd')"></button>
+                    <button aria-label="Close" onclick="closeApp('cmd')"></button>
+                </div>
+            </div>
+            <div class="window-body cmd-body">
+                Microsoft Windows XP [Version 5.1.2600]<br>
+                (C) Copyright 1985-2001 Microsoft Corp.<br><br>
+                C:\Documents and Settings\Guest> hi<br>
+                <span style="animation: blink 1s step-end infinite;">_</span>
             </div>
         </div>
     </div>
 
     <div id="start-menu" class="start-menu" style="display: none;">
-        <div class="start-menu-header">
-            <img src="assets/icons/32/computer.png" style="width: 28px; border-radius: 3px; margin-right: 10px;" onerror="this.src='https://winxp.vercel.app/icons/explorer.png'">
-            <span style="font-size: 16px;">Guest</span>
-        </div>
         <div class="start-menu-body">
             <div class="start-menu-left">
                 <div class="start-item" onclick="notepadApp.openEmpty(); toggleStartMenu();">
-                    <img src="assets/icons/32/notepad.png" onerror="this.src='https://winxp.vercel.app/icons/notepad.png'"> 
-                    <span style="font-weight: bold;">Notepad</span>
+                    <img src="assets/icons/32/notepad.png" style="width: 32px;" onerror="this.src='https://winxp.vercel.app/icons/notepad.png'"> 
+                    <div style="display: flex; flex-direction: column;">
+                        <span style="font-weight: bold;">Notepad</span>
+                        <span style="color: gray; font-size: 10px;">Text Editor</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="openApp('cmd', 'Command Prompt', 'assets/icons/16/cmd.png'); toggleStartMenu();">
+                    <img src="assets/icons/32/cmd.png" style="width: 32px;" onerror="this.src='https://winxp.vercel.app/icons/cmd.png'"> 
+                    <span style="font-weight: bold;">Command Prompt</span>
                 </div>
             </div>
             <div class="start-menu-right">
-                <div class="start-item" onclick="openApp('my-computer', 'My Computer', 'assets/icons/32/computer.png'); toggleStartMenu();">
-                    <img src="assets/icons/32/computer.png" style="width: 20px;" onerror="this.src='https://winxp.vercel.app/icons/explorer.png'"> 
+                <div class="start-item" onclick="openApp('my-computer', 'My Computer', 'assets/icons/16/computer.png'); toggleStartMenu();">
+                    <img src="assets/icons/16/computer.png" style="width: 16px; margin-right: 5px;" onerror="this.src='https://winxp.vercel.app/icons/explorer.png'"> 
                     My Computer
                 </div>
             </div>
         </div>
-        <div class="start-menu-footer">
-            <div class="start-item" style="color: white; justify-content: flex-end; width: 100%;">
-                Log Off
-            </div>
         </div>
-    </div>
-
-    <div class="taskbar">
-        <button class="start-button" onclick="toggleStartMenu()">
-            <span style="font-style: italic; font-weight: bold;">start</span>
-        </button>
-        <div id="taskbar-apps" class="taskbar-apps"></div>
-        <div class="tray">
-            <span id="clock">12:00 PM</span>
-        </div>
-    </div>
 
     <script src="js/filesystem.js"></script>
     <script src="js/apps.js"></script>
