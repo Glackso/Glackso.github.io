@@ -46,6 +46,28 @@
             </div>
         </div>
 
+        <div id="internet-explorer" class="window draggable" onmousedown="focusWindow('internet-explorer')" style="display: none; width: 600px; height: 400px; top: 120px; left: 120px;">
+    <div class="title-bar">
+        <div class="title-bar-text">
+            <img src="assets/icons/16/ie.png" style="width: 14px; margin-right: 3px; vertical-align: middle;" onerror="this.src='https://winxp.vercel.app/icons/ie.png'">
+            Internet Explorer
+        </div>
+        <div class="title-bar-controls">
+            <button aria-label="Minimize" onclick="minimizeApp('internet-explorer')"></button>
+            <button aria-label="Maximize" onclick="maximizeApp('internet-explorer')"></button>
+            <button aria-label="Close" onclick="closeApp('internet-explorer')"></button>
+        </div>
+    </div>
+    <div class="window-body" style="margin: 0; display: flex; flex-direction: column; height: calc(100% - 30px);">
+        <div class="nav-bar">
+            <span>Address</span>
+            <input type="text" id="ie-address" value="https://www.google.com" style="flex-grow: 1; margin: 0 5px;" onkeydown="if(event.key==='Enter') ieApp.navigate()">
+            <button onclick="ieApp.navigate()">Go</button>
+        </div>
+        <iframe id="ie-frame" src="about:blank" style="flex-grow: 1; border: none; background: white;"></iframe>
+    </div>
+</div>
+
         <div id="notepad" class="window draggable" onmousedown="focusWindow('notepad')" style="display: none; width: 450px; top: 100px; left: 100px;">
     <div class="title-bar">
         <div class="title-bar-text">
