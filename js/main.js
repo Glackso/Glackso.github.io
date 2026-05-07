@@ -184,3 +184,109 @@ if (typeof interact !== 'undefined') {
 } else {
     console.error("Interact.js failed to load.");
 }
+
+// --- Desktop Icon Selection Logic ---
+function selectIcon(element, event) {
+    event.stopPropagation(); // Stop desktop click from firing
+    
+    // If user holds CTRL, let them select multiple. Otherwise, clear others.
+    if (!event.ctrlKey) {
+        document.querySelectorAll('.shortcut').forEach(el => el.classList.remove('selected'));
+    }
+    element.classList.add('selected');
+}
+
+// Clear selections when clicking empty desktop
+document.getElementById('desktop').addEventListener('mousedown', (e) => {
+    if (!e.target.closest('.shortcut') && !e.target.closest('.window')) {
+        document.querySelectorAll('.shortcut').forEach(el => el.classList.remove('selected'));
+    }
+});
+
+// --- Blue Selection Box Engine ---
+let isSelecting = false;
+let startX, startY;
+let selectionBox = document.createElement('div');
+selectionBox.className = 'selection-box';
+
+document.getElementById('desktop').addEventListener('mousedown', (e) => {
+    // Only draw box if clicking directly on the desktop (not on an icon or window)
+    if (e.target.closest('.shortcut') || e.target.closest('.window') || e.target.closest('.taskbar')) return;
+    
+    isSelecting = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    
+    selectionBox.style.left = startX + 'px';
+    selectionBox.style.top = startY + 'px';
+    selectionBox.style.width = '0px';
+    selectionBox.style.height = '0px';
+    document.body.appendChild(selectionBox);
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (!isSelecting) return;
+    
+    const currentX = e.clientX;
+    const currentY = e.clientY;
+    
+    // Calculate Box Size and flip direction if dragging backwards
+    selectionBox.style.width = Math.abs(currentX - startX) + 'px';
+    selectionBox.style.height = Math.abs(currentY - startY) + 'px';
+    selectionBox.style.left = Math.min(startX, currentX) + 'px';
+    selectionBox.style.top = Math.min(startY, currentY) + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+    if (isSelecting) {
+        isSelecting = false;
+        if(selectionBox.parentNode) {
+            selectionBox.parentNode.removeChild(selectionBox);
+        }
+        // Future feature: loop through icons here to see if they are inside the box!
+    }
+});
+
+// --- Update File Explorer to use 16x16 Icons ---
+function renderFiles(path) {
+    const viewer = document.getElementById('file-viewer');
+    document.getElementById('current-path').innerText = path;
+    viewer.innerHTML = '';
+    const items = driveC[path] || [];
+    
+    if (items.length === 0) {
+        viewer.innerHTML = '<li style="padding: 10px; color: gray;">(Folder is empty)</li>';
+        return;
+    }
+
+    items.forEach(item => {
+        const li = document.createElement('li');
+        li.className = "file-item"; 
+        
+        // Context-aware 16x16 Icons!
+        const iconSrc = item.type === 'folder' 
+            ? '<img src="https://winxp.vercel.app/icons/folder.png" style="width: 16px; margin-right: 5px;">' 
+            : '<img src="assets/icons/16/notepad.png" onerror="this.src=\'https://winxp.vercel.app/icons/notepad.png\'" style="width: 16px; margin-right: 5px;">'; 
+            
+        li.innerHTML = `${iconSrc} <span>${item.name}</span>`;
+        
+        // Require double-click to open files in explorer too!
+        li.onclick = (e) => {
+            // Remove highlight from other items
+            document.querySelectorAll('.file-item').forEach(el => el.style.backgroundColor = 'transparent');
+            li.style.backgroundColor = '#316ac5';
+            li.style.color = 'white';
+        };
+
+        li.ondblclick = () => {
+            if (item.type === 'folder') {
+                const nextPath = path === "C:\\" ? path + item.name : path + "\\" + item.name;
+                currentHistory.push(nextPath);
+                renderFiles(nextPath);
+            } else if (item.name.endsWith('.txt')) {
+                notepadApp.openExisting(item);
+            }
+        };
+        viewer.appendChild(li);
+    });
+}
