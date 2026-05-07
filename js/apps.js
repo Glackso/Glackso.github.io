@@ -5,7 +5,8 @@ const notepadApp = {
         this.currentFile = null;
         document.querySelector('#notepad textarea').value = "";
         document.getElementById('notepad-title').innerText = "Untitled - Notepad";
-        openApp('notepad', 'Untitled - Notepad', 'assets/icons/32/notepad.png');
+        // Passing the 16x16 icon to the taskbar logic
+        openApp('notepad', 'Untitled - Notepad', 'assets/icons/16/notepad.png');
     },
 
     openExisting: function(file) {
