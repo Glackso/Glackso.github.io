@@ -226,4 +226,32 @@ if (typeof interact !== 'undefined') {
         }
     });
 }
-// The extra brace was here; it has been removed.
+
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    // Create a custom menu div
+    const menu = document.createElement('div');
+    menu.className = 'window'; // Use XP styling
+    menu.style.position = 'absolute';
+    menu.style.left = e.pageX + 'px';
+    menu.style.top = e.pageY + 'px';
+    menu.style.zIndex = '9999';
+    menu.style.padding = '2px';
+    menu.style.backgroundColor = '#ece9d8';
+    menu.style.border = '1px solid #716f64';
+    menu.style.boxShadow = '2px 2px 2px rgba(0,0,0,0.3)';
+    
+    menu.innerHTML = `
+        <div class="start-item" onclick="location.reload()" style="padding: 2px 20px;">Refresh</div>
+        <div style="border-top: 1px solid #aca899; margin: 2px 0;"></div>
+        <div class="start-item" style="padding: 2px 20px;">Paste</div>
+        <div class="start-item" style="padding: 2px 20px;">New Folder</div>
+    `;
+    
+    document.body.appendChild(menu);
+    
+    // Close menu on click
+    document.addEventListener('click', () => menu.remove(), {once: true});
+});
+
+// hi!
