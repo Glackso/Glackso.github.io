@@ -333,3 +333,43 @@ function renderFiles(path) {
         viewer.appendChild(li);
     });
 }
+
+document.getElementById('cmd-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        const input = this.value;
+        const history = document.getElementById('cmd-history');
+        const command = input.toLowerCase().trim();
+        let response = "";
+
+        if (command === "help") {
+            response = "HELP - Displays this message\nCLS - Clears the screen\nDIR - Lists directory\nEXIT - Closes CMD\nWINVER - About Windows";
+        } else if (command === "cls") {
+            history.innerHTML = "";
+            this.value = "";
+            return;
+        } else if (command === "exit") {
+            closeApp('cmd');
+            this.value = "";
+            return;
+        } else if (command === "winver") {
+            response = "Microsoft Windows XP Simulator [Version 1.0]\nBuild by Gemini & You";
+        } else if (command === "dir") {
+            response = " Volume in drive C has no label.\n Directory of C:\\\n\n01/01/2001  12:00 PM    <DIR>          Windows\n01/01/2001  12:00 PM    <DIR>          Documents and Settings\n01/01/2001  12:00 PM    <DIR>          Program Files";
+        } else if (command !== "") {
+            response = `'${command}' is not recognized as an internal or external command.`;
+        }
+
+        // Add to history
+        history.innerHTML += `C:\\Documents and Settings\\Guest> ${input}\n${response}\n\n`;
+        this.value = "";
+        
+        // Auto-scroll history
+        const body = history.parentElement;
+        body.scrollTop = body.scrollHeight;
+    }
+});
+
+// Auto-focus the input whenever the CMD window is clicked
+document.getElementById('cmd').addEventListener('mousedown', () => {
+    setTimeout(() => document.getElementById('cmd-input').focus(), 10);
+});
