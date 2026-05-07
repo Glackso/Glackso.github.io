@@ -226,3 +226,4 @@ if (typeof interact !== 'undefined') {
         }
     });
 }
+// The extra brace was here; it has been removed.
