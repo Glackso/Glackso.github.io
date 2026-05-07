@@ -44,14 +44,43 @@ const notepadApp = {
 };
 
 const ieApp = {
-    open: function() {
-        openApp('internet-explorer', 'Internet Explorer', 'assets/icons/16/ie.png');
+    pages: {
+        "google.com": `
+            <center style="margin-top:50px;">
+                <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" width="160"><br><br>
+                <input type="text" style="width: 300px; border: 1px solid #7f9db9;"><br><br>
+                <button>Google Search</button> <button>I'm Feeling Lucky</button>
+            </center>`,
+        "windows.com": `
+            <div style="font-family: 'Segoe UI', Tahoma; padding: 20px;">
+                <h1 style="color: #003399;">Discover Windows XP</h1>
+                <p>The new version of Windows is here, and it's better than ever.</p>
+                <img src="assets/wallpapers/bliss.jpg" width="100%" style="border: 1px solid #ccc;">
+            </div>`,
+        "error": `
+            <div style="padding: 40px; font-family: Tahoma;">
+                <h1 style="font-size: 1.5em;">The page cannot be displayed</h1>
+                <p>The page you are looking for is currently unavailable. The Web site might be experiencing technical difficulties.</p>
+                <hr>
+                <p>Please try the following:</p>
+                <ul>
+                    <li>Click the Refresh button, or try again later.</li>
+                    <li>If you typed the page address in the Address bar, make sure that it is spelled correctly.</li>
+                </ul>
+            </div>`
     },
+
     navigate: function() {
-        const urlInput = document.getElementById('ie-address');
-        const frame = document.getElementById('ie-frame');
-        let url = urlInput.value;
-        if (!url.startsWith('http')) url = 'https://' + url;
-        frame.src = url;
+        const address = document.getElementById('ie-address').value.toLowerCase();
+        const content = document.getElementById('ie-content');
+        
+        // Basic "Routing"
+        if (address.includes("google")) {
+            content.innerHTML = this.pages["google.com"];
+        } else if (address.includes("windows")) {
+            content.innerHTML = this.pages["windows.com"];
+        } else {
+            content.innerHTML = this.pages["error"];
+        }
     }
 };
