@@ -37,3 +37,80 @@ body {
 .taskbar-btn { background: #3a6ea5; border: 1px solid #000; border-radius: 3px; color: white; font-size: 11px; padding: 3px 10px; width: 150px; display: flex; align-items: center; cursor: pointer; box-shadow: inset 1px 1px 1px rgba(255,255,255,0.3); }
 .taskbar-btn.active { background: #1c428a; box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5); }
 .tray { background-color: #0972e3; height: 100%; padding: 0 15px; color: white; display: flex; align-items: center; font-size: 11px; border-left: 1px solid #103a8a; }
+/* --- Fix Text Highlighting while Dragging --- */
+.title-bar, .shortcut, .taskbar, .nav-bar {
+    user-select: none;
+}
+
+/* --- Window Maximization --- */
+.window.maximized {
+    width: 100% !important;
+    height: calc(100vh - 30px) !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: translate(0, 0) !important; /* Overrides Interact.js */
+}
+
+/* --- Basic Start Menu --- */
+.start-menu {
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    width: 380px;
+    background-color: white;
+    border: 1px solid #0050a0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: 2px -2px 5px rgba(0,0,0,0.3);
+    z-index: 10000; /* Must be above everything */
+    display: flex;
+    flex-direction: column;
+    font-family: Tahoma, sans-serif;
+}
+
+.start-menu-header {
+    background: linear-gradient(to right, #1754cc, #2b7af0);
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.start-menu-body {
+    display: flex;
+    height: 300px;
+}
+
+.start-menu-left {
+    flex: 1;
+    background-color: white;
+    padding: 5px;
+    border-right: 1px solid #aebce8;
+}
+
+.start-menu-right {
+    width: 140px;
+    background-color: #d3e5fa;
+    padding: 5px;
+}
+
+.start-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 11px;
+    color: black;
+}
+.start-item img { width: 24px; margin-right: 10px; }
+.start-item:hover { background-color: #316ac5; color: white; }
+
+.start-menu-footer {
+    background: linear-gradient(to right, #1754cc, #2b7af0);
+    padding: 5px;
+    display: flex;
+    justify-content: flex-end;
+}
