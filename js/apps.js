@@ -67,7 +67,17 @@ const ieApp = {
                     <li>Click the Refresh button, or try again later.</li>
                     <li>If you typed the page address in the Address bar, make sure that it is spelled correctly.</li>
                 </ul>
-            </div>`
+            </div>`,
+        "archive": `
+    <div style="font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif; color: #2a2a2a; padding: 10px; background: #fff;">
+        <div style="background: #900; color: white; padding: 10px; margin: -10px -10px 10px -10px; font-weight: bold; display: flex; justify-content: space-between;">
+            <span>Archive of Our Own<sup>beta</sup></span>
+            <span style="font-size: 0.8em;">Log In | Register</span>
+        </div>
+        <div id="fanfic-container">
+            </div>
+    </div>
+`,
     },
 
     navigate: function() {
