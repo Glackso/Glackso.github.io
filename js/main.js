@@ -198,21 +198,40 @@ window.onload = () => {
 
 // --- 7. Interact.js Integration ---
 if (typeof interact !== 'undefined') {
-    interact('.draggable').draggable({
-        allowFrom: '.title-bar',
-        listeners: {
-            start(event) { focusWindow(event.target.id); },
-            move(event) {
-                const target = event.target;
-                if (target.classList.contains('maximized')) return;
-                const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-                target.style.transform = `translate(${x}px, ${y}px)`;
-                target.setAttribute('data-x', x);
-                target.setAttribute('data-y', y);
-            }
+    const GRID_SIZE = 20; // The grid size in pixels
+
+interact('.draggable').draggable({
+    allowFrom: '.title-bar',
+    modifiers: [
+        interact.modifiers.snap({
+            targets: [ interact.snappers.grid({ x: GRID_SIZE, y: GRID_SIZE }) ],
+            range: Infinity,
+            relativePoints: [ { x: 0, y: 0 } ]
+        })
+    ],
+    listeners: {
+        start(event) { focusWindow(event.target.id); },
+        move(event) {
+            const target = event.target;
+            if (target.classList.contains('maximized')) return;
+            const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+            const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+            target.style.transform = `translate(${x}px, ${y}px)`;
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
         }
-    });
+    }
+});
+
+// Run Command Logic
+function executeRun() {
+    const cmd = document.getElementById('run-input').value.toLowerCase();
+    if (cmd === 'notepad') notepadApp.openEmpty();
+    else if (cmd === 'cmd') openApp('cmd', 'Command Prompt', 'assets/icons/16/cmd.png');
+    else if (cmd === 'explorer' || cmd === 'my computer') openApp('my-computer');
+    else alert("Windows cannot find '" + cmd + "'. Make sure you typed the name correctly.");
+    closeApp('run-dialog');
+}
 
     interact('.draggable-icon').draggable({
         listeners: {
