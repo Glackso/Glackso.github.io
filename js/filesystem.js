@@ -27,7 +27,7 @@ function renderFiles(path) {
     files.forEach(item => {
         const li = document.createElement('li');
         li.className = "file-item";
-       const icon = item.type === 'folder' ? 'assets/icons/16/folder.png' : 'assets/icons/16/notepad.png';
+       const icon = item.type === 'folder' ? 'folder.png' : 'notepad.png';
         li.innerHTML = `<img src="https://winxp.vercel.app/icons/${icon}" width="16"> ${item.name}`;
         
         li.onclick = () => {
