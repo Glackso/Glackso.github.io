@@ -114,3 +114,37 @@ body {
     display: flex;
     justify-content: flex-end;
 }
+
+/* --- Desktop Icon Selection --- */
+.shortcut.selected span {
+    background-color: #316ac5;
+    color: white;
+    border-radius: 2px;
+    padding: 1px 3px;
+    outline: 1px dotted #cccccc; /* Classic XP dotted focus ring */
+}
+.shortcut.selected img {
+    filter: brightness(0.8) contrast(1.2) sepia(1) hue-rotate(180deg) saturate(3); /* Fake blue overlay */
+    opacity: 0.8;
+}
+
+/* --- The Blue Selection Box --- */
+.selection-box {
+    position: absolute;
+    border: 1px solid #316ac5;
+    background-color: rgba(49, 106, 197, 0.4);
+    pointer-events: none; /* Let mouse events pass through it */
+    z-index: 5; /* Below windows, above desktop */
+}
+
+/* --- Command Prompt Styles --- */
+#cmd .window-body {
+    background-color: #000;
+    color: #c0c0c0;
+    font-family: "Lucida Console", monospace;
+    font-size: 12px;
+    padding: 5px;
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0;
+}
