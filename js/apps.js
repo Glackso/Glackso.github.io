@@ -98,21 +98,50 @@ const ieApp = {
     },
     
     loadArchive: function() {
-    const stories = [
-        { title: "The Blue Screen of Death", author: "Clippy", tags: "Drama, Tech Support", summary: "A tragic tale of a kernel error." },
-        { title: "Bliss Hill Secrets", author: "XP_User", tags: "Nature, Mystery", summary: "What lies behind that famous green hill?" }
-    ];
-    
-    const container = document.getElementById('fanfic-container');
-    if (!container) return;
-    
-    container.innerHTML = stories.map(s => `
-        <div style="border: 1px solid #ddd; margin-bottom: 10px; padding: 10px;">
-            <h4 style="margin: 0; color: #900;">${s.title}</h4>
-            <div style="font-size: 0.8em; color: #555;">by <strong>${s.author}</strong></div>
-            <div style="font-size: 0.7em; background: #eee; display: inline-block; padding: 2px 5px; margin: 5px 0;">${s.tags}</div>
-            <p style="font-size: 0.9em; margin: 5px 0;">${s.summary}</p>
-        </div>
-    `).join('');
-}
+        const stories = [
+            { id: 1, title: "The Blue Screen of Death", author: "Clippy", content: "It was a dark and stormy night in the kernel... then everything turned blue." },
+            { id: 2, title: "Bliss Hill Secrets", author: "XP_User", content: "Legend says if you walk over the green hill, you find the Windows Vista beta." }
+        ];
+        
+        const container = document.getElementById('ie-content');
+        
+        // If a story is selected, show the reader
+        if (this.currentStory) {
+            container.innerHTML = `
+                <button onclick="ieApp.currentStory = null; ieApp.navigate();" style="margin-bottom: 10px;">← Back to List</button>
+                <div style="font-family: serif; background: #fff; padding: 20px; border: 1px solid #ccc;">
+                    <h2 style="margin-top:0;">${this.currentStory.title}</h2>
+                    <p><i>by ${this.currentStory.author}</i></p>
+                    <hr>
+                    <p style="line-height: 1.6;">${this.currentStory.content}</p>
+                </div>
+            `;
+        } else {
+            // Show the list
+            container.innerHTML = `
+                <div style="background: #900; color: white; padding: 5px; margin-bottom: 10px;">Archive of Our Own</div>
+                ${stories.map(s => `
+                    <div onclick='ieApp.readStory(${JSON.stringify(s)})' style="border: 1px solid #ddd; padding: 10px; cursor: pointer; margin-bottom: 5px; background: white;">
+                        <h4 style="margin:0; color: #900;">${s.title}</h4>
+                        <small>by ${s.author}</small>
+                    </div>
+                `).join('')}
+            `;
+        }
+    },
+
+    readStory: function(story) {
+        this.currentStory = story;
+        this.loadArchive();
+    },
+
+    navigate: function() {
+        const address = document.getElementById('ie-address').value.toLowerCase();
+        if (address.includes("archive")) {
+            this.loadArchive();
+        } else {
+            this.currentStory = null; // Reset story if navigating away
+            // ... rest of your navigation logic ...
+        }
+    }
 };
