@@ -194,6 +194,36 @@ window.onload = () => {
             clockEl.innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         }
     }, 1000);
+
+    let selectionBox = document.createElement('div');
+selectionBox.className = 'selection-box';
+document.body.appendChild(selectionBox);
+
+let startX, startY;
+
+document.getElementById('desktop').onmousedown = function(e) {
+    if (e.target.id !== 'desktop') return;
+    startX = e.pageX;
+    startY = e.pageY;
+    selectionBox.style.display = 'block';
+    selectionBox.style.width = '0px';
+    selectionBox.style.height = '0px';
+};
+
+document.onmousemove = function(e) {
+    if (selectionBox.style.display === 'block') {
+        let curX = e.pageX;
+        let curY = e.pageY;
+        selectionBox.style.left = Math.min(startX, curX) + 'px';
+        selectionBox.style.top = Math.min(startY, curY) + 'px';
+        selectionBox.style.width = Math.abs(curX - startX) + 'px';
+        selectionBox.style.height = Math.abs(curY - startY) + 'px';
+    }
+};
+
+document.onmouseup = function() {
+    selectionBox.style.display = 'none';
+};
 };
 
 // --- 7. Interact.js Integration ---
