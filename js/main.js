@@ -145,9 +145,52 @@ document.addEventListener('click', function(event) {
     }
 });
 
+// --- Safer Clock (Prevents the 'null' error) ---
 setInterval(() => {
-    document.getElementById('clock').innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    const clockEl = document.getElementById('clock');
+    if (clockEl) {
+        clockEl.innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
 }, 1000);
+
+// --- Cool CMD Logic ---
+function runCommand(input) {
+    const cmdBody = document.querySelector('.cmd-body');
+    const command = input.toLowerCase().trim();
+    let response = "";
+
+    if (command === "help") {
+        response = "Available commands: HELP, CLS, DIR, DATE, ECHO, WINVER";
+    } else if (command === "cls") {
+        cmdBody.innerHTML = 'Microsoft Windows XP [Version 5.1.2600]<br>(C) Copyright 1985-2001 Microsoft Corp.<br><br>';
+        return;
+    } else if (command === "winver") {
+        response = "Microsoft Windows XP [Version 5.1.2600] - Retro Edition";
+    } else if (command === "date") {
+        response = "The current date is: " + new Date().toLocaleDateString();
+    } else if (command.startsWith("echo ")) {
+        response = input.substring(5);
+    } else if (command === "dir") {
+        response = "Directory of C:\\<br>01/01/2001  12:00 PM    &lt;DIR&gt;          Windows<br>01/01/2001  12:00 PM    &lt;DIR&gt;          Documents and Settings";
+    } else {
+        response = `'${command}' is not recognized as an internal or external command.`;
+    }
+
+    cmdBody.innerHTML += `C:\\Documents and Settings\\Guest&gt; ${input}<br>${response}<br><br>`;
+    // Auto-scroll to bottom
+    const win = document.getElementById('cmd');
+    win.querySelector('.window-body').scrollTop = win.querySelector('.window-body').scrollHeight;
+}
+
+// Add an input listener to CMD so it's not just a placeholder
+document.addEventListener('keydown', (e) => {
+    if (document.getElementById('cmd').style.display === 'block' && document.activeElement.tagName !== 'TEXTAREA') {
+        // This is a simplified "typing" experience for the placeholder
+        if (e.key === 'Enter') {
+            runCommand("help"); // For now, any enter triggers help until we add a real input
+        }
+    }
+});
 
 // --- Interact.js Dragging Engine ---
 if (typeof interact !== 'undefined') {
