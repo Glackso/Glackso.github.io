@@ -229,29 +229,49 @@ if (typeof interact !== 'undefined') {
 
 document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    // Create a custom menu div
+    
+    // Remove existing menu if it exists
+    const oldMenu = document.getElementById('custom-context-menu');
+    if (oldMenu) oldMenu.remove();
+
     const menu = document.createElement('div');
-    menu.className = 'window'; // Use XP styling
-    menu.style.position = 'absolute';
-    menu.style.left = e.pageX + 'px';
-    menu.style.top = e.pageY + 'px';
-    menu.style.zIndex = '9999';
-    menu.style.padding = '2px';
-    menu.style.backgroundColor = '#ece9d8';
-    menu.style.border = '1px solid #716f64';
-    menu.style.boxShadow = '2px 2px 2px rgba(0,0,0,0.3)';
+    menu.id = 'custom-context-menu';
+    menu.className = 'window'; 
+    menu.style.cssText = `position:absolute; left:${e.pageX}px; top:${e.pageY}px; z-index:9999; padding:2px; background:#ece9d8; border:1px solid #716f64; box-shadow:2px 2px 2px rgba(0,0,0,0.3); width:150px;`;
     
     menu.innerHTML = `
-        <div class="start-item" onclick="location.reload()" style="padding: 2px 20px;">Refresh</div>
-        <div style="border-top: 1px solid #aca899; margin: 2px 0;"></div>
-        <div class="start-item" style="padding: 2px 20px;">Paste</div>
-        <div class="start-item" style="padding: 2px 20px;">New Folder</div>
+        <div class="start-item" onclick="location.reload()" style="padding:2px 10px;">Refresh</div>
+        <div style="border-top:1px solid #aca899; margin:2px 0;"></div>
+        <div class="start-item" onclick="createNewTextFile()" style="padding:2px 10px;">New Text Document</div>
+        <div class="start-item" onclick="toggleWallpaper()" style="padding:2px 10px;">Next Wallpaper</div>
+        <div style="border-top:1px solid #aca899; margin:2px 0;"></div>
+        <div class="start-item" style="padding:2px 10px; color:gray;">Properties</div>
     `;
     
     document.body.appendChild(menu);
-    
-    // Close menu on click
     document.addEventListener('click', () => menu.remove(), {once: true});
 });
+
+// Helper functions for the menu
+function toggleWallpaper() {
+    const body = document.body;
+    const wallpapers = [
+        'url("assets/wallpapers/bliss.jpg")',
+        'url("assets/wallpapers/autumn.jpg")',
+        'url("assets/wallpapers/redmoon.jpg")'
+    ];
+    let current = body.style.backgroundImage;
+    let nextIndex = (wallpapers.indexOf(current) + 1) % wallpapers.length;
+    body.style.backgroundImage = wallpapers[nextIndex];
+}
+
+function createNewTextFile() {
+    const currentPath = document.getElementById('current-path').innerText || "C:\\";
+    const newFile = { name: "New Document.txt", type: "file", content: "" };
+    if (driveC[currentPath]) {
+        driveC[currentPath].push(newFile);
+        renderFiles(currentPath);
+    }
+}
 
 // hi!
