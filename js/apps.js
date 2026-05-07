@@ -92,5 +92,24 @@ const ieApp = {
         } else {
             content.innerHTML = this.pages["error"];
         }
-    }
+    },
+    
+    loadArchive: function() {
+    const stories = [
+        { title: "The Blue Screen of Death", author: "Clippy", tags: "Drama, Tech Support", summary: "A tragic tale of a kernel error." },
+        { title: "Bliss Hill Secrets", author: "XP_User", tags: "Nature, Mystery", summary: "What lies behind that famous green hill?" }
+    ];
+    
+    const container = document.getElementById('fanfic-container');
+    if (!container) return;
+    
+    container.innerHTML = stories.map(s => `
+        <div style="border: 1px solid #ddd; margin-bottom: 10px; padding: 10px;">
+            <h4 style="margin: 0; color: #900;">${s.title}</h4>
+            <div style="font-size: 0.8em; color: #555;">by <strong>${s.author}</strong></div>
+            <div style="font-size: 0.7em; background: #eee; display: inline-block; padding: 2px 5px; margin: 5px 0;">${s.tags}</div>
+            <p style="font-size: 0.9em; margin: 5px 0;">${s.summary}</p>
+        </div>
+    `).join('');
+}
 };
