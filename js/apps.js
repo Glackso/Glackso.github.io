@@ -42,3 +42,16 @@ const notepadApp = {
         }
     }
 };
+
+const ieApp = {
+    open: function() {
+        openApp('internet-explorer', 'Internet Explorer', 'assets/icons/16/ie.png');
+    },
+    navigate: function() {
+        const urlInput = document.getElementById('ie-address');
+        const frame = document.getElementById('ie-frame');
+        let url = urlInput.value;
+        if (!url.startsWith('http')) url = 'https://' + url;
+        frame.src = url;
+    }
+};
