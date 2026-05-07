@@ -319,4 +319,39 @@ function createNewTextFile() {
     }
 }
 
+function executeRun() {
+    const input = document.getElementById('run-input');
+    const cmd = input.value.toLowerCase().trim();
+    
+    if (cmd === 'notepad') {
+        notepadApp.openEmpty();
+    } else if (cmd === 'cmd' || cmd === 'command') {
+        openApp('cmd', 'Command Prompt', 'assets/icons/16/cmd.png');
+    } else if (cmd === 'explorer' || cmd === 'my computer') {
+        openApp('my-computer');
+    } else if (cmd === 'ie' || cmd === 'internet explorer') {
+        openApp('internet-explorer');
+    } else if (cmd.startsWith('http')) {
+        // Bonus: If they type a URL, open IE and navigate to it
+        openApp('internet-explorer');
+        document.getElementById('ie-address').value = cmd;
+        ieApp.navigate();
+    } else {
+        alert("Windows cannot find '" + cmd + "'. Make sure you typed the name correctly.");
+    }
+    
+    input.value = ""; // Clear for next time
+    closeApp('run-dialog');
+}
+
+// Global Keyboard Shortcut for Win + R
+window.addEventListener('keydown', (e) => {
+    // metaKey is the Windows Key/Command Key
+    if (e.metaKey && e.key === 'r') {
+        e.preventDefault();
+        openApp('run-dialog', 'Run', 'assets/icons/16/run.png');
+        setTimeout(() => document.getElementById('run-input').focus(), 100);
+    }
+});
+
 // hi!
