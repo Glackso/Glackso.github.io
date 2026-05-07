@@ -190,6 +190,7 @@ window.onload = () => {
     setInterval(() => {
         const clockEl = document.getElementById('clock');
         if (clockEl) {
+            clockEl.title = new Date().toLocaleDateString(); // Shows date when mouse stays over clock
             clockEl.innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         }
     }, 1000);
