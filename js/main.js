@@ -1,5 +1,5 @@
 let highestZIndex = 100; // Global tracking for windows
-let openWindows = {};    // Global tracking for open apps
+let openWindows = {}; // Global tracking for open apps
 
 function focusWindow(id) {
     const win = document.getElementById(id);
@@ -63,9 +63,9 @@ const AppManager = {
                        </div>`
             },
             'display-properties': {
-    title: "Display Properties",
-    icon: "assets/icons/16/display.png",
-    html: `
+                title: "Display Properties",
+                icon: "assets/icons/16/display.png",
+                html: `
         <div class="display-config">
             <div class="preview-monitor">
                 <div id="wallpaper-preview" class="monitor-screen"></div>
@@ -82,7 +82,7 @@ const AppManager = {
                 </div>
             </fieldset>
         </div>`
-}
+            }
         };
         return apps[type] || null;
     },
@@ -119,13 +119,13 @@ const AppManager = {
 
         document.getElementById('desktop').appendChild(win);
         this.openWindows[type] = true;
-        
+
         if (type === 'computer') renderFiles("C:\\");
         if (type === 'cmd') this.initCMD(win);
         if (type === 'notepad' && params.fileRef) win.fileRef = params.fileRef;
         if (type === 'display-properties') {
-    setTimeout(() => this.apps.display.preview(this.apps.display.selectedWallpaper), 50);
-}
+            setTimeout(() => this.apps.display.preview(this.apps.display.selectedWallpaper), 50);
+        }
 
         this.createTaskbarBtn(type, data.title, data.icon);
         this.makeDraggable(win);
@@ -170,30 +170,34 @@ const AppManager = {
     apps: {
         notepad: {
             save: function(id) {
-    const win = document.getElementById(id);
-    const textarea = win.querySelector('#notepad-text');
-    let fileName = win.fileRef ? win.fileRef.name : prompt("Save As:", "New Note.txt");
-    
-    if (!fileName) return;
-    if (!fileName.toLowerCase().endsWith('.txt')) fileName += '.txt';
+                const win = document.getElementById(id);
+                const textarea = win.querySelector('#notepad-text');
+                let fileName = win.fileRef ? win.fileRef.name : prompt("Save As:", "New Note.txt");
 
-    if (win.fileRef) {
-        win.fileRef.content = textarea.value;
-    } else {
-        const newFile = { name: fileName, type: "file", content: textarea.value };
-        driveC["C:\\My Notes"].push(newFile);
-        win.fileRef = newFile;
-    }
+                if (!fileName) return;
+                if (!fileName.toLowerCase().endsWith('.txt')) fileName += '.txt';
 
-    // UPDATE: Refresh the file explorer if it's open to 'My Notes'
-    const currentPath = document.getElementById('current-path')?.innerText;
-    if (currentPath === "C:\\My Notes") {
-        renderFiles("C:\\My Notes");
-    }
+                if (win.fileRef) {
+                    win.fileRef.content = textarea.value;
+                } else {
+                    const newFile = {
+                        name: fileName,
+                        type: "file",
+                        content: textarea.value
+                    };
+                    driveC["C:\\My Notes"].push(newFile);
+                    win.fileRef = newFile;
+                }
 
-    document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
-    alert("File Saved to C:\\My Notes");
-}
+                // UPDATE: Refresh the file explorer if it's open to 'My Notes'
+                const currentPath = document.getElementById('current-path')?.innerText;
+                if (currentPath === "C:\\My Notes") {
+                    renderFiles("C:\\My Notes");
+                }
+
+                document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
+                alert("File Saved to C:\\My Notes");
+            }
         },
         ie: {
             navigate: function() {
@@ -203,18 +207,18 @@ const AppManager = {
         },
 
         display: {
-    selectedWallpaper: 'bliss',
-    preview: function(name) {
-        this.selectedWallpaper = name;
-        const preview = document.getElementById('wallpaper-preview');
-        if (preview) {
-            preview.style.backgroundImage = `url('assets/wallpapers/${name}.jpg')`;
+            selectedWallpaper: 'bliss',
+            preview: function(name) {
+                this.selectedWallpaper = name;
+                const preview = document.getElementById('wallpaper-preview');
+                if (preview) {
+                    preview.style.backgroundImage = `url('assets/wallpapers/${name}.jpg')`;
+                }
+            },
+            apply: function() {
+                document.body.style.backgroundImage = `url('assets/wallpapers/${this.selectedWallpaper}.jpg')`;
+            }
         }
-    },
-    apply: function() {
-        document.body.style.backgroundImage = `url('assets/wallpapers/${this.selectedWallpaper}.jpg')`;
-    }
-}
     },
 
     createTaskbarBtn(id, title, icon) {
@@ -252,19 +256,43 @@ const AppManager = {
 };
 
 const CONFIG = {
-    apps: [
-        { id: 'computer', name: 'My Computer', icon: 'assets/icons/32/computer.png', startMenu: false },
-        { id: 'notepad', name: 'Notepad', icon: 'assets/icons/32/notepad.png', startMenu: true },
-        { id: 'cmd', name: 'Command Prompt', icon: 'assets/icons/32/cmd.png', startMenu: true },
-        { id: 'internet-explorer', name: 'Internet Explorer', icon: 'assets/icons/32/ie.png', startMenu: true },
-        { id: 'display-properties', name: 'Display Properties', icon: 'assets/icons/32/display.png', startMenu: true }
+    apps: [{
+            id: 'computer',
+            name: 'My Computer',
+            icon: 'assets/icons/32/computer.png',
+            startMenu: false
+        },
+        {
+            id: 'notepad',
+            name: 'Notepad',
+            icon: 'assets/icons/32/notepad.png',
+            startMenu: true
+        },
+        {
+            id: 'cmd',
+            name: 'Command Prompt',
+            icon: 'assets/icons/32/cmd.png',
+            startMenu: true
+        },
+        {
+            id: 'internet-explorer',
+            name: 'Internet Explorer',
+            icon: 'assets/icons/32/ie.png',
+            startMenu: true
+        },
+        {
+            id: 'display-properties',
+            name: 'Display Properties',
+            icon: 'assets/icons/32/display.png',
+            startMenu: true
+        }
     ]
 };
 
 function renderShortcuts() {
     const desktopGrid = document.querySelector('.icon-grid');
     const startLeft = document.querySelector('.start-menu-left');
-    
+
     if (!desktopGrid || !startLeft) return;
 
     desktopGrid.innerHTML = '';
@@ -320,17 +348,17 @@ function renderFiles(path) {
         const li = document.createElement('li');
         li.className = 'file-item';
         const icon = item.type === 'folder' ? 'assets/icons/16/folder.png' : 'assets/icons/16/notepad.png';
-        
+
         li.innerHTML = `<img src="${icon}"> ${item.name}`;
-        
+
         li.ondblclick = () => {
             if (item.type === 'folder') {
                 renderFiles(`${path}${item.name}\\`);
             } else {
-                AppManager.open('notepad', { 
-                    fileName: item.name, 
-                    content: item.content, 
-                    fileRef: item 
+                AppManager.open('notepad', {
+                    fileName: item.name,
+                    content: item.content,
+                    fileRef: item
                 });
             }
         };
@@ -348,7 +376,7 @@ function toggleMenu(menuId) {
     document.querySelectorAll('.dropdown').forEach(d => {
         if (d.id !== menuId) d.style.display = 'none';
     });
-    
+
     if (menu) {
         menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     }
@@ -370,7 +398,7 @@ function runCommand(input) {
     if (command === "dir") {
         // Look at the filesystem.js driveC object
         const files = driveC["C:\\"] || [];
-        response = " Directory of C:\\\n\n" + files.map(f => 
+        response = " Directory of C:\\\n\n" + files.map(f =>
             `${f.type === 'folder' ? '<DIR>          ' : '               '} ${f.name}`
         ).join('\n');
     } else if (command === "cls") {
@@ -390,7 +418,7 @@ function runCommand(input) {
 
     history.innerHTML += `C:\\> ${input}\n${response}\n\n`;
     cmdInput.value = "";
-    
+
     // Auto-scroll to the bottom of the CMD window
     const body = document.querySelector('.cmd-body');
     if (body) body.scrollTop = body.scrollHeight;
@@ -422,7 +450,10 @@ function bootSystem() {
     setInterval(() => {
         const clockEl = document.getElementById('clock');
         if (clockEl) {
-            clockEl.innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            clockEl.innerText = new Date().toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
         }
     }, 1000);
 }
