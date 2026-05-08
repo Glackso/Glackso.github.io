@@ -123,6 +123,9 @@ const AppManager = {
         if (type === 'computer') renderFiles("C:\\");
         if (type === 'cmd') this.initCMD(win);
         if (type === 'notepad' && params.fileRef) win.fileRef = params.fileRef;
+        if (type === 'display-properties') {
+    setTimeout(() => this.apps.display.preview(this.apps.display.selectedWallpaper), 50);
+}
 
         this.createTaskbarBtn(type, data.title, data.icon);
         this.makeDraggable(win);
