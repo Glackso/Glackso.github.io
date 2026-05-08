@@ -260,11 +260,94 @@ function toggleStartMenu() {
     }
 }
 
+function renderFiles(path) {
+    const viewer = document.getElementById('file-viewer');
+    const pathDisplay = document.getElementById('current-path');
+    if (!viewer) return;
+
+    viewer.innerHTML = '';
+    pathDisplay.innerText = path;
+
+    const items = driveC[path] || [];
+
+    items.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'file-item';
+        const icon = item.type === 'folder' ? 'assets/icons/16/folder.png' : 'assets/icons/16/notepad.png';
+        
+        li.innerHTML = `<img src="${icon}"> ${item.name}`;
+        
+        li.ondblclick = () => {
+            if (item.type === 'folder') {
+                renderFiles(`${path}${item.name}\\`);
+            } else {
+                AppManager.open('notepad', { 
+                    fileName: item.name, 
+                    content: item.content, 
+                    fileRef: item 
+                });
+            }
+        };
+        viewer.appendChild(li);
+    });
+}
+
 function goBack() {
-    if (currentHistory.length > 1) {
-        currentHistory.pop();
-        renderFiles(currentHistory[currentHistory.length - 1]);
+    renderFiles("C:\\"); // Simple version: always goes back to root
+}
+
+function toggleMenu(menuId) {
+    const menu = document.getElementById(menuId);
+    // Close any other open dropdowns first
+    document.querySelectorAll('.dropdown').forEach(d => {
+        if (d.id !== menuId) d.style.display = 'none';
+    });
+    
+    if (menu) {
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     }
+}
+
+// Close menus if you click anywhere else on the desktop
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.menu-bar')) {
+        document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+    }
+});
+
+function runCommand(input) {
+    const history = document.getElementById('cmd-history');
+    const cmdInput = document.getElementById('cmd-input');
+    const command = input.toLowerCase().trim();
+    let response = "";
+
+    if (command === "dir") {
+        // Look at the filesystem.js driveC object
+        const files = driveC["C:\\"] || [];
+        response = " Directory of C:\\\n\n" + files.map(f => 
+            `${f.type === 'folder' ? '<DIR>          ' : '               '} ${f.name}`
+        ).join('\n');
+    } else if (command === "cls") {
+        history.innerHTML = "";
+        cmdInput.value = "";
+        return;
+    } else if (command === "winver") {
+        response = "Microsoft Windows XP [Version 5.1.2600]";
+    } else if (command === "help") {
+        response = "Available commands: DIR, CLS, WINVER, HELP, EXIT";
+    } else if (command === "exit") {
+        AppManager.close('cmd');
+        return;
+    } else if (command !== "") {
+        response = `'${command}' is not recognized as an internal or external command.`;
+    }
+
+    history.innerHTML += `C:\\> ${input}\n${response}\n\n`;
+    cmdInput.value = "";
+    
+    // Auto-scroll to the bottom of the CMD window
+    const body = document.querySelector('.cmd-body');
+    if (body) body.scrollTop = body.scrollHeight;
 }
 
 function bootSystem() {
