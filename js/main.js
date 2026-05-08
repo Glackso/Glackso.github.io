@@ -206,7 +206,59 @@ const AppManager = {
     }
 };
 
-// ... keep toggleStartMenu, goBack, and renderFiles as they are ...
+const CONFIG = {
+    apps: [
+        { id: 'computer', name: 'My Computer', icon: 'assets/icons/32/computer.png', startMenu: false },
+        { id: 'notepad', name: 'Notepad', icon: 'assets/icons/32/notepad.png', startMenu: true },
+        { id: 'cmd', name: 'Command Prompt', icon: 'assets/icons/32/cmd.png', startMenu: true },
+        { id: 'internet-explorer', name: 'Internet Explorer', icon: 'assets/icons/32/ie.png', startMenu: true }
+    ]
+};
+
+function renderShortcuts() {
+    const desktopGrid = document.querySelector('.icon-grid');
+    const startLeft = document.querySelector('.start-menu-left');
+    
+    if (!desktopGrid || !startLeft) return;
+
+    desktopGrid.innerHTML = '';
+    startLeft.innerHTML = '';
+
+    CONFIG.apps.forEach(app => {
+        // Render Desktop Icons
+        const desktopIcon = document.createElement('div');
+        desktopIcon.className = 'shortcut';
+        desktopIcon.innerHTML = `
+            <img src="${app.icon}">
+            <span>${app.name}</span>
+        `;
+        desktopIcon.ondblclick = () => AppManager.open(app.id);
+        desktopGrid.appendChild(desktopIcon);
+
+        // Render Start Menu Shortcuts
+        if (app.startMenu) {
+            const startItem = document.createElement('div');
+            startItem.className = 'start-item';
+            startItem.innerHTML = `
+                <img src="${app.icon}" width="24">
+                <span style="font-weight: bold;">${app.name}</span>
+            `;
+            startItem.onclick = () => {
+                AppManager.open(app.id);
+                toggleStartMenu();
+            };
+            startLeft.appendChild(startItem);
+        }
+    });
+}
+
+// Make sure toggleStartMenu is also defined if it's missing
+function toggleStartMenu() {
+    const menu = document.getElementById('start-menu');
+    if (menu) {
+        menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+}
 
 function bootSystem() {
     renderShortcuts();
