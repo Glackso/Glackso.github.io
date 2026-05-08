@@ -22,13 +22,22 @@ const AppManager = {
     zIndex: 100,
     openWindows: {},
 
-    // Master Switch: Handles what goes inside the frame
-    getAppContent(type) {
+    getAppContent(type, params = {}) {
         const apps = {
             'notepad': {
-                title: "Untitled - Notepad",
+                title: params.fileName || "Untitled - Notepad",
                 icon: "assets/icons/16/notepad.png",
-                html: `<textarea id="notepad-text" spellcheck="false"></textarea>`
+                html: `
+                    <div class="menu-bar">
+                        <li onclick="toggleMenu('file-menu')">File
+                            <ul id="file-menu" class="dropdown">
+                                <li onclick="AppManager.apps.notepad.save('${type}')">Save</li>
+                                <li class="divider"></li>
+                                <li onclick="AppManager.close('${type}')">Exit</li>
+                            </ul>
+                        </li>
+                    </div>
+                    <textarea id="notepad-text" spellcheck="false">${params.content || ''}</textarea>`
             },
             'cmd': {
                 title: "Command Prompt",
@@ -54,7 +63,7 @@ const AppManager = {
                         <div class="nav-bar">
                             <span>Address</span>
                             <input type="text" id="ie-address" value="https://www.google.com/search?igu=1">
-                            <button onclick="AppManager.navigateIE()">Go</button>
+                            <button onclick="AppManager.apps.ie.navigate()">Go</button>
                         </div>
                         <iframe id="ie-frame" src="https://www.google.com/search?igu=1"></iframe>
                        </div>`
@@ -63,25 +72,27 @@ const AppManager = {
         return apps[type] || null;
     },
 
-    open(type) {
+    open(type, params = {}) {
+        // If app is already open, just focus it
         if (this.openWindows[type]) {
             this.focus(type);
             return;
         }
 
-        const data = this.getAppContent(type);
+        const data = this.getAppContent(type, params);
         if (!data) return;
 
         const win = document.createElement('div');
         win.id = type;
         win.className = 'window draggable';
-        win.style.left = "100px"; // Initial spawn position
+        win.style.left = "100px";
         win.style.top = "100px";
 
         win.innerHTML = `
             <div class="title-bar">
                 <div class="title-bar-text">
-                    <img src="${data.icon}" width="14" onerror="this.style.display='none'"> ${data.title}
+                    <img src="${data.icon}" width="14" onerror="this.style.display='none'"> 
+                    <span id="${type}-title">${data.title}</span>
                 </div>
                 <div class="title-bar-controls">
                     <button aria-label="Minimize" onclick="AppManager.minimize('${type}')"></button>
@@ -95,9 +106,10 @@ const AppManager = {
         document.getElementById('desktop').appendChild(win);
         this.openWindows[type] = true;
         
-        // Run app-specific init
+        // --- App Specific Initializers (Fixes the NULL errors) ---
         if (type === 'computer') renderFiles("C:\\");
         if (type === 'cmd') this.initCMD(win);
+        if (type === 'notepad' && params.fileRef) win.fileRef = params.fileRef;
 
         this.createTaskbarBtn(type, data.title, data.icon);
         this.makeDraggable(win);
@@ -115,11 +127,8 @@ const AppManager = {
     focus(id) {
         const win = document.getElementById(id);
         if (win) {
-            win.style.display = 'block';
-            this.zIndex++;
-            win.style.zIndex = this.zIndex;
-            
-            // Taskbar visual update
+            win.style.display = 'flex';
+            win.style.zIndex = ++this.zIndex;
             document.querySelectorAll('.taskbar-btn').forEach(b => b.classList.remove('active'));
             const btn = document.getElementById(`taskbar-btn-${id}`);
             if (btn) btn.classList.add('active');
@@ -133,67 +142,81 @@ const AppManager = {
         if (btn) btn.classList.remove('active');
     },
 
+    // App Logic Bundles
+    apps: {
+        notepad: {
+            save: function(id) {
+                const win = document.getElementById(id);
+                const content = win.querySelector('#notepad-text').value;
+                let fileName = "";
+
+                if (win.fileRef) {
+                    win.fileRef.content = content;
+                    fileName = win.fileRef.name;
+                } else {
+                    fileName = prompt("Save As:", "New Note.txt");
+                    if (!fileName) return;
+                    
+                    // --- Custom Property Logic: Auto-add .txt ---
+                    if (!fileName.toLowerCase().endsWith('.txt')) {
+                        fileName += '.txt';
+                    }
+                    
+                    const newFile = { name: fileName, type: "file", content: content };
+                    driveC["C:\\My Notes"].push(newFile);
+                    win.fileRef = newFile;
+                }
+                
+                document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
+                alert(`Saved ${fileName} successfully!`);
+            }
+        },
+        ie: {
+            navigate: function() {
+                const url = document.getElementById('ie-address').value;
+                document.getElementById('ie-frame').src = url;
+            }
+        }
+    },
+
+    initCMD(win) {
+        const input = win.querySelector('#cmd-input');
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') runCommand(input.value);
+        });
+        win.addEventListener('mousedown', () => setTimeout(() => input.focus(), 10));
+    },
+
     createTaskbarBtn(id, title, icon) {
         const btn = document.createElement('div');
         btn.id = `taskbar-btn-${id}`;
         btn.className = 'taskbar-btn';
-        btn.innerHTML = `<img src="${icon}" width="14" onerror="this.style.display='none'"> ${title}`;
+        btn.innerHTML = `<img src="${icon}" width="14"> ${title}`;
         btn.onclick = () => {
             const win = document.getElementById(id);
-            if (win.style.display === 'none' || win.style.zIndex < this.zIndex) {
-                this.focus(id);
-            } else {
-                this.minimize(id);
-            }
+            if (win.style.display === 'none' || parseInt(win.style.zIndex) < this.zIndex) this.focus(id);
+            else this.minimize(id);
         };
         document.getElementById('taskbar-apps').appendChild(btn);
     },
 
-    // Fix for CMD input focus
-    initCMD(win) {
-        const input = win.querySelector('#cmd-input');
-        win.addEventListener('mousedown', () => setTimeout(() => input.focus(), 10));
-    },
-
     makeDraggable(el) {
         if (typeof interact === 'undefined') return;
-
         interact(el).draggable({
-            // Only allow dragging from the title bar
             allowFrom: '.title-bar',
             listeners: {
-                start: (event) => {
-                    this.focus(event.target.id);
-                },
                 move: (event) => {
                     const target = event.target;
-                    // Keep track of position using data attributes
                     const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
                     const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
                     target.style.transform = `translate(${x}px, ${y}px)`;
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
                 }
-            },
-            modifiers: [
-                // Keep the window inside the desktop
-                interact.modifiers.restrictRect({
-                    restriction: '#desktop',
-                    endOnly: false
-                })
-            ]
+            }
         });
     }
 };
-
-function maximizeApp(id) {
-    const win = document.getElementById(id);
-    if (win) {
-        win.classList.toggle('maximized');
-        focusWindow(id); // Ensure it's active when maximized
-    }
-}
 
 // --- Start Menu Logic ---
 function toggleStartMenu() {
@@ -401,44 +424,32 @@ document.addEventListener('mouseup', () => {
     }
 });
 
-// --- Update File Explorer to use 16x16 Icons ---
 function renderFiles(path) {
     const viewer = document.getElementById('file-viewer');
-    document.getElementById('current-path').innerText = path;
+    const pathDisplay = document.getElementById('current-path');
+    if (pathDisplay) pathDisplay.innerText = path;
+    
     viewer.innerHTML = '';
     const items = driveC[path] || [];
-    
-    if (items.length === 0) {
-        viewer.innerHTML = '<li style="padding: 10px; color: gray;">(Folder is empty)</li>';
-        return;
-    }
 
     items.forEach(item => {
         const li = document.createElement('li');
-        li.className = "file-item"; 
-        
-        // Context-aware 16x16 Icons!
-        const iconSrc = item.type === 'folder' 
-            ? '<img src="https://winxp.vercel.app/icons/folder.png" style="width: 16px; margin-right: 5px;">' 
-            : '<img src="assets/icons/16/notepad.png" onerror="this.src=\'https://winxp.vercel.app/icons/notepad.png\'" style="width: 16px; margin-right: 5px;">'; 
-            
-        li.innerHTML = `${iconSrc} <span>${item.name}</span>`;
-        
-        // Require double-click to open files in explorer too!
-        li.onclick = (e) => {
-            // Remove highlight from other items
-            document.querySelectorAll('.file-item').forEach(el => el.style.backgroundColor = 'transparent');
-            li.style.backgroundColor = '#316ac5';
-            li.style.color = 'white';
-        };
+        li.className = "file-item";
+        const icon = item.type === 'folder' ? '📁' : '📝';
+        li.innerHTML = `<span>${icon}</span> <span>${item.name}</span>`;
 
         li.ondblclick = () => {
             if (item.type === 'folder') {
-                const nextPath = path === "C:\\" ? path + item.name : path + "\\" + item.name;
+                const nextPath = path.endsWith('\\') ? path + item.name : path + '\\' + item.name;
                 currentHistory.push(nextPath);
                 renderFiles(nextPath);
             } else if (item.name.endsWith('.txt')) {
-                notepadApp.openExisting(item);
+                // Pass custom properties to the modular opener
+                AppManager.open('notepad', { 
+                    content: item.content, 
+                    fileName: item.name,
+                    fileRef: item 
+                });
             }
         };
         viewer.appendChild(li);
