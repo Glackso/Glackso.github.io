@@ -224,37 +224,6 @@ function toggleStartMenu() {
     menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
 }
 
-// --- File Explorer (Unchanged) ---
-function renderFiles(path) {
-    const viewer = document.getElementById('file-viewer');
-    document.getElementById('current-path').innerText = path;
-    viewer.innerHTML = '';
-    const items = driveC[path] || [];
-    
-    if (items.length === 0) {
-        viewer.innerHTML = '<li style="padding: 10px; color: gray;">(Folder is empty)</li>';
-        return;
-    }
-
-    items.forEach(item => {
-        const li = document.createElement('li');
-        li.className = "file-item"; 
-        const iconSrc = item.type === 'folder' ? '📁' : '📝'; 
-        li.innerHTML = `<span style="font-size: 16px;">${iconSrc}</span> <span>${item.name}</span>`;
-        
-        li.onclick = () => {
-            if (item.type === 'folder') {
-                const nextPath = path === "C:\\" ? path + item.name : path + "\\" + item.name;
-                currentHistory.push(nextPath);
-                renderFiles(nextPath);
-            } else if (item.name.endsWith('.txt')) {
-                notepadApp.openExisting(item);
-            }
-        };
-        viewer.appendChild(li);
-    });
-}
-
 function goBack() {
     if (currentHistory.length > 1) {
         currentHistory.pop();
