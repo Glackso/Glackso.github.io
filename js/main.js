@@ -198,6 +198,9 @@ initCMD: function(win) {
         interact(el).draggable({
             allowFrom: '.title-bar',
             listeners: {
+                start: (event) => {
+                    focusWindow(event.target.id);
+                :,
                 move: (event) => {
                     const target = event.target;
                     const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
@@ -421,6 +424,40 @@ function renderShortcuts() {
             startLeft.appendChild(startItem);
         }
     });
+}
+
+function runCommand(input) {
+    const history = document.getElementById('cmd-history');
+    const cmdInput = document.getElementById('cmd-input');
+    const command = input.toLowerCase().trim();
+    let response = "";
+
+    if (command === "dir") {
+        const files = driveC["C:\\"] || [];
+        response = " Directory of C:\\\n\n" + files.map(f => 
+            `${f.type === 'folder' ? '<DIR>' : '     '} ${f.name}`
+        ).join('\n');
+    } else if (command === "cls") {
+        history.innerHTML = "";
+        cmdInput.value = "";
+        return;
+    } else if (command === "help") {
+        response = "Available: DIR, CLS, WINVER, EXIT";
+    } else if (command === "winver") {
+        response = "Microsoft Windows XP [Version 5.1.2600]";
+    } else if (command === "exit") {
+        AppManager.close('cmd');
+        return;
+    } else if (command !== "") {
+        response = `'${command}' is not recognized as an internal command.`;
+    }
+
+    history.innerHTML += `C:\\> ${input}\n${response}\n\n`;
+    cmdInput.value = "";
+    
+    // Auto-scroll to bottom
+    const body = document.querySelector('.cmd-body');
+    if (body) body.scrollTop = body.scrollHeight;
 }
 
 function bootSystem() {
