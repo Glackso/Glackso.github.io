@@ -12,14 +12,6 @@
 <body>
     <div id="desktop" class="desktop">
         <div class="icon-grid">
-            <div class="shortcut" ondblclick="AppManager.open('computer')">
-                <img src="assets/icons/32/computer.png">
-                <span>My Computer</span>
-            </div>
-            <div class="shortcut" ondblclick="AppManager.open('notepad')">
-                <img src="assets/icons/32/notepad.png">
-                <span>Notepad</span>
-            </div>
             </div>
     </div>
 
@@ -31,30 +23,12 @@
 </body>
 
     <div id="start-menu" class="start-menu" style="display: none;">
-        <div class="start-menu-header">
-            <span style="padding: 10px; color: white; font-weight: bold;">Guest</span>
-        </div>
+        <div class="start-menu-header"><span>Guest</span></div>
         <div class="start-menu-body">
             <div class="start-menu-left">
-                <div class="start-item" onclick="notepadApp.openEmpty(); toggleStartMenu();">
-                    <img src="assets/icons/32/notepad.png" style="width: 32px;" onerror="this.src='https://winxp.vercel.app/icons/notepad.png'">
-                    <span style="font-weight: bold;">Notepad</span>
                 </div>
-                <div class="start-item" onclick="openApp('cmd', 'Command Prompt', 'assets/icons/16/cmd.png'); toggleStartMenu();">
-                    <img src="assets/icons/32/cmd.png" style="width: 32px;" onerror="this.src='https://winxp.vercel.app/icons/cmd.png'">
-                    <span style="font-weight: bold;">Command Prompt</span>
-                </div>
-                <div class="start-item" onclick="openApp('internet-explorer', 'Internet Explorer', 'assets/icons/16/ie.png'); toggleStartMenu();">
-                    <img src="assets/icons/32/ie.png" style="width: 32px;" onerror="this.src='https://winxp.vercel.app/icons/cmd.png'">
-                    <span style="font-weight: bold;">Internet Explorer</span>
-                </div>
-            </div>
             <div class="start-menu-right">
-                <div class="start-item" onclick="openApp('my-computer', 'My Computer', 'assets/icons/16/computer.png'); toggleStartMenu();">
-                    <img src="assets/icons/16/computer.png" style="width: 16px; margin-right: 5px;" onerror="this.src='https://winxp.vercel.app/icons/explorer.png'">
-                    My Computer
                 </div>
-            </div>
         </div>
     </div>
 
