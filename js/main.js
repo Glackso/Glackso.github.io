@@ -1,47 +1,62 @@
+const GRID_SIZE = 80;
+
 document.addEventListener('DOMContentLoaded', () => {
     updateClock();
     setInterval(updateClock, 1000);
 
-    // Desktop Shortcut Clicks
-    document.querySelectorAll('.shortcut').forEach(icon => {
-        icon.addEventListener('dblclick', () => {
-            const appId = icon.getAttribute('data-app');
-            openApp(appId);
-        });
+    // Initialize Snap-to-Grid for Desktop Icons
+    interact('.shortcut').draggable({
+        listeners: {
+            end(event) {
+                const target = event.target;
+                // Calculate nearest grid slot
+                const x = Math.round(event.clientOffset.x / GRID_SIZE) * GRID_SIZE;
+                const y = Math.round(event.clientOffset.y / GRID_SIZE) * GRID_SIZE;
+                
+                target.style.left = `${x}px`;
+                target.style.top = `${y}px`;
+            }
+        }
+    });
+
+    // Clicks
+    document.body.addEventListener('dblclick', e => {
+        const shortcut = e.target.closest('.shortcut');
+        if (shortcut) openApp(shortcut.dataset.app);
+    });
+
+    document.querySelectorAll('.taskbar-item').forEach(item => {
+        item.addEventListener('click', () => openApp(item.dataset.app));
     });
 });
 
-function updateClock() {
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('clock').innerText = timeStr;
-}
-
 function openApp(id) {
-    // Basic check to see if app is already open
     if (document.getElementById(`win-${id}`)) return;
-
+    
+    const appData = AppRegistry[id];
     const win = document.createElement('div');
     win.id = `win-${id}`;
-    win.className = 'window xp-window'; // Assuming xp.css uses these classes
-    
+    win.className = 'window';
+    win.style.width = "400px"; // Set standard size
+    win.style.height = "300px";
+
     win.innerHTML = `
         <div class="window-header">
-            <img src="assets/icons/16/${id}.png">
-            <span class="title">${id === 'computer' ? 'My Computer' : id}</span>
+            <div class="header-left">
+                <img src="${appData.icon}">
+                <span>${appData.title}</span>
+            </div>
             <div class="controls">
-                <button class="min">_</button>
-                <button class="close">X</button>
+                <button class="win-btn min">0</button>
+                <button class="win-btn close">r</button> 
             </div>
         </div>
-        <div class="window-body">
-            ${getAppContent(id)}
-        </div>
+        <div class="window-body">${appData.getContent()}</div>
     `;
 
     document.getElementById('window-layer').appendChild(win);
 
-    // Initialize dragging via interact.js
+    // Re-usable Window Dragging
     interact(`#win-${id}`).draggable({
         allowFrom: '.window-header',
         onmove: (event) => {
@@ -55,4 +70,9 @@ function openApp(id) {
     });
 
     win.querySelector('.close').onclick = () => win.remove();
+}
+
+function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
