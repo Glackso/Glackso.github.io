@@ -249,3 +249,21 @@ body {
 .xp-btn {
     padding: 2px 15px;
 }
+
+.display-config fieldset {
+    border: 1px solid #D5D5D5;
+    padding: 10px;
+    width: 220px;
+}
+
+.display-config legend {
+    font-size: 11px;
+    padding: 0 5px;
+}
+
+/* Make the buttons in the list feel more like a selection */
+.wallpaper-list button:focus {
+    background: #316ac5;
+    color: white;
+    outline: none;
+}
