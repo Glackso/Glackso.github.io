@@ -45,57 +45,32 @@ const notepadApp = {
 
 const ieApp = {
     pages: {
-        "google.com": `
-            <center style="margin-top:50px;">
-                <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" width="160"><br><br>
-                <input type="text" style="width: 300px; border: 1px solid #7f9db9;"><br><br>
-                <button>Google Search</button> <button>I'm Feeling Lucky</button>
-            </center>`,
-        "windows.com": `
-            <div style="font-family: 'Segoe UI', Tahoma; padding: 20px;">
-                <h1 style="color: #003399;">Discover Windows XP</h1>
-                <p>The new version of Windows is here, and it's better than ever.</p>
-                <img src="assets/wallpapers/bliss.jpg" width="100%" style="border: 1px solid #ccc;">
-            </div>`,
-        "error": `
-            <div style="padding: 40px; font-family: Tahoma;">
-                <h1 style="font-size: 1.5em;">The page cannot be displayed</h1>
-                <p>The page you are looking for is currently unavailable. The Web site might be experiencing technical difficulties.</p>
-                <hr>
-                <p>Please try the following:</p>
-                <ul>
-                    <li>Click the Refresh button, or try again later.</li>
-                    <li>If you typed the page address in the Address bar, make sure that it is spelled correctly.</li>
-                </ul>
-            </div>`,
-        "archive": `
-    <div style="font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif; color: #2a2a2a; padding: 10px; background: #fff;">
-        <div style="background: #900; color: white; padding: 10px; margin: -10px -10px 10px -10px; font-weight: bold; display: flex; justify-content: space-between;">
-            <span>Archive of Our Own<sup>beta</sup></span>
-            <span style="font-size: 0.8em;">Log In | Register</span>
-        </div>
-        <div id="fanfic-container">
-            </div>
-    </div>
-`,
+        "google.com": `<div style="text-align:center; padding-top:50px; font-family:arial;">
+            <h1 style="font-size:60px;"><span style="color:#4285F4">G</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">o</span><span style="color:#4285F4">g</span><span style="color:#34A853">l</span><span style="color:#EA4335">e</span></h1>
+            <input type="text" style="width:400px; padding:5px; border:1px solid #ccc;">
+            <div style="margin-top:20px;"><button>Google Search</button> <button>I'm Feeling Lucky</button></div>
+        </div>`,
+        "spacejam.com": `<div style="background:black; color:white; text-align:center; height:100%;">
+            <h2 style="color:yellow;">Space Jam (1996)</h2>
+            <p>Welcome to the original website!</p>
+        </div>`,
+        "msn.com": `<div style="background:#003399; color:white; padding:10px;">
+            <h3>MSN Messenger</h3>
+            <p>Your friends are online!</p>
+        </div>`
     },
 
     navigate: function() {
-        const address = document.getElementById('ie-address').value.toLowerCase();
+        const address = document.getElementById('ie-address').value.toLowerCase().replace('www.', '');
         const content = document.getElementById('ie-content');
         
-        // Basic "Routing"
-        if (address.includes("google")) {
-            content.innerHTML = this.pages["google.com"];
-        } else if (address.includes("windows")) {
-            content.innerHTML = this.pages["windows.com"];
-        } else if (address.includes("archive")) {
-            content.innerHTML = this.pages["archive"];
-            this.loadArchive(); // Fill in the template
+        if (this.pages[address]) {
+            content.innerHTML = this.pages[address];
         } else {
-            content.innerHTML = this.pages["error"];
+            content.innerHTML = `<div style="padding:20px;"><h1>404 - Not Found</h1><p>Internet Explorer cannot display the webpage.</p></div>`;
         }
-    },
+    }
+};
     
     loadArchive: function() {
         const stories = [
