@@ -27,16 +27,19 @@ function renderFiles(path) {
     files.forEach(item => {
         const li = document.createElement('li');
         li.className = "file-item";
-        // FIX: Point to your local assets folder instead of the external URL
-        const iconSize = item.type === 'folder' ? '16' : '16'; 
-        const iconName = item.type === 'folder' ? 'folder.png' : 'notepad.png';
-        const iconPath = `assets/icons/${iconSize}/${iconName}`;
+        
+        // Logical check for icons
+        let iconName = 'documents.png'; // Default for files
+        if (item.type === 'folder') {
+            iconName = 'folder.png';
+        }
+        
+        const iconPath = `assets/icons/16/${iconName}`;
         
         li.innerHTML = `<img src="${iconPath}" width="16" onerror="this.src='https://winxp.vercel.app/icons/${item.type === 'folder' ? 'explorer.png' : 'notepad.png'}'"> ${item.name}`;
         
         li.onclick = () => {
             if (item.type === 'folder') {
-                // Fix path joining logic
                 const newPath = path.endsWith('\\') ? `${path}${item.name}` : `${path}\\${item.name}`;
                 currentHistory.push(newPath);
                 renderFiles(newPath);
