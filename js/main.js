@@ -148,50 +148,41 @@ const AppManager = {
     },
 
     // App Logic Bundles
-    apps: {
-        notepad: {
-            save: function(id) {
-                const win = document.getElementById(id);
-                const content = win.querySelector('#notepad-text').value;
-                let fileName = "";
+    // Add these inside the AppManager object
+apps: {
+    notepad: {
+        save: function(id) {
+            const win = document.getElementById(id);
+            const textarea = win.querySelector('#notepad-text');
+            let fileName = win.fileRef ? win.fileRef.name : prompt("Save As:", "New Note.txt");
+            
+            if (!fileName) return;
+            if (!fileName.toLowerCase().endsWith('.txt')) fileName += '.txt';
 
-                if (win.fileRef) {
-                    win.fileRef.content = content;
-                    fileName = win.fileRef.name;
-                } else {
-                    fileName = prompt("Save As:", "New Note.txt");
-                    if (!fileName) return;
-                    
-                    // --- Custom Property Logic: Auto-add .txt ---
-                    if (!fileName.toLowerCase().endsWith('.txt')) {
-                        fileName += '.txt';
-                    }
-                    
-                    const newFile = { name: fileName, type: "file", content: content };
-                    driveC["C:\\My Notes"].push(newFile);
-                    win.fileRef = newFile;
-                }
-                
-                document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
-                alert(`Saved ${fileName} successfully!`);
+            if (win.fileRef) {
+                win.fileRef.content = textarea.value;
+            } else {
+                const newFile = { name: fileName, type: "file", content: textarea.value };
+                driveC["C:\\My Notes"].push(newFile);
+                win.fileRef = newFile;
             }
-        },
-        ie: {
-            navigate: function() {
-                const url = document.getElementById('ie-address').value;
-                document.getElementById('ie-frame').src = url;
-            }
+            document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
+            alert("File Saved.");
         }
-    },
+    }
+},
 
-    initCMD(win) {
-        const input = win.querySelector('#cmd-input');
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') runCommand(input.value);
-        });
-        win.addEventListener('mousedown', () => setTimeout(() => input.focus(), 10));
-    },
-
+initCMD: function(win) {
+    const input = win.querySelector('#cmd-input');
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            // This calls your existing runCommand function
+            runCommand(input.value); 
+        }
+    });
+    // Focus input when window is clicked
+    win.addEventListener('mousedown', () => setTimeout(() => input.focus(), 10));
+}
     createTaskbarBtn(id, title, icon) {
         const btn = document.createElement('div');
         btn.id = `taskbar-btn-${id}`;
