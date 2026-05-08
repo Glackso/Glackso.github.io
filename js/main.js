@@ -22,53 +22,47 @@ const AppManager = {
     zIndex: 100,
     openWindows: {},
 
-    // The Master Switch for App Content
+    // Master Switch: Handles what goes inside the frame
     getAppContent(type) {
-        switch (type) {
-            case 'notepad':
-                return {
-                    title: "Untitled - Notepad",
-                    icon: "assets/icons/16/notepad.png",
-                    html: `<textarea id="notepad-text" spellcheck="false"></textarea>`
-                };
-            case 'cmd':
-                return {
-                    title: "Command Prompt",
-                    icon: "assets/icons/16/cmd.png",
-                    html: `<div class="cmd-body">
-                            <div id="cmd-history">Microsoft Windows XP [Version 5.1.2600]\n(C) Copyright 1985-2001 Microsoft Corp.\n\n</div>
-                            <div style="display:flex"><span>C:\\></span><input id="cmd-input" autofocus></div>
-                           </div>`
-                };
-            case 'computer':
-                return {
-                    title: "My Computer",
-                    icon: "assets/icons/16/computer.png",
-                    html: `<div class="nav-bar">
-                            <button onclick="goBack()">Back</button>
-                            <span id="current-path">C:\\</span>
-                           </div>
-                           <ul id="file-viewer" class="tree-view"></ul>`
-                };
-            case 'internet-explorer':
-                return {
-                    title: "Internet Explorer",
-                    icon: "assets/icons/16/ie.png",
-                    html: `<div class="ie-wrapper">
-                            <div class="nav-bar">
-                                <span>Address</span>
-                                <input type="text" id="ie-address" value="https://www.google.com/search?igu=1">
-                                <button onclick="AppManager.apps.ie.navigate()">Go</button>
-                            </div>
-                            <iframe id="ie-frame" src="https://www.google.com/search?igu=1"></iframe>
-                           </div>`
-                };
-            default:
-                return null;
-        }
+        const apps = {
+            'notepad': {
+                title: "Untitled - Notepad",
+                icon: "assets/icons/16/notepad.png",
+                html: `<textarea id="notepad-text" spellcheck="false"></textarea>`
+            },
+            'cmd': {
+                title: "Command Prompt",
+                icon: "assets/icons/16/cmd.png",
+                html: `<div class="cmd-body">
+                        <div id="cmd-history">Microsoft Windows XP [Version 5.1.2600]\n(C) Copyright 1985-2001 Microsoft Corp.\n\n</div>
+                        <div style="display:flex"><span>C:\\></span><input id="cmd-input" spellcheck="false"></div>
+                       </div>`
+            },
+            'computer': {
+                title: "My Computer",
+                icon: "assets/icons/16/computer.png",
+                html: `<div class="nav-bar">
+                        <button onclick="goBack()">Back</button>
+                        <span id="current-path">C:\\</span>
+                       </div>
+                       <ul id="file-viewer" class="tree-view"></ul>`
+            },
+            'internet-explorer': {
+                title: "Internet Explorer",
+                icon: "assets/icons/16/ie.png",
+                html: `<div class="ie-wrapper">
+                        <div class="nav-bar">
+                            <span>Address</span>
+                            <input type="text" id="ie-address" value="https://www.google.com/search?igu=1">
+                            <button onclick="AppManager.navigateIE()">Go</button>
+                        </div>
+                        <iframe id="ie-frame" src="https://www.google.com/search?igu=1"></iframe>
+                       </div>`
+            }
+        };
+        return apps[type] || null;
     },
 
-    // Create the Window
     open(type) {
         if (this.openWindows[type]) {
             this.focus(type);
@@ -81,14 +75,13 @@ const AppManager = {
         const win = document.createElement('div');
         win.id = type;
         win.className = 'window draggable';
-        win.style.zIndex = ++this.zIndex;
-        win.style.left = "100px";
+        win.style.left = "100px"; // Initial spawn position
         win.style.top = "100px";
 
         win.innerHTML = `
             <div class="title-bar">
                 <div class="title-bar-text">
-                    <img src="${data.icon}" width="14"> ${data.title}
+                    <img src="${data.icon}" width="14" onerror="this.style.display='none'"> ${data.title}
                 </div>
                 <div class="title-bar-controls">
                     <button aria-label="Minimize" onclick="AppManager.minimize('${type}')"></button>
@@ -102,13 +95,13 @@ const AppManager = {
         document.getElementById('desktop').appendChild(win);
         this.openWindows[type] = true;
         
-        // Initialize App-Specific Logic
+        // Run app-specific init
         if (type === 'computer') renderFiles("C:\\");
-        if (type === 'cmd') setupCMD(); // You'll need to wrap your CMD listener in a function
-        
+        if (type === 'cmd') this.initCMD(win);
+
         this.createTaskbarBtn(type, data.title, data.icon);
-        this.focus(type);
         this.makeDraggable(win);
+        this.focus(type);
     },
 
     close(id) {
@@ -123,7 +116,10 @@ const AppManager = {
         const win = document.getElementById(id);
         if (win) {
             win.style.display = 'block';
-            win.style.zIndex = ++this.zIndex;
+            this.zIndex++;
+            win.style.zIndex = this.zIndex;
+            
+            // Taskbar visual update
             document.querySelectorAll('.taskbar-btn').forEach(b => b.classList.remove('active'));
             const btn = document.getElementById(`taskbar-btn-${id}`);
             if (btn) btn.classList.add('active');
@@ -133,25 +129,61 @@ const AppManager = {
     minimize(id) {
         const win = document.getElementById(id);
         if (win) win.style.display = 'none';
-        document.getElementById(`taskbar-btn-${id}`).classList.remove('active');
+        const btn = document.getElementById(`taskbar-btn-${id}`);
+        if (btn) btn.classList.remove('active');
     },
 
     createTaskbarBtn(id, title, icon) {
         const btn = document.createElement('div');
         btn.id = `taskbar-btn-${id}`;
         btn.className = 'taskbar-btn';
-        btn.innerHTML = `<img src="${icon}" width="14"> ${title}`;
+        btn.innerHTML = `<img src="${icon}" width="14" onerror="this.style.display='none'"> ${title}`;
         btn.onclick = () => {
             const win = document.getElementById(id);
-            if (win.style.display === 'none') this.focus(id);
-            else if (parseInt(win.style.zIndex) < this.zIndex) this.focus(id);
-            else this.minimize(id);
+            if (win.style.display === 'none' || win.style.zIndex < this.zIndex) {
+                this.focus(id);
+            } else {
+                this.minimize(id);
+            }
         };
         document.getElementById('taskbar-apps').appendChild(btn);
     },
 
+    // Fix for CMD input focus
+    initCMD(win) {
+        const input = win.querySelector('#cmd-input');
+        win.addEventListener('mousedown', () => setTimeout(() => input.focus(), 10));
+    },
+
     makeDraggable(el) {
-        // Integrate your interact.js code here targeting 'el'
+        if (typeof interact === 'undefined') return;
+
+        interact(el).draggable({
+            // Only allow dragging from the title bar
+            allowFrom: '.title-bar',
+            listeners: {
+                start: (event) => {
+                    this.focus(event.target.id);
+                },
+                move: (event) => {
+                    const target = event.target;
+                    // Keep track of position using data attributes
+                    const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                    const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+                    target.style.transform = `translate(${x}px, ${y}px)`;
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+                }
+            },
+            modifiers: [
+                // Keep the window inside the desktop
+                interact.modifiers.restrictRect({
+                    restriction: '#desktop',
+                    endOnly: false
+                })
+            ]
+        });
     }
 };
 
