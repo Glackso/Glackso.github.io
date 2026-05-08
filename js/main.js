@@ -1,8 +1,6 @@
-let openWindows = {};
-let highestZIndex = 20;
-
-// --- Window Z-Index & Taskbar Focus Logic ---
 function focusWindow(id) {
+    let openWindows = {};
+    let highestZIndex = 20;
     const win = document.getElementById(id);
     if (!win || win.style.display === 'none') return;
 
@@ -73,7 +71,6 @@ const AppManager = {
     },
 
     open(type, params = {}) {
-        // If app is already open, just focus it
         if (this.openWindows[type]) {
             this.focus(type);
             return;
@@ -96,7 +93,7 @@ const AppManager = {
                 </div>
                 <div class="title-bar-controls">
                     <button aria-label="Minimize" onclick="AppManager.minimize('${type}')"></button>
-                    <button aria-label="Maximize" onclick="maximizeApp('${type}')"></button>
+                    <button aria-label="Maximize"></button>
                     <button aria-label="Close" onclick="AppManager.close('${type}')"></button>
                 </div>
             </div>
@@ -106,14 +103,24 @@ const AppManager = {
         document.getElementById('desktop').appendChild(win);
         this.openWindows[type] = true;
         
-        // --- App Specific Initializers (Fixes the NULL errors) ---
+        // --- ADDED: Modular Initializers ---
         if (type === 'computer') renderFiles("C:\\");
-        if (type === 'cmd') this.initCMD(win);
+        if (type === 'cmd') this.initCMD(win); // Fixes the null error
         if (type === 'notepad' && params.fileRef) win.fileRef = params.fileRef;
 
         this.createTaskbarBtn(type, data.title, data.icon);
         this.makeDraggable(win);
         this.focus(type);
+    },
+
+    // --- ADDED: This replaces your old bottom-of-file listeners ---
+    initCMD(win) {
+        const input = win.querySelector('#cmd-input');
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') runCommand(input.value);
+        });
+        // Focus when window is clicked
+        win.addEventListener('mousedown', () => setTimeout(() => input.focus(), 10));
     },
 
     close(id) {
@@ -245,53 +252,6 @@ document.addEventListener('click', function(event) {
     // Close Start Menu if clicking desktop or window (not taskbar)
     if (!event.target.closest('#start-menu') && !event.target.closest('.start-button')) {
         document.getElementById('start-menu').style.display = 'none';
-    }
-});
-
-// --- Safer Clock (Prevents the 'null' error) ---
-setInterval(() => {
-    const clockEl = document.getElementById('clock');
-    if (clockEl) {
-        clockEl.innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    }
-}, 1000);
-
-// --- Cool CMD Logic ---
-function runCommand(input) {
-    const cmdBody = document.querySelector('.cmd-body');
-    const command = input.toLowerCase().trim();
-    let response = "";
-
-    if (command === "help") {
-        response = "Available commands: HELP, CLS, DIR, DATE, ECHO, WINVER";
-    } else if (command === "cls") {
-        cmdBody.innerHTML = 'Microsoft Windows XP [Version 5.1.2600]<br>(C) Copyright 1985-2001 Microsoft Corp.<br><br>';
-        return;
-    } else if (command === "winver") {
-        response = "Microsoft Windows XP [Version 5.1.2600] - Retro Edition";
-    } else if (command === "date") {
-        response = "The current date is: " + new Date().toLocaleDateString();
-    } else if (command.startsWith("echo ")) {
-        response = input.substring(5);
-    } else if (command === "dir") {
-        response = "Directory of C:\\<br>01/01/2001  12:00 PM    &lt;DIR&gt;          Windows<br>01/01/2001  12:00 PM    &lt;DIR&gt;          Documents and Settings";
-    } else {
-        response = `'${command}' is not recognized as an internal or external command.`;
-    }
-
-    cmdBody.innerHTML += `C:\\Documents and Settings\\Guest&gt; ${input}<br>${response}<br><br>`;
-    // Auto-scroll to bottom
-    const win = document.getElementById('cmd');
-    win.querySelector('.window-body').scrollTop = win.querySelector('.window-body').scrollHeight;
-}
-
-// Add an input listener to CMD so it's not just a placeholder
-document.addEventListener('keydown', (e) => {
-    if (document.getElementById('cmd').style.display === 'block' && document.activeElement.tagName !== 'TEXTAREA') {
-        // This is a simplified "typing" experience for the placeholder
-        if (e.key === 'Enter') {
-            runCommand("help"); // For now, any enter triggers help until we add a real input
-        }
     }
 });
 
@@ -431,46 +391,6 @@ function renderFiles(path) {
         viewer.appendChild(li);
     });
 }
-
-document.getElementById('cmd-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-        const input = this.value;
-        const history = document.getElementById('cmd-history');
-        const command = input.toLowerCase().trim();
-        let response = "";
-
-        if (command === "help") {
-            response = "HELP - Displays this message\nCLS - Clears the screen\nDIR - Lists directory\nEXIT - Closes CMD\nWINVER - About Windows";
-        } else if (command === "cls") {
-            history.innerHTML = "";
-            this.value = "";
-            return;
-        } else if (command === "exit") {
-            closeApp('cmd');
-            this.value = "";
-            return;
-        } else if (command === "winver") {
-            response = "Microsoft Windows XP Simulator [Version 1.0]\nBuild by Gemini & You";
-        } else if (command === "dir") {
-            response = " Volume in drive C has no label.\n Directory of C:\\\n\n01/01/2001  12:00 PM    <DIR>          Windows\n01/01/2001  12:00 PM    <DIR>          Documents and Settings\n01/01/2001  12:00 PM    <DIR>          Program Files";
-        } else if (command !== "") {
-            response = `'${command}' is not recognized as an internal or external command.`;
-        }
-
-        // Add to history
-        history.innerHTML += `C:\\Documents and Settings\\Guest> ${input}\n${response}\n\n`;
-        this.value = "";
-        
-        // Auto-scroll history
-        const body = history.parentElement;
-        body.scrollTop = body.scrollHeight;
-    }
-});
-
-// Auto-focus the input whenever the CMD window is clicked
-document.getElementById('cmd').addEventListener('mousedown', () => {
-    setTimeout(() => document.getElementById('cmd-input').focus(), 10);
-});
 
 const CONFIG = {
     apps: [
