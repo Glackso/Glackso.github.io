@@ -357,6 +357,27 @@ function runCommand(input) {
     if (body) body.scrollTop = body.scrollHeight;
 }
 
+function toggleMaximize(id) {
+    const win = document.getElementById(id);
+    if (!win) return;
+
+    if (win.classList.contains('maximized')) {
+        // Restore
+        win.classList.remove('maximized');
+        win.style.width = ""; // Returns to CSS default
+        win.style.height = "";
+        win.style.transform = `translate(${win.getAttribute('data-x') || 0}px, ${win.getAttribute('data-y') || 0}px)`;
+    } else {
+        // Maximize
+        win.classList.add('maximized');
+        win.style.width = "100vw";
+        win.style.height = "calc(100vh - 30px)"; // Subtract taskbar height
+        win.style.top = "0";
+        win.style.left = "0";
+        win.style.transform = "none";
+    }
+}
+
 function bootSystem() {
     renderShortcuts();
     setInterval(() => {
