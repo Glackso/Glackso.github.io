@@ -89,7 +89,7 @@ const AppManager = {
                 </div>
                 <div class="title-bar-controls">
                     <button aria-label="Minimize" onclick="AppManager.minimize('${type}')"></button>
-                    <button aria-label="Maximize"></button>
+                    <button aria-label="Maximize" onclick="toggleMaximize('${type}')"></button>
                     <button aria-label="Close" onclick="AppManager.close('${type}')"></button>
                 </div>
             </div>
