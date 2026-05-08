@@ -18,63 +18,142 @@ function focusWindow(id) {
     if (activeBtn) activeBtn.classList.add('active');
 }
 
-// --- App Controls ---
-function openApp(id, title = "App", iconSrc = "assets/icons/32/computer.png") {
-    const win = document.getElementById(id);
-    if (!win) return;
-    
-    win.style.display = 'block';
-    if (id === 'my-computer') renderFiles("C:\\");
-    
-    // Create Taskbar Button if it doesn't exist
-    if (!openWindows[id]) {
-        openWindows[id] = true;
-        const taskbarApps = document.getElementById('taskbar-apps');
+const AppManager = {
+    zIndex: 100,
+    openWindows: {},
+
+    // The Master Switch for App Content
+    getAppContent(type) {
+        switch (type) {
+            case 'notepad':
+                return {
+                    title: "Untitled - Notepad",
+                    icon: "assets/icons/16/notepad.png",
+                    html: `<textarea id="notepad-text" spellcheck="false"></textarea>`
+                };
+            case 'cmd':
+                return {
+                    title: "Command Prompt",
+                    icon: "assets/icons/16/cmd.png",
+                    html: `<div class="cmd-body">
+                            <div id="cmd-history">Microsoft Windows XP [Version 5.1.2600]\n(C) Copyright 1985-2001 Microsoft Corp.\n\n</div>
+                            <div style="display:flex"><span>C:\\></span><input id="cmd-input" autofocus></div>
+                           </div>`
+                };
+            case 'computer':
+                return {
+                    title: "My Computer",
+                    icon: "assets/icons/16/computer.png",
+                    html: `<div class="nav-bar">
+                            <button onclick="goBack()">Back</button>
+                            <span id="current-path">C:\\</span>
+                           </div>
+                           <ul id="file-viewer" class="tree-view"></ul>`
+                };
+            case 'internet-explorer':
+                return {
+                    title: "Internet Explorer",
+                    icon: "assets/icons/16/ie.png",
+                    html: `<div class="ie-wrapper">
+                            <div class="nav-bar">
+                                <span>Address</span>
+                                <input type="text" id="ie-address" value="https://www.google.com/search?igu=1">
+                                <button onclick="AppManager.apps.ie.navigate()">Go</button>
+                            </div>
+                            <iframe id="ie-frame" src="https://www.google.com/search?igu=1"></iframe>
+                           </div>`
+                };
+            default:
+                return null;
+        }
+    },
+
+    // Create the Window
+    open(type) {
+        if (this.openWindows[type]) {
+            this.focus(type);
+            return;
+        }
+
+        const data = this.getAppContent(type);
+        if (!data) return;
+
+        const win = document.createElement('div');
+        win.id = type;
+        win.className = 'window draggable';
+        win.style.zIndex = ++this.zIndex;
+        win.style.left = "100px";
+        win.style.top = "100px";
+
+        win.innerHTML = `
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="${data.icon}" width="14"> ${data.title}
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize" onclick="AppManager.minimize('${type}')"></button>
+                    <button aria-label="Maximize" onclick="maximizeApp('${type}')"></button>
+                    <button aria-label="Close" onclick="AppManager.close('${type}')"></button>
+                </div>
+            </div>
+            <div class="window-body">${data.html}</div>
+        `;
+
+        document.getElementById('desktop').appendChild(win);
+        this.openWindows[type] = true;
+        
+        // Initialize App-Specific Logic
+        if (type === 'computer') renderFiles("C:\\");
+        if (type === 'cmd') setupCMD(); // You'll need to wrap your CMD listener in a function
+        
+        this.createTaskbarBtn(type, data.title, data.icon);
+        this.focus(type);
+        this.makeDraggable(win);
+    },
+
+    close(id) {
+        const win = document.getElementById(id);
+        const btn = document.getElementById(`taskbar-btn-${id}`);
+        if (win) win.remove();
+        if (btn) btn.remove();
+        delete this.openWindows[id];
+    },
+
+    focus(id) {
+        const win = document.getElementById(id);
+        if (win) {
+            win.style.display = 'block';
+            win.style.zIndex = ++this.zIndex;
+            document.querySelectorAll('.taskbar-btn').forEach(b => b.classList.remove('active'));
+            const btn = document.getElementById(`taskbar-btn-${id}`);
+            if (btn) btn.classList.add('active');
+        }
+    },
+
+    minimize(id) {
+        const win = document.getElementById(id);
+        if (win) win.style.display = 'none';
+        document.getElementById(`taskbar-btn-${id}`).classList.remove('active');
+    },
+
+    createTaskbarBtn(id, title, icon) {
         const btn = document.createElement('div');
         btn.id = `taskbar-btn-${id}`;
         btn.className = 'taskbar-btn';
-        btn.innerHTML = `<img src="${iconSrc}" style="width: 14px; margin-right: 5px;" onerror="this.style.display='none'"> ${title}`;
-        
+        btn.innerHTML = `<img src="${icon}" width="14"> ${title}`;
         btn.onclick = () => {
-            if (win.style.display === 'none') {
-                // If minimized, show and focus
-                win.style.display = 'block';
-                focusWindow(id);
-            } else if (win.style.zIndex < highestZIndex) {
-                // If behind another window, just bring to front
-                focusWindow(id);
-            } else {
-                // If it's already the front-most window, minimize it
-                minimizeApp(id);
-            }
+            const win = document.getElementById(id);
+            if (win.style.display === 'none') this.focus(id);
+            else if (parseInt(win.style.zIndex) < this.zIndex) this.focus(id);
+            else this.minimize(id);
         };
-        taskbarApps.appendChild(btn);
-    }
-    
-    focusWindow(id); // Automatically focus when opened
-}
+        document.getElementById('taskbar-apps').appendChild(btn);
+    },
 
-function closeApp(id) {
-    const win = document.getElementById(id);
-    if (win) {
-        win.style.display = 'none';
-        win.classList.remove('maximized'); // Reset full screen on close
+    makeDraggable(el) {
+        // Integrate your interact.js code here targeting 'el'
     }
-    if (openWindows[id]) {
-        delete openWindows[id];
-        const btn = document.getElementById(`taskbar-btn-${id}`);
-        if (btn) btn.remove();
-    }
-}
-
-function minimizeApp(id) {
-    const win = document.getElementById(id);
-    if (win) win.style.display = 'none';
-    
-    // Remove active styling from taskbar button since it's minimized
-    const btn = document.getElementById(`taskbar-btn-${id}`);
-    if (btn) btn.classList.remove('active');
-}
+};
 
 function maximizeApp(id) {
     const win = document.getElementById(id);
