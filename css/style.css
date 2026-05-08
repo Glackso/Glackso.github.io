@@ -1,108 +1,32 @@
-body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Tahoma', sans-serif; }
-
-#desktop { 
-    height: calc(100vh - 30px); 
-    background-size: cover; 
-    position: relative; 
+body {
+    background: url('../assets/wallpapers/bliss.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
 }
-
-/* Fix Clock to Right Side */
-#system-tray {
-    margin-left: auto; /* Pushes to the far right */
-    border-left: 1px solid #102a8e;
-    background: #0972e3;
-    padding: 0 10px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    box-shadow: inset 2px 0 3px rgba(0,0,0,0.2);
-}
-
-/* Standardized Desktop Grid */
-.shortcut {
-    position: absolute; /* Needed for the snap-to-grid */
-    width: 70px;
-    height: 70px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Taskbar Pinned Apps */
-#running-apps {
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
-}
-
-.taskbar-item {
-    width: 34px;
-    height: 24px;
-    margin-right: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    cursor: pointer;
-}
-
-/* App Styles */
-.notepad-text {
-    width: 100%;
-    height: 100%;
-    border: none;
-    resize: none;
-}
-
-.cmd-box {
-    background: black;
-    color: #dfdfdf;
-    font-family: 'Consolas', monospace;
-    height: 100%;
-    padding: 5px;
-}
-
-.shortcut img { display: block; margin: 0 auto 5px; }
 
 #taskbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     height: 30px;
     background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #1941a5 100%);
     display: flex;
     align-items: center;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
     z-index: 9999;
 }
 
-#start-button {
-    background: linear-gradient(to bottom, #388030 0%, #5ba549 9%, #388030 18%, #388030 92%, #2d6627 100%);
-    padding: 0 15px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    font-style: italic;
-    font-weight: bold;
-    color: white;
-    border-radius: 0 10px 10px 0;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+#desktop {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 80px);
+    grid-auto-rows: 90px;
+    gap: 20px;
+    padding: 20px;
 }
 
-.window {
-    position: absolute;
-    min-width: 300px;
-    background: #ece9d8;
-    border: 3px solid #0054e3;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-
-.window-header {
-    background: linear-gradient(to bottom, #0058e9 0%, #3a93ff 10%, #005ae9 90%, #003096 100%);
-    padding: 5px;
+.desktop-icon {
+    text-align: center;
     color: white;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
+    font-size: 11px;
+    text-shadow: 1px 1px 1px black;
+    cursor: pointer;
 }
