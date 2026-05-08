@@ -321,35 +321,37 @@ function createNewTextFile() {
 
 function executeRun() {
     const input = document.getElementById('run-input');
+    if (!input) return;
+    
     const cmd = input.value.toLowerCase().trim();
     
-    if (cmd === 'notepad') {
-        notepadApp.openEmpty();
-    } else if (cmd === 'cmd' || cmd === 'command') {
-        openApp('cmd', 'Command Prompt', 'assets/icons/16/cmd.png');
-    } else if (cmd === 'explorer' || cmd === 'my computer') {
-        openApp('my-computer');
-    } else if (cmd === 'ie' || cmd === 'internet explorer') {
-        openApp('internet-explorer');
+    const commands = {
+        'notepad': () => notepadApp.openEmpty(),
+        'cmd': () => openApp('cmd', 'Command Prompt', 'assets/icons/16/cmd.png'),
+        'explorer': () => openApp('my-computer'),
+        'control': () => alert("Control Panel is coming soon!"),
+        'winver': () => alert("Windows XP Simulator\nVersion 5.1 (Build 2600.xpsp_sp2_rtm.040803-2158 : Service Pack 2)")
+    };
+
+    if (commands[cmd]) {
+        commands[cmd]();
     } else if (cmd.startsWith('http')) {
-        // Bonus: If they type a URL, open IE and navigate to it
         openApp('internet-explorer');
         document.getElementById('ie-address').value = cmd;
         ieApp.navigate();
-    } else {
-        alert("Windows cannot find '" + cmd + "'. Make sure you typed the name correctly.");
+    } else if (cmd !== "") {
+        alert(`Windows cannot find '${cmd}'. Make sure you typed the name correctly.`);
     }
     
-    input.value = ""; // Clear for next time
+    input.value = "";
     closeApp('run-dialog');
 }
 
-// Global Keyboard Shortcut for Win + R
+// Shortcut listener
 window.addEventListener('keydown', (e) => {
-    // metaKey is the Windows Key/Command Key
-    if (e.metaKey && e.key === 'r') {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
         e.preventDefault();
-        openApp('run-dialog', 'Run', 'assets/icons/16/run.png');
+        openApp('run-dialog', 'Run');
         setTimeout(() => document.getElementById('run-input').focus(), 100);
     }
 });
