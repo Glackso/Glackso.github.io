@@ -6,14 +6,61 @@ body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family:
     position: relative; 
 }
 
+/* Fix Clock to Right Side */
+#system-tray {
+    margin-left: auto; /* Pushes to the far right */
+    border-left: 1px solid #102a8e;
+    background: #0972e3;
+    padding: 0 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    box-shadow: inset 2px 0 3px rgba(0,0,0,0.2);
+}
+
+/* Standardized Desktop Grid */
 .shortcut {
-    width: 75px;
-    text-align: center;
-    color: white;
-    padding: 10px;
+    position: absolute; /* Needed for the snap-to-grid */
+    width: 70px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Taskbar Pinned Apps */
+#running-apps {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.taskbar-item {
+    width: 34px;
+    height: 24px;
+    margin-right: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
     cursor: pointer;
-    font-size: 11px;
-    text-shadow: 1px 1px 1px black;
+}
+
+/* App Styles */
+.notepad-text {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+}
+
+.cmd-box {
+    background: black;
+    color: #dfdfdf;
+    font-family: 'Consolas', monospace;
+    height: 100%;
+    padding: 5px;
 }
 
 .shortcut img { display: block; margin: 0 auto 5px; }
