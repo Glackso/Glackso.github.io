@@ -10,24 +10,29 @@
 <body>
 
     <div id="desktop" style="background-image: url('assets/wallpapers/bliss.jpg');">
-        <div class="shortcut" data-app="computer">
-            <img src="assets/icons/32/computer.png" alt="My Computer">
-            <span>My Computer</span>
-        </div>
-
-        <div id="window-layer"></div>
+    <div class="shortcut" data-app="computer" style="top: 20px; left: 20px;">
+        <img src="assets/icons/32/computer.png" alt="My Computer">
+        <span>My Computer</span>
     </div>
 
-    <div id="taskbar">
-        <div id="start-button">
-            <img src="assets/icons/16/run.png" alt="Start">
-            <span>start</span>
-        </div>
-        <div id="running-apps"></div>
-        <div id="system-tray">
-            <span id="clock"></span>
+    <div id="window-layer"></div>
+</div>
+
+<div id="taskbar">
+    <div id="start-button">
+        <span>start</span>
+    </div>
+    
+    <div id="running-apps">
+        <div class="taskbar-item pinned" data-app="computer">
+            <img src="assets/icons/16/computer.png">
         </div>
     </div>
+
+    <div id="system-tray">
+        <span id="clock"></span>
+    </div>
+</div>
 
     <script src="js/interact.min.js"></script>
     <script src="js/filesystem.js"></script>
