@@ -502,3 +502,51 @@ document.getElementById('cmd-input').addEventListener('keydown', function(e) {
 document.getElementById('cmd').addEventListener('mousedown', () => {
     setTimeout(() => document.getElementById('cmd-input').focus(), 10);
 });
+
+const CONFIG = {
+    apps: [
+        { id: 'computer', name: 'My Computer', icon: 'assets/icons/32/computer.png', startMenu: true },
+        { id: 'notepad', name: 'Notepad', icon: 'assets/icons/32/notepad.png', startMenu: true },
+        { id: 'cmd', name: 'Command Prompt', icon: 'assets/icons/32/cmd.png', startMenu: true },
+        { id: 'internet-explorer', name: 'Internet Explorer', icon: 'assets/icons/32/ie.png', startMenu: true }
+    ]
+};
+
+function renderShortcuts() {
+    const desktopGrid = document.querySelector('.icon-grid');
+    const startLeft = document.querySelector('.start-menu-left');
+    
+    // Clear existing hardcoded stuff
+    desktopGrid.innerHTML = '';
+    startLeft.innerHTML = '';
+
+    CONFIG.apps.forEach(app => {
+        // Render Desktop Icons
+        const desktopIcon = document.createElement('div');
+        desktopIcon.className = 'shortcut';
+        desktopIcon.innerHTML = `
+            <img src="${app.icon}">
+            <span>${app.name}</span>
+        `;
+        desktopIcon.ondblclick = () => AppManager.open(app.id);
+        desktopGrid.appendChild(desktopIcon);
+
+        // Render Start Menu Shortcuts
+        if (app.startMenu) {
+            const startItem = document.createElement('div');
+            startItem.className = 'start-item';
+            startItem.innerHTML = `
+                <img src="${app.icon}">
+                <span style="font-weight: bold;">${app.name}</span>
+            `;
+            startItem.onclick = () => {
+                AppManager.open(app.id);
+                toggleStartMenu();
+            };
+            startLeft.appendChild(startItem);
+        }
+    });
+}
+
+// Call this once the script loads
+renderShortcuts();
