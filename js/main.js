@@ -1,3 +1,6 @@
+zIndex: 100;
+openWindows: {};
+
 function focusWindow(id) {
     const win = document.getElementById(id);
     if (!win || win.style.display === 'none') return;
@@ -15,8 +18,6 @@ function focusWindow(id) {
 }
 
 const AppManager = {
-    zIndex: 100,
-    openWindows: {},
 
     getAppContent(type, params = {}) {
         const apps = {
