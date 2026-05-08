@@ -260,6 +260,13 @@ function toggleStartMenu() {
     }
 }
 
+function goBack() {
+    if (currentHistory.length > 1) {
+        currentHistory.pop();
+        renderFiles(currentHistory[currentHistory.length - 1]);
+    }
+}
+
 function bootSystem() {
     renderShortcuts();
     setInterval(() => {
