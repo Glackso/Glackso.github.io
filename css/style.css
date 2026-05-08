@@ -188,3 +188,64 @@ body {
     border: 1px solid #7f9db9;
     padding: 2px 4px;
 }
+
+.display-config {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.preview-monitor {
+    width: 160px;
+    height: 120px;
+    background: #333;
+    border: 8px solid #555;
+    border-radius: 5px;
+    padding: 5px;
+    position: relative;
+}
+
+.monitor-screen {
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/wallpapers/bliss.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #000;
+}
+
+.wallpaper-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 5px;
+    max-height: 100px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #7f9db9;
+    padding: 2px;
+}
+
+.wallpaper-list button {
+    border: none;
+    background: none;
+    text-align: left;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+.wallpaper-list button:hover {
+    background: #316ac5;
+    color: white;
+}
+
+.display-controls {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.xp-btn {
+    padding: 2px 15px;
+}
