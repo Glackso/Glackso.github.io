@@ -146,23 +146,30 @@ const AppManager = {
     apps: {
         notepad: {
             save: function(id) {
-                const win = document.getElementById(id);
-                const textarea = win.querySelector('#notepad-text');
-                let fileName = win.fileRef ? win.fileRef.name : prompt("Save As:", "New Note.txt");
-                
-                if (!fileName) return;
-                if (!fileName.toLowerCase().endsWith('.txt')) fileName += '.txt';
+    const win = document.getElementById(id);
+    const textarea = win.querySelector('#notepad-text');
+    let fileName = win.fileRef ? win.fileRef.name : prompt("Save As:", "New Note.txt");
+    
+    if (!fileName) return;
+    if (!fileName.toLowerCase().endsWith('.txt')) fileName += '.txt';
 
-                if (win.fileRef) {
-                    win.fileRef.content = textarea.value;
-                } else {
-                    const newFile = { name: fileName, type: "file", content: textarea.value };
-                    driveC["C:\\My Notes"].push(newFile);
-                    win.fileRef = newFile;
-                }
-                document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
-                alert("File Saved.");
-            }
+    if (win.fileRef) {
+        win.fileRef.content = textarea.value;
+    } else {
+        const newFile = { name: fileName, type: "file", content: textarea.value };
+        driveC["C:\\My Notes"].push(newFile);
+        win.fileRef = newFile;
+    }
+
+    // UPDATE: Refresh the file explorer if it's open to 'My Notes'
+    const currentPath = document.getElementById('current-path')?.innerText;
+    if (currentPath === "C:\\My Notes") {
+        renderFiles("C:\\My Notes");
+    }
+
+    document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
+    alert("File Saved to C:\\My Notes");
+}
         },
         ie: {
             navigate: function() {
