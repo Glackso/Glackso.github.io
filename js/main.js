@@ -435,8 +435,16 @@ function renderFiles(path) {
     items.forEach(item => {
         const li = document.createElement('li');
         li.className = "file-item";
-        const icon = item.type === 'folder' ? '📁' : '📝';
-        li.innerHTML = `<span>${icon}</span> <span>${item.name}</span>`;
+        
+        // Replace emoji with actual XP icons
+        const iconSrc = item.type === 'folder' 
+            ? 'assets/icons/16/directory_closed.png' 
+            : 'assets/icons/16/notepad.png';
+
+        li.innerHTML = `
+            <img src="${iconSrc}" width="16" height="16" style="margin-right: 5px;">
+            <span>${item.name}</span>
+        `;
 
         li.ondblclick = () => {
             if (item.type === 'folder') {
@@ -444,7 +452,6 @@ function renderFiles(path) {
                 currentHistory.push(nextPath);
                 renderFiles(nextPath);
             } else if (item.name.endsWith('.txt')) {
-                // Pass custom properties to the modular opener
                 AppManager.open('notepad', { 
                     content: item.content, 
                     fileName: item.name,
