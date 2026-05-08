@@ -1,18 +1,14 @@
-zIndex: 100;
-openWindows: {};
+let highestZIndex = 100; // Global tracking for windows
+let openWindows = {};    // Global tracking for open apps
 
 function focusWindow(id) {
     const win = document.getElementById(id);
     if (!win || win.style.display === 'none') return;
 
-    // Bring to front
     highestZIndex++;
     win.style.zIndex = highestZIndex;
 
-    // Remove active class from ALL taskbar buttons
     document.querySelectorAll('.taskbar-btn').forEach(btn => btn.classList.remove('active'));
-    
-    // Add active class only to the focused window
     const activeBtn = document.getElementById(`taskbar-btn-${id}`);
     if (activeBtn) activeBtn.classList.add('active');
 }
