@@ -273,7 +273,7 @@ function renderFiles(path) {
     items.forEach(item => {
         const li = document.createElement('li');
         li.className = 'file-item';
-        const icon = item.type === 'folder' ? 'assets/icons/16/folder.png' : 'assets/icons/16/notepad.png';
+        const icon = item.type === 'folder' ? 'assets/icons/16/directory_closed.png' : 'assets/icons/16/notepad.png';
         
         li.innerHTML = `<img src="${icon}"> ${item.name}`;
         
