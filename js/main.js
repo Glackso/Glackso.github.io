@@ -435,5 +435,20 @@ function renderShortcuts() {
     });
 }
 
-// Call this once the script loads
-renderShortcuts();
+function bootSystem() {
+    // 1. Render Desktop & Start Menu
+    renderShortcuts();
+    
+    // 2. Start the Clock
+    setInterval(() => {
+        const clockEl = document.getElementById('clock');
+        if (clockEl) {
+            clockEl.innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+    }, 1000);
+
+    console.log("Windows XP Boot Complete.");
+}
+
+// Start the system
+bootSystem();
