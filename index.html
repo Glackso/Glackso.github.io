@@ -3,29 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows XP Simulator</title>
-    <link rel="stylesheet" href="css/xp.css"> <link rel="stylesheet" href="css/style.css"> </head>
+    <title>Windows XP Simulation</title>
+    <link rel="stylesheet" href="css/xp.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
 
-<div id="desktop">
-    <div class="shortcut" onclick="openApp('computer')">
-        <img src="assets/icons/32/computer.png" alt="My Computer">
-        <span>My Computer</span>
-    </div>
-    
-    <div id="taskbar">
-        <button id="start-button">
-            <img src="assets/icons/16/computer.png"> 
-            <strong>start</strong>
-        </button>
-        <div id="open-apps"></div>
-        <div id="system-tray">9:05 AM</div>
-    </div>
-</div>
+    <div id="desktop" style="background-image: url('assets/wallpapers/bliss.jpg');">
+        <div class="shortcut" data-app="computer">
+            <img src="assets/icons/32/computer.png" alt="My Computer">
+            <span>My Computer</span>
+        </div>
 
-<script src="js/interact.min.js"></script>
-<script src="js/filesystem.js"></script>
-<script src="js/apps.js"></script>
-<script src="js/main.js"></script>
+        <div id="window-layer"></div>
+    </div>
+
+    <div id="taskbar">
+        <div id="start-button">
+            <img src="assets/icons/16/run.png" alt="Start">
+            <span>start</span>
+        </div>
+        <div id="running-apps"></div>
+        <div id="system-tray">
+            <span id="clock"></span>
+        </div>
+    </div>
+
+    <script src="js/interact.min.js"></script>
+    <script src="js/filesystem.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/apps.js"></script>
 </body>
 </html>
