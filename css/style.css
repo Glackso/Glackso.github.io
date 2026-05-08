@@ -1,57 +1,37 @@
-body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Tahoma', sans-serif; }
-
 #desktop {
-    width: 100%;
-    height: calc(100% - 30px); /* Subtract taskbar height */
+    width: 100vw;
+    height: 100vh;
     background: url('../assets/wallpapers/bliss.jpg') no-repeat center center;
     background-size: cover;
-    padding: 10px;
+    overflow: hidden;
+    position: relative;
 }
 
 .shortcut {
-    width: 75px;
-    text-align: center;
-    cursor: pointer;
+    width: 80px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     color: white;
-    text-shadow: 1px 1px 1px #000;
+    font-size: 11px;
+    text-shadow: 1px 1px 2px black;
+    padding-top: 10px;
+    cursor: pointer;
 }
 
-.shortcut img { display: block; margin: 0 auto 5px; }
+.shortcut img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 5px;
+}
 
-/* Simple Taskbar Styling */
 #taskbar {
-    height: 30px;
-    background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 10%, #245edb 20%, #245edb 90%, #1941a5 100%);
-    display: flex;
-    align-items: center;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     width: 100%;
-    z-index: 1000;
-}
-
-.start-button {
-    height: 100%;
-    background: linear-gradient(to bottom, #388e3c, #4caf50);
-    border: none;
-    color: white;
-    font-style: italic;
-    font-weight: bold;
-    padding: 0 15px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    height: 30px;
+    background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #1941a5 100%);
     display: flex;
-    align-items: center;
-    box-shadow: inset 1px 1px 1px #ffffff;
-}
-
-.system-tray {
-    margin-left: auto;
-    background-color: #0972e3;
-    color: white;
-    padding: 0 10px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    border-left: 1px solid #1040ab;
+    z-index: 9999;
 }
