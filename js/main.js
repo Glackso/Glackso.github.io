@@ -1,6 +1,4 @@
 function focusWindow(id) {
-    let openWindows = {};
-    let highestZIndex = 20;
     const win = document.getElementById(id);
     if (!win || win.style.display === 'none') return;
 
