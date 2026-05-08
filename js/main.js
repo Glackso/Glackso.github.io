@@ -61,7 +61,28 @@ const AppManager = {
                         </div>
                         <iframe id="ie-frame" src="https://www.google.com/search?igu=1"></iframe>
                        </div>`
-            }
+            },
+            'display-properties': {
+    title: "Display Properties",
+    icon: "assets/icons/16/display.png",
+    html: `
+        <div class="display-config">
+            <div class="preview-monitor">
+                <div id="wallpaper-preview" class="monitor-screen"></div>
+            </div>
+            <fieldset>
+                <legend>Background</legend>
+                <div class="wallpaper-list">
+                    <button onclick="AppManager.apps.display.preview('bliss')">Bliss</button>
+                    <button onclick="AppManager.apps.display.preview('autumn')">Autumn</button>
+                    <button onclick="AppManager.apps.display.preview('redmoon')">Red Moon</button>
+                </div>
+                <div class="display-controls">
+                    <button class="xp-btn" onclick="AppManager.apps.display.apply()">Apply</button>
+                </div>
+            </fieldset>
+        </div>`
+}
         };
         return apps[type] || null;
     },
@@ -176,7 +197,21 @@ const AppManager = {
                 const url = document.getElementById('ie-address').value;
                 document.getElementById('ie-frame').src = url;
             }
+        },
+
+        display: {
+    selectedWallpaper: 'bliss',
+    preview: function(name) {
+        this.selectedWallpaper = name;
+        const preview = document.getElementById('wallpaper-preview');
+        if (preview) {
+            preview.style.backgroundImage = `url('assets/wallpapers/${name}.jpg')`;
         }
+    },
+    apply: function() {
+        document.body.style.backgroundImage = `url('assets/wallpapers/${this.selectedWallpaper}.jpg')`;
+    }
+}
     },
 
     createTaskbarBtn(id, title, icon) {
