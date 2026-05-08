@@ -1,37 +1,61 @@
-#desktop {
-    width: 100vw;
-    height: 100vh;
-    background: url('../assets/wallpapers/bliss.jpg') no-repeat center center;
-    background-size: cover;
-    overflow: hidden;
-    position: relative;
+body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Tahoma', sans-serif; }
+
+#desktop { 
+    height: calc(100vh - 30px); 
+    background-size: cover; 
+    position: relative; 
 }
 
 .shortcut {
-    width: 80px;
-    height: 90px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 75px;
+    text-align: center;
     color: white;
-    font-size: 11px;
-    text-shadow: 1px 1px 2px black;
-    padding-top: 10px;
+    padding: 10px;
     cursor: pointer;
+    font-size: 11px;
+    text-shadow: 1px 1px 1px black;
 }
 
-.shortcut img {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 5px;
-}
+.shortcut img { display: block; margin: 0 auto 5px; }
 
 #taskbar {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
     height: 30px;
     background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #1941a5 100%);
     display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     z-index: 9999;
+}
+
+#start-button {
+    background: linear-gradient(to bottom, #388030 0%, #5ba549 9%, #388030 18%, #388030 92%, #2d6627 100%);
+    padding: 0 15px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-style: italic;
+    font-weight: bold;
+    color: white;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+}
+
+.window {
+    position: absolute;
+    min-width: 300px;
+    background: #ece9d8;
+    border: 3px solid #0054e3;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.window-header {
+    background: linear-gradient(to bottom, #0058e9 0%, #3a93ff 10%, #005ae9 90%, #003096 100%);
+    padding: 5px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
 }
