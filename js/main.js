@@ -218,7 +218,8 @@ const CONFIG = {
         { id: 'computer', name: 'My Computer', icon: 'assets/icons/32/computer.png', startMenu: false },
         { id: 'notepad', name: 'Notepad', icon: 'assets/icons/32/notepad.png', startMenu: true },
         { id: 'cmd', name: 'Command Prompt', icon: 'assets/icons/32/cmd.png', startMenu: true },
-        { id: 'internet-explorer', name: 'Internet Explorer', icon: 'assets/icons/32/ie.png', startMenu: true }
+        { id: 'internet-explorer', name: 'Internet Explorer', icon: 'assets/icons/32/ie.png', startMenu: true },
+        { id: 'display-properties', name: 'Display Properties', icon: 'assets/icons/32/display.png', startMenu: true }
     ]
 };
 
