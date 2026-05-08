@@ -179,7 +179,7 @@ initCMD: function(win) {
     });
     // Focus input when window is clicked
     win.addEventListener('mousedown', () => setTimeout(() => input.focus(), 10));
-}
+},
     createTaskbarBtn(id, title, icon) {
         const btn = document.createElement('div');
         btn.id = `taskbar-btn-${id}`;
