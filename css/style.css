@@ -27,10 +27,10 @@ body {
 #notepad { width: 450px; height: 350px; }
 
 .window-body {
-    flex-grow: 1;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
+    flex: 1;
+    overflow: hidden;
 }
 /* File Explorer */
 .nav-bar { display: flex; align-items: center; padding: 5px; border-bottom: 1px solid #ccc; margin-bottom: 5px; }
@@ -61,6 +61,7 @@ body {
 
 /* --- Window Maximization --- */
 .window.maximized {
+    z-index: 9999 !important;
     width: 100% !important;
     height: calc(100vh - 30px) !important;
     top: 0 !important;
@@ -171,8 +172,16 @@ body {
 }
 
 #ie-frame {
+    flex: 1; /* This makes the frame take up all remaining space */
+    border: none;
     width: 100%;
+}
+
+.ie-wrapper {
+    display: flex;
+    flex-direction: column;
     height: 100%;
+    width: 100%;
 }
 
 .nav-bar input {
