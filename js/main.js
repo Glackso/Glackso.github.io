@@ -63,9 +63,9 @@ const AppManager = {
                        </div>`
             },
             'display-properties': {
-                title: "Display Properties",
-                icon: "assets/icons/16/display.png",
-                html: `
+    title: "Display Properties",
+    icon: "assets/icons/16/display.png",
+    html: `
         <div class="display-config">
             <div class="preview-monitor">
                 <div id="wallpaper-preview" class="monitor-screen"></div>
@@ -77,12 +77,21 @@ const AppManager = {
                     <button onclick="AppManager.apps.display.preview('autumn')">Autumn</button>
                     <button onclick="AppManager.apps.display.preview('redmoon')">Red Moon</button>
                 </div>
+                
+                <div style="margin-top:10px;">
+                    <label class="xp-btn" style="display:inline-block; cursor:pointer; border:1px solid #7f9db9; padding:2px 5px; background:#f0f0f0;">
+                        Upload Custom...
+                        <input type="file" id="wallpaper-upload" accept="image/*" style="display:none" onchange="AppManager.apps.display.handleUpload(this)">
+                    </label>
+                    <p style="font-size:10px; color:#666; margin-top:5px;">Best size: 1920x1080</p>
+                </div>
+
                 <div class="display-controls">
                     <button class="xp-btn" onclick="AppManager.apps.display.apply()">Apply</button>
                 </div>
             </fieldset>
         </div>`
-            }
+}
         };
         return apps[type] || null;
     },
@@ -207,18 +216,41 @@ const AppManager = {
         },
 
         display: {
-            selectedWallpaper: 'bliss',
-            preview: function(name) {
-                this.selectedWallpaper = name;
+    selectedWallpaper: 'bliss',
+    isCustom: false,
+    customUrl: '',
+
+    preview: function(name) {
+        this.isCustom = false;
+        this.selectedWallpaper = name;
+        const preview = document.getElementById('wallpaper-preview');
+        if (preview) {
+            preview.style.backgroundImage = `url('assets/wallpapers/${name}.jpg')`;
+        }
+    },
+
+    handleUpload: function(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.isCustom = true;
+                this.customUrl = e.target.result;
+                // Update the small monitor preview immediately
                 const preview = document.getElementById('wallpaper-preview');
                 if (preview) {
-                    preview.style.backgroundImage = `url('assets/wallpapers/${name}.jpg')`;
+                    preview.style.backgroundImage = `url(${this.customUrl})`;
                 }
-            },
-            apply: function() {
-                document.body.style.backgroundImage = `url('assets/wallpapers/${this.selectedWallpaper}.jpg')`;
-            }
+            };
+            reader.readAsDataURL(input.files[0]);
         }
+    },
+
+    apply: function() {
+        const url = this.isCustom ? this.customUrl : `assets/wallpapers/${this.selectedWallpaper}.jpg`;
+        document.body.style.backgroundImage = `url(${url})`;
+        alert("Wallpaper applied successfully!");
+    }
+}
     },
 
     createTaskbarBtn(id, title, icon) {
