@@ -380,17 +380,18 @@ function renderFiles(path) {
         const li = document.createElement('li');
         li.className = 'file-item';
         const icon = item.type === 'folder' ? 'assets/icons/16/folder.png' : 'assets/icons/16/notepad.png';
-
+        
         li.innerHTML = `<img src="${icon}"> ${item.name}`;
-
+        
         li.ondblclick = () => {
+            playSound('click'); // <--- PLAY SOUND HERE
             if (item.type === 'folder') {
                 renderFiles(`${path}${item.name}\\`);
             } else {
-                AppManager.open('notepad', {
-                    fileName: item.name,
-                    content: item.content,
-                    fileRef: item
+                AppManager.open('notepad', { 
+                    fileName: item.name, 
+                    content: item.content, 
+                    fileRef: item 
                 });
             }
         };
@@ -475,6 +476,11 @@ function toggleMaximize(id) {
         win.style.left = "0";
         win.style.transform = "none";
     }
+}
+
+function playSound(soundName) {
+    const audio = new Audio(`assets/sounds/${soundName}.wav`);
+    audio.play().catch(e => console.log("Sound play blocked until user interacts with page."));
 }
 
 function bootSystem() {
