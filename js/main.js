@@ -179,34 +179,41 @@ const AppManager = {
     apps: {
         notepad: {
             save: function(id) {
-                const win = document.getElementById(id);
-                const textarea = win.querySelector('#notepad-text');
-                let fileName = win.fileRef ? win.fileRef.name : prompt("Save As:", "New Note.txt");
+    const win = document.getElementById(id);
+    const textarea = win.querySelector('#notepad-text');
+    let fileName = win.fileRef ? win.fileRef.name : prompt("Save As:", "New Note.txt");
+    
+    if (!fileName) return;
+    if (!fileName.toLowerCase().endsWith('.txt')) fileName += '.txt';
 
-                if (!fileName) return;
-                if (!fileName.toLowerCase().endsWith('.txt')) fileName += '.txt';
+    let savedFile;
+    if (win.fileRef) {
+        win.fileRef.content = textarea.value;
+        savedFile = win.fileRef;
+    } else {
+        savedFile = { name: fileName, type: "file", content: textarea.value };
+        driveC["C:\\My Notes"].push(savedFile);
+        win.fileRef = savedFile;
+    }
 
-                if (win.fileRef) {
-                    win.fileRef.content = textarea.value;
-                } else {
-                    const newFile = {
-                        name: fileName,
-                        type: "file",
-                        content: textarea.value
-                    };
-                    driveC["C:\\My Notes"].push(newFile);
-                    win.fileRef = newFile;
-                }
+    // --- RECENT DOCUMENTS LOGIC ---
+    // Check if it's already in recent, if not, add it
+    const isAlreadyInRecent = driveC["C:\\Recent"].some(f => f.name === fileName);
+    if (!isAlreadyInRecent) {
+        driveC["C:\\Recent"].unshift(savedFile); // Add to top of list
+        if (driveC["C:\\Recent"].length > 10) driveC["C:\\Recent"].pop(); // Keep only last 10
+    }
 
-                // UPDATE: Refresh the file explorer if it's open to 'My Notes'
-                const currentPath = document.getElementById('current-path')?.innerText;
-                if (currentPath === "C:\\My Notes") {
-                    renderFiles("C:\\My Notes");
-                }
+    // --- REFRESH FILE EXPLORER ---
+    const currentPath = document.getElementById('current-path')?.innerText;
+    if (currentPath === "C:\\My Notes" || currentPath === "C:\\Recent") {
+        renderFiles(currentPath);
+    }
 
-                document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
-                alert("File Saved to C:\\My Notes");
-            }
+    document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
+    playSound('click'); // Optional: play sound on save
+    alert("File Saved.");
+}
         },
         ie: {
             navigate: function() {
