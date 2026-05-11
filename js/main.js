@@ -188,31 +188,33 @@ const AppManager = {
 
     let savedFile;
     if (win.fileRef) {
+        // Update existing file
         win.fileRef.content = textarea.value;
         savedFile = win.fileRef;
     } else {
+        // Create new file object
         savedFile = { name: fileName, type: "file", content: textarea.value };
+        
+        // Add to My Notes by default if it's a new file
+        if (!driveC["C:\\My Notes"]) driveC["C:\\My Notes"] = [];
         driveC["C:\\My Notes"].push(savedFile);
         win.fileRef = savedFile;
     }
 
     // --- RECENT DOCUMENTS LOGIC ---
-    // Check if it's already in recent, if not, add it
-    const isAlreadyInRecent = driveC["C:\\Recent"].some(f => f.name === fileName);
-    if (!isAlreadyInRecent) {
-        driveC["C:\\Recent"].unshift(savedFile); // Add to top of list
-        if (driveC["C:\\Recent"].length > 10) driveC["C:\\Recent"].pop(); // Keep only last 10
-    }
+    if (!driveC["C:\\Recent"]) driveC["C:\\Recent"] = [];
+    
+    // Remove if already exists to move to top
+    driveC["C:\\Recent"] = driveC["C:\\Recent"].filter(f => f.name !== fileName);
+    driveC["C:\\Recent"].unshift(savedFile); // Add to top
+    if (driveC["C:\\Recent"].length > 10) driveC["C:\\Recent"].pop(); 
 
-    // --- REFRESH FILE EXPLORER ---
+    // --- REFRESH VIEWER IF OPEN ---
     const currentPath = document.getElementById('current-path')?.innerText;
-    if (currentPath === "C:\\My Notes" || currentPath === "C:\\Recent") {
-        renderFiles(currentPath);
-    }
+    if (currentPath) renderFiles(currentPath);
 
     document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
-    playSound('click'); // Optional: play sound on save
-    alert("File Saved.");
+    alert("File Saved to C:\\My Notes and Recent Documents");
 }
         },
         ie: {
