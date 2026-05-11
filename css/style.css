@@ -1,12 +1,13 @@
 body {
     margin: 0;
     height: 100vh;
-    background-color: #008080; /* Safe fallback color */
+    background-color: #008080;
     background-image: url('../assets/wallpapers/bliss.jpg');
     background-size: cover;
     background-position: center;
     overflow: hidden;
-    font-family: Tahoma, sans-serif;
+    /* Removed Tahoma, using standard system sans-serif */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 .desktop { height: calc(100vh - 30px); padding: 10px; }
@@ -15,11 +16,14 @@ body {
 .shortcut img { width: 32px; height: 32px; display: block; margin: 0 auto 5px; }
 .window {
     position: absolute;
-    width: 400px; /* Default width */
+    width: 400px;
     min-height: 200px;
     background: #ece9d8;
     display: flex;
     flex-direction: column;
+    /* Added font reset for windows */
+    font-family: Arial, sans-serif;
+    font-size: 12px;
 }
 
 #internet-explorer { width: 700px; height: 500px; }
