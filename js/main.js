@@ -277,106 +277,119 @@ const AppManager = {
     }
 }, minesweeper: {
     rows: 9, cols: 9, mines: 10,
-    grid: [], gameOver: false, timerInterval: null,
+    grid: [], gameOver: false, 
+    flagsPlaced: 0, timer: 0, timerInterval: null,
 
     init: function() {
         this.gameOver = false;
-        this.grid = [];
-        const gridEl = document.getElementById('ms-grid');
+        this.flagsPlaced = 0;
+        this.timer = 0;
+        clearInterval(this.timerInterval);
+        this.timerInterval = null;
+        
+        this.updateCounter('mine-count', this.mines);
+        this.updateCounter('ms-timer', 0);
+        
         const face = document.getElementById('ms-face');
-        if (!gridEl) return;
-
-        gridEl.innerHTML = '';
         face.style.backgroundImage = "url('assets/minesweeper/face/normal.png')";
         
-        // Create Logic Grid
-        for (let r = 0; r < this.rows; r++) {
-            this.grid[r] = [];
-            for (let c = 0; c < this.cols; c++) {
-                const tile = document.createElement('div');
-                tile.className = 'ms-tile';
-                tile.dataset.row = r;
-                tile.dataset.col = c;
-                
-                tile.onmousedown = () => { if(!this.gameOver) face.style.backgroundImage = "url('assets/minesweeper/face/click.png')"; };
-                tile.onmouseup = () => { if(!this.gameOver) face.style.backgroundImage = "url('assets/minesweeper/face/normal.png')"; };
-                tile.onclick = () => this.reveal(r, c);
-                tile.oncontextmenu = (e) => { e.preventDefault(); this.flag(r, c); };
-                
-                gridEl.appendChild(tile);
-                this.grid[r][c] = { isMine: false, revealed: false, flagged: false, count: 0, el: tile };
-            }
-        }
+        // Handle face "clicked" state
+        face.onmousedown = () => face.style.backgroundImage = "url('assets/minesweeper/face/clicked.png')";
+        face.onmouseup = () => face.style.backgroundImage = "url('assets/minesweeper/face/normal.png')";
 
-        // Place Mines
-        let placed = 0;
-        while (placed < this.mines) {
-            let r = Math.floor(Math.random() * this.rows);
-            let c = Math.floor(Math.random() * this.cols);
-            if (!this.grid[r][c].isMine) {
-                this.grid[r][c].isMine = true;
-                placed++;
-            }
-        }
-
-        // Calculate Numbers
-        for (let r = 0; r < this.rows; r++) {
-            for (let c = 0; c < this.cols; c++) {
-                if (this.grid[r][c].isMine) continue;
-                let count = 0;
-                for (let i = -1; i <= 1; i++) {
-                    for (let j = -1; j <= 1; j++) {
-                        if (this.grid[r + i]?.[c + j]?.isMine) count++;
-                    }
-                }
-                this.grid[r][c].count = count;
-            }
-        }
+        this.createGrid();
     },
 
-    reveal: function(r, c) {
-        if (this.gameOver || this.grid[r][c].revealed || this.grid[r][c].flagged) return;
+    // Helper to turn 10 into [0, 1, 0] and update sprites
+    updateCounter: function(elementId, value) {
+        const container = document.getElementById(elementId);
+        if (!container) return;
         
-        const cell = this.grid[r][c];
-        cell.revealed = true;
-        cell.el.classList.add('revealed');
+        // Clamp value between 0 and 999
+        const val = Math.min(Math.max(value, 0), 999);
+        const digits = val.toString().padStart(3, '0').split('');
+        
+        container.innerHTML = '';
+        digits.forEach(d => {
+            const digitDiv = document.createElement('div');
+            digitDiv.className = 'digit-box';
+            // If d is '0', use your 'none' sprite, else use number
+            const sprite = d === '0' ? 'none' : d;
+            digitDiv.style.backgroundImage = `url('assets/minesweeper/number/${sprite}.png')`;
+            container.appendChild(digitDiv);
+        });
+    },
 
-        if (cell.isMine) {
-            this.explode(r, c);
-            return;
-        }
-
-        if (cell.count > 0) {
-            cell.el.style.backgroundImage = `url('assets/minesweeper/tile/${cell.count}.png')`;
-        } else {
-            cell.el.style.backgroundImage = `url('assets/minesweeper/tile/tilenone.png')`;
-            // Flood fill for empty tiles
-            for (let i = -1; i <= 1; i++) {
-                for (let j = -1; j <= 1; j++) {
-                    if (this.grid[r+i]?.[c+j]) this.reveal(r+i, c+j);
-                }
-            }
-        }
+    startTimer: function() {
+        if (this.timerInterval) return;
+        this.timerInterval = setInterval(() => {
+            this.timer++;
+            this.updateCounter('ms-timer', this.timer);
+            if (this.timer >= 999) clearInterval(this.timerInterval);
+        }, 1000);
     },
 
     flag: function(r, c) {
         if (this.gameOver || this.grid[r][c].revealed) return;
         const cell = this.grid[r][c];
+        
         cell.flagged = !cell.flagged;
-        cell.el.style.backgroundImage = cell.flagged ? "url('assets/minesweeper/tile/flag.png')" : "url('assets/minesweeper/tile/tile.png')";
+        this.flagsPlaced += cell.flagged ? 1 : -1;
+        
+        // Update Flag Counter (Mines Total - Flags)
+        this.updateCounter('mine-count', this.mines - this.flagsPlaced);
+        
+        cell.el.style.backgroundImage = cell.flagged ? 
+            "url('assets/minesweeper/tile/flag.png')" : 
+            "url('assets/minesweeper/tile/tile.png')";
+        
         playSound('click');
+    },
+
+    reveal: function(r, c) {
+        if (this.gameOver || this.grid[r][c].revealed || this.grid[r][c].flagged) return;
+        
+        // Start timer on first click
+        if (this.timer === 0) this.startTimer();
+
+        const cell = this.grid[r][c];
+        cell.revealed = true;
+        
+        if (cell.isMine) {
+            this.explode(r, c);
+            return;
+        }
+
+        // Logic for setting tile image
+        if (cell.count > 0) {
+            cell.el.style.backgroundImage = `url('assets/minesweeper/tile/${cell.count}.png')`;
+        } else {
+            cell.el.style.backgroundImage = `url('assets/minesweeper/tile/tilenone.png')`;
+            this.floodFill(r, c);
+        }
+        
+        this.checkWin();
     },
 
     explode: function(r, c) {
         this.gameOver = true;
+        clearInterval(this.timerInterval);
         document.getElementById('ms-face').style.backgroundImage = "url('assets/minesweeper/face/lose.png')";
-        this.grid[r][c].el.style.backgroundImage = "url('assets/minesweeper/tile/clickedmine.png')";
-        
-        // Show all other mines
+        // ... existing explode logic ...
+    },
+
+    checkWin: function() {
+        let unrevealedSafeTiles = 0;
         this.grid.forEach(row => row.forEach(cell => {
-            if (cell.isMine && !cell.flagged) cell.el.style.backgroundImage = "url('assets/minesweeper/tile/mine.png')";
-            if (!cell.isMine && cell.flagged) cell.el.style.backgroundImage = "url('assets/minesweeper/tile/wrong.png')";
+            if (!cell.isMine && !cell.revealed) unrevealedSafeTiles++;
         }));
+
+        if (unrevealedSafeTiles === 0) {
+            this.gameOver = true;
+            clearInterval(this.timerInterval);
+            document.getElementById('ms-face').style.backgroundImage = "url('assets/minesweeper/face/win.png')";
+            this.updateCounter('mine-count', 0);
+        }
     }
 }
     },
