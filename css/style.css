@@ -318,3 +318,32 @@ body {
 .ms-tile.revealed {
     pointer-events: none;
 }
+
+/* Fix window size for Minesweeper specifically */
+#minesweeper { 
+    width: 168px !important; 
+    height: auto !important; 
+    resizable: none;
+}
+
+.ms-counter {
+    background-color: black;
+    display: flex;
+    padding: 1px;
+    border: 1px solid #808080;
+}
+
+.ms-digit {
+    width: 13px;
+    height: 23px;
+    background-size: 143px 23px; /* Assuming 11 sprites in one row: 0-9 plus 'none' */
+    background-image: url('../assets/minesweeper/number/numbers.png'); /* Adjust if separate files */
+}
+
+/* If you have individual files for numbers 0-9: */
+.digit-box {
+    width: 13px;
+    height: 23px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
