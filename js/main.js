@@ -413,21 +413,36 @@ const AppManager = {
     }, // Added missing comma
 
     updateCounter: function(elementId, value) {
-        const container = document.getElementById(elementId);
-        if (!container) return;
-        
-        const val = Math.min(Math.max(value, 0), 999);
-        const digits = val.toString().padStart(3, '0').split('');
-        
-        container.innerHTML = '';
-        digits.forEach(d => {
-            const digitDiv = document.createElement('div');
-            digitDiv.className = 'digit-box';
-            const sprite = d === '0' ? 'none' : d;
-            digitDiv.style.backgroundImage = `url('assets/minesweeper/number/${sprite}.png')`;
-            container.appendChild(digitDiv);
-        });
-    },
+    const container = document.getElementById(elementId);
+    if (!container) return;
+    
+    const val = Math.min(Math.max(value, 0), 999);
+    // Convert to string
+    let valStr = val.toString();
+    
+    // Create the 3-digit array
+    // Example: val 5 becomes ["none", "none", "5"]
+    // Example: val 50 becomes ["none", "5", "0"]
+    let displayDigits = ["none", "none", "none"];
+    
+    if (valStr.length === 1) {
+        displayDigits[2] = valStr[0];
+    } else if (valStr.length === 2) {
+        displayDigits[1] = valStr[0];
+        displayDigits[2] = valStr[1];
+    } else {
+        displayDigits = valStr.split('');
+    }
+
+    container.innerHTML = '';
+    displayDigits.forEach(d => {
+        const digitDiv = document.createElement('div');
+        digitDiv.className = 'digit-box';
+        // d will be "none", "0", "1", etc.
+        digitDiv.style.backgroundImage = `url('assets/minesweeper/number/${d}.png')`;
+        container.appendChild(digitDiv);
+    });
+},
 
     startTimer: function() {
         if (this.timerInterval) return;
