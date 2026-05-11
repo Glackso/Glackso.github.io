@@ -5,14 +5,11 @@ const driveC = {
         { name: "My Notes", type: "folder" },
         { name: "Recent", type: "folder" }
     ],
-    "C:\\Windows": [
-        { name: "System32", type: "folder" }
-    ],
+    "C:\\Windows": [{ name: "System32", type: "folder" }],
     "C:\\Documents": [
         { name: "Readme.txt", type: "file", content: "Welcome to your new XP Simulator!" }
     ],
     "C:\\My Notes": [],
-    
     "C:\\Recent": []
 };
 
