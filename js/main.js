@@ -91,6 +91,19 @@ const AppManager = {
                 </div>
             </fieldset>
         </div>`
+},
+'minesweeper': {
+    title: "Minesweeper",
+    icon: "assets/icons/16/minesweeper.png",
+    html: `
+        <div class="minesweeper-container">
+            <div class="ms-header">
+                <div class="ms-counter" id="mine-count">010</div>
+                <div class="ms-face" id="ms-face" onclick="AppManager.apps.minesweeper.init()"></div>
+                <div class="ms-counter" id="ms-timer">000</div>
+            </div>
+            <div id="ms-grid" class="ms-grid"></div>
+        </div>`
 }
         };
         return apps[type] || null;
@@ -259,6 +272,109 @@ const AppManager = {
         document.body.style.backgroundImage = `url(${url})`;
         alert("Wallpaper applied successfully!");
     }
+}, minesweeper: {
+    rows: 9, cols: 9, mines: 10,
+    grid: [], gameOver: false, timerInterval: null,
+
+    init: function() {
+        this.gameOver = false;
+        this.grid = [];
+        const gridEl = document.getElementById('ms-grid');
+        const face = document.getElementById('ms-face');
+        if (!gridEl) return;
+
+        gridEl.innerHTML = '';
+        face.style.backgroundImage = "url('assets/minesweeper/face/normal.png')";
+        
+        // Create Logic Grid
+        for (let r = 0; r < this.rows; r++) {
+            this.grid[r] = [];
+            for (let c = 0; c < this.cols; c++) {
+                const tile = document.createElement('div');
+                tile.className = 'ms-tile';
+                tile.dataset.row = r;
+                tile.dataset.col = c;
+                
+                tile.onmousedown = () => { if(!this.gameOver) face.style.backgroundImage = "url('assets/minesweeper/face/click.png')"; };
+                tile.onmouseup = () => { if(!this.gameOver) face.style.backgroundImage = "url('assets/minesweeper/face/normal.png')"; };
+                tile.onclick = () => this.reveal(r, c);
+                tile.oncontextmenu = (e) => { e.preventDefault(); this.flag(r, c); };
+                
+                gridEl.appendChild(tile);
+                this.grid[r][c] = { isMine: false, revealed: false, flagged: false, count: 0, el: tile };
+            }
+        }
+
+        // Place Mines
+        let placed = 0;
+        while (placed < this.mines) {
+            let r = Math.floor(Math.random() * this.rows);
+            let c = Math.floor(Math.random() * this.cols);
+            if (!this.grid[r][c].isMine) {
+                this.grid[r][c].isMine = true;
+                placed++;
+            }
+        }
+
+        // Calculate Numbers
+        for (let r = 0; r < this.rows; r++) {
+            for (let c = 0; c < this.cols; c++) {
+                if (this.grid[r][c].isMine) continue;
+                let count = 0;
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        if (this.grid[r + i]?.[c + j]?.isMine) count++;
+                    }
+                }
+                this.grid[r][c].count = count;
+            }
+        }
+    },
+
+    reveal: function(r, c) {
+        if (this.gameOver || this.grid[r][c].revealed || this.grid[r][c].flagged) return;
+        
+        const cell = this.grid[r][c];
+        cell.revealed = true;
+        cell.el.classList.add('revealed');
+
+        if (cell.isMine) {
+            this.explode(r, c);
+            return;
+        }
+
+        if (cell.count > 0) {
+            cell.el.style.backgroundImage = `url('assets/minesweeper/tile/${cell.count}.png')`;
+        } else {
+            cell.el.style.backgroundImage = `url('assets/minesweeper/tile/tilenone.png')`;
+            // Flood fill for empty tiles
+            for (let i = -1; i <= 1; i++) {
+                for (let j = -1; j <= 1; j++) {
+                    if (this.grid[r+i]?.[c+j]) this.reveal(r+i, c+j);
+                }
+            }
+        }
+    },
+
+    flag: function(r, c) {
+        if (this.gameOver || this.grid[r][c].revealed) return;
+        const cell = this.grid[r][c];
+        cell.flagged = !cell.flagged;
+        cell.el.style.backgroundImage = cell.flagged ? "url('assets/minesweeper/tile/flag.png')" : "url('assets/minesweeper/tile/tile.png')";
+        playSound('click');
+    },
+
+    explode: function(r, c) {
+        this.gameOver = true;
+        document.getElementById('ms-face').style.backgroundImage = "url('assets/minesweeper/face/lose.png')";
+        this.grid[r][c].el.style.backgroundImage = "url('assets/minesweeper/tile/clickedmine.png')";
+        
+        // Show all other mines
+        this.grid.forEach(row => row.forEach(cell => {
+            if (cell.isMine && !cell.flagged) cell.el.style.backgroundImage = "url('assets/minesweeper/tile/mine.png')";
+            if (!cell.isMine && cell.flagged) cell.el.style.backgroundImage = "url('assets/minesweeper/tile/wrong.png')";
+        }));
+    }
 }
     },
 
@@ -326,7 +442,8 @@ const CONFIG = {
             name: 'Display Properties',
             icon: 'assets/icons/32/display.png',
             startMenu: true
-        }
+        },
+        { id: 'minesweeper', name: 'Minesweeper', icon: 'assets/icons/32/minesweeper.png', startMenu: true }
     ]
 };
 
