@@ -148,6 +148,9 @@ const AppManager = {
         if (type === 'display-properties') {
             setTimeout(() => this.apps.display.preview(this.apps.display.selectedWallpaper), 50);
         }
+        if (type === 'minesweeper') {
+            setTimeout(() => this.apps.minesweeper.init(), 100);
+        }
 
         this.createTaskbarBtn(type, data.title, data.icon);
         this.makeDraggable(win);
