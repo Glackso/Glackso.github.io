@@ -381,23 +381,32 @@ function renderFiles(path) {
     viewer.innerHTML = '';
     pathDisplay.innerText = path;
 
+    // Ensure we get the array for the current path
     const items = driveC[path] || [];
 
     items.forEach(item => {
         const li = document.createElement('li');
         li.className = 'file-item';
-        const icon = item.type === 'folder' ? 'assets/icons/16/folder.png' : 'assets/icons/16/notepad.png';
         
-        li.innerHTML = `<img src="${icon}"> ${item.name}`;
+        // Pick icon based on type
+        const iconSrc = item.type === 'folder' 
+            ? 'assets/icons/16/folder.png' 
+            : 'assets/icons/16/notepad.png';
+        
+        li.innerHTML = `<img src="${iconSrc}" width="16"> ${item.name}`;
         
         li.ondblclick = () => {
-            playSound('click'); // <--- PLAY SOUND HERE
+            playSound('click'); // Play sound on interaction
+            
             if (item.type === 'folder') {
-                renderFiles(`${path}${item.name}\\`);
+                // Handle folder navigation
+                const newPath = path.endsWith('\\') ? `${path}${item.name}` : `${path}\\${item.name}`;
+                renderFiles(newPath);
             } else {
+                // Handle opening files (Notepad)
                 AppManager.open('notepad', { 
                     fileName: item.name, 
-                    content: item.content, 
+                    content: item.content || '', 
                     fileRef: item 
                 });
             }
