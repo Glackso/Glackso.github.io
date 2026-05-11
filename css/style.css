@@ -271,3 +271,50 @@ body {
     color: white;
     outline: none;
 }
+
+.minesweeper-container {
+    background: #bdbdbd;
+    border: 3px solid #eee;
+    border-top-color: #7b7b7b;
+    border-left-color: #7b7b7b;
+    padding: 6px;
+    user-select: none;
+}
+
+.ms-header {
+    border: 2px solid #7b7b7b;
+    border-bottom-color: #eee;
+    border-right-color: #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+    margin-bottom: 6px;
+}
+
+.ms-face {
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.ms-grid {
+    border: 3px solid #7b7b7b;
+    border-bottom-color: #eee;
+    border-right-color: #eee;
+    display: grid;
+    grid-template-columns: repeat(9, 16px);
+    grid-template-rows: repeat(9, 16px);
+}
+
+.ms-tile {
+    width: 16px;
+    height: 16px;
+    background-image: url('../assets/minesweeper/tile/tile.png');
+    background-size: contain;
+}
+
+.ms-tile.revealed {
+    pointer-events: none;
+}
