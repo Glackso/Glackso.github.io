@@ -530,8 +530,14 @@ const AppManager = {
                 },
                 move: (event) => {
                     const target = event.target;
-                    const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                    const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                    let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                    let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                    const minX = 0;
+                    const minY = 0;
+                    const maxX = window.innerWidth - target.offsetWidth;
+                    const maxY = window.innerHeight - 30 - target.offsetHeight;
+                    x = Math.max(minX, Math.min(x, maxX));
+                    y = Math.max(minY, Math.min(y, maxY));
                     target.style.transform = `translate(${x}px, ${y}px)`;
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
@@ -773,5 +779,29 @@ function bootSystem() {
         }
     }, 1000);
 }
+
+const SystemState = {
+    save: function() {
+        const state = {
+            files: driveC,
+            wallpaper: document.body.style.backgroundImage,
+            // You can add more here later, like desktop icon positions
+        };
+        localStorage.setItem('xp_sim_state', JSON.stringify(state));
+    },
+
+    load: function() {
+        const saved = localStorage.getItem('xp_sim_state');
+        if (saved) {
+            const state = JSON.parse(saved);
+            // Restore Files (Merge with driveC to ensure new system folders exist)
+            Object.assign(driveC, state.files);
+            // Restore Wallpaper
+            if (state.wallpaper) {
+                document.body.style.backgroundImage = state.wallpaper;
+            }
+        }
+    }
+};
 
 bootSystem();
