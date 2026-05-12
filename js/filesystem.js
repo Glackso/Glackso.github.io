@@ -3,14 +3,14 @@ const driveC = {
         { name: "Windows", type: "folder" },
         { name: "Documents", type: "folder" },
         { name: "My Notes", type: "folder" },
-        { name: "Recent", type: "folder" }
+        { name: "Recent", type: "folder" },
+        { name: "Readme.txt", type: "file", content: "Welcome to Windows XP Simulator!\n\nThis is a functional file system." }
     ],
-    "C:\\Windows": [{ name: "System32", type: "folder" }],
-    "C:\\Documents": [
-        { name: "Readme.txt", type: "file", content: "Welcome to your new XP Simulator!" }
+    "C:\\\\Documents": [
+        { name: "Pictures", type: "folder" },
+        { name: "Music", type: "folder" }
     ],
-    "C:\\My Notes": [],
-    "C:\\Recent": []
+    "C:\\\\My Notes": [
+        { name: "Todo.txt", type: "file", content: "1. Fix My Computer\n2. Add Minesweeper\n3. Profit" }
+    ]
 };
-
-let currentHistory = ["C:\\"];
