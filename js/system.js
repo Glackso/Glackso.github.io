@@ -33,17 +33,15 @@ const SystemState = {
 
 function focusWindow(id) {
     const win = document.getElementById(id);
-    if (!win || win.style.display === 'none') return;
-
+    if (!win) return;
     highestZIndex++;
     win.style.zIndex = highestZIndex;
-
+    
     document.querySelectorAll('.window').forEach(w => w.classList.remove('active-win'));
     win.classList.add('active-win');
-
-    document.querySelectorAll('.taskbar-btn').forEach(btn => btn.classList.remove('active'));
-    const activeBtn = document.getElementById(`taskbar-btn-${id}`);
-    if (activeBtn) activeBtn.classList.add('active');
+    
+    document.querySelectorAll('.taskbar-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`taskbar-btn-${id}`)?.classList.add('active');
 }
 
 function playSound(soundName) {
@@ -52,17 +50,9 @@ function playSound(soundName) {
 }
 
 function bootSystem() {
-    // Start Clock
+    renderShortcuts();
     setInterval(() => {
-        const clockEl = document.getElementById('clock');
-        if (clockEl) {
-            clockEl.innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
+        const clock = document.getElementById('clock');
+        if (clock) clock.innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }, 1000);
-
-    // Initial focus listener
-    document.addEventListener('mousedown', (e) => {
-        const win = e.target.closest('.window');
-        if (win) focusWindow(win.id);
-    });
 }
