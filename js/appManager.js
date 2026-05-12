@@ -13,17 +13,14 @@ const AppManager = {
         win.style.top = '50px';
 
         win.innerHTML = `
-            <div class="title-bar">
-                <div class="title-bar-text">
-                    <img src="${data.icon}" width="16">
-                    <span>${data.title}</span>
-                </div>
-                <div class="title-bar-controls">
-                    <button aria-label="Close" onclick="AppManager.close('${type}')"></button>
-                </div>
+        <div class="title-bar">
+            <div class="title-bar-text"><span>${params.title || data.title}</span></div>
+            <div class="title-bar-controls">
+                <button aria-label="Close" onclick="AppManager.close('${type}')"></button>
             </div>
-            <div class="window-body">${data.generateHTML()}</div>
-        `;
+        </div>
+        <div class="window-body">${data.generateHTML(params)}</div>
+    `;
 
         document.getElementById('desktop').appendChild(win);
         
