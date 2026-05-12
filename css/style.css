@@ -274,11 +274,11 @@ body {
 
 .minesweeper-container {
     background: #bdbdbd;
-    border: 3px solid #eee;
-    border-top-color: #7b7b7b;
-    border-left-color: #7b7b7b;
+    border: 3px solid;
+    border-color: #eee #7b7b7b #7b7b7b #eee;
     padding: 6px;
     user-select: none;
+    width: fit-content;
 }
 
 .ms-header {
@@ -300,12 +300,13 @@ body {
 }
 
 .ms-grid {
-    border: 3px solid #7b7b7b;
-    border-bottom-color: #eee;
-    border-right-color: #eee;
+    border: 3px solid;
+    border-color: #7b7b7b #eee #eee #7b7b7b;
     display: grid;
     grid-template-columns: repeat(9, 16px);
     grid-template-rows: repeat(9, 16px);
+    width: 144px; /* 9 * 16px */
+    height: 144px;
 }
 
 .ms-tile {
@@ -321,9 +322,9 @@ body {
 
 /* Fix window size for Minesweeper specifically */
 #minesweeper { 
-    width: 168px !important; 
+    width: fit-content !important; 
+    min-width: 168px !important;
     height: auto !important; 
-    resizable: none;
 }
 
 .ms-counter {
@@ -340,10 +341,17 @@ body {
     background-image: url('../assets/minesweeper/number/numbers.png'); /* Adjust if separate files */
 }
 
-/* If you have individual files for numbers 0-9: */
+/* Ensure digits are crisp */
 .digit-box {
     width: 13px;
     height: 23px;
     background-size: contain;
     background-repeat: no-repeat;
+    image-rendering: pixelated; 
+}
+
+#minesweeper .window-body {
+    padding: 0; /* Remove padding to prevent grid clipping */
+    background: #bdbdbd;
+    overflow: hidden;
 }
