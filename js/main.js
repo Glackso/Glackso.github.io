@@ -124,15 +124,20 @@ const AppManager = {
         win.style.left = "100px";
         win.style.top = "100px";
 
+
+        const isMinesweeper = type === 'minesweeper';
+
         win.innerHTML = `
             <div class="title-bar">
                 <div class="title-bar-text">
-                    <img src="${data.icon}" width="14" onerror="this.style.display='none'"> 
-                    <span id="${type}-title">${data.title}</span>
+              <img src="${data.icon}" width="14" onerror="this.style.display='none'"> 
+              <span id="${type}-title">${data.title}</span>
                 </div>
                 <div class="title-bar-controls">
                     <button aria-label="Minimize" onclick="AppManager.minimize('${type}')"></button>
-                    <button aria-label="Maximize" onclick="toggleMaximize('${type}')"></button>
+                    <button aria-label="Maximize" 
+                            ${isMinesweeper ? 'style="opacity: 0.5; pointer-events: none;"' : ''} 
+                            onclick="toggleMaximize('${type}')"></button>
                     <button aria-label="Close" onclick="AppManager.close('${type}')"></button>
                 </div>
             </div>
