@@ -478,18 +478,18 @@ const AppManager = {
             },
 
             floodFill: function(r, c) {
-                 for (let i = -1; i <= 1; i++) {
-                 for (let j = -1; j <= 1; j++) {
-                    let nr = r + i;
-                    let nc = c + j;
-                    if (this.grid[nr] && this.grid[nr][nc]) {
-                        if (!this.grid[nr][nc].revealed && !this.grid[nr][nc].isMine) {
-                         this.reveal(nr, nc);
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        let nr = r + i;
+                        let nc = c + j;
+                        if (this.grid[nr] && this.grid[nr][nc]) {
+                            if (!this.grid[nr][nc].revealed && !this.grid[nr][nc].isMine) {
+                                this.reveal(nr, nc);
+                            }
+                        }
+                    }
                 }
-            }
-        }
-    }
-},
+            },
 
             checkWin: function() {
                 let unrevealedSafeTiles = 0;
@@ -728,7 +728,7 @@ function runCommand(input) {
 
 function toggleMaximize(id) {
     if (id === 'minesweeper') return;
-    
+
     const win = document.getElementById(id);
     if (!win) return;
 
