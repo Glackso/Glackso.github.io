@@ -789,7 +789,37 @@ const SystemState = {
             }
         }
     }
+    login: function() {
+        document.getElementById('login-screen').style.display = 'none';
+        playSound('startup'); // If you have it
+        this.load(); // Load files/wallpaper after "logging in"
+    }
 };
+
+const ContextMenu = {
+    show: function(e) {
+        e.preventDefault();
+        const menu = document.getElementById('context-menu');
+        menu.style.display = 'block';
+        menu.style.left = `${e.pageX}px`;
+        menu.style.top = `${e.pageY}px`;
+        
+        // Determine what was clicked to show different options
+        if (e.target.closest('.desktop')) {
+            menu.innerHTML = `
+                <div class="menu-item" onclick="AppManager.open('notepad')">New Text Document</div>
+                <div class="menu-item" onclick="AppManager.open('display')">Properties</div>
+            `;
+        }
+    },
+    hide: function() {
+        document.getElementById('context-menu').style.display = 'none';
+    }
+};
+
+// Global Listeners
+document.addEventListener('contextmenu', ContextMenu.show);
+document.addEventListener('click', ContextMenu.hide);
 
 function bootSystem() {
     renderShortcuts();
