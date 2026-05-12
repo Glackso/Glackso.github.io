@@ -546,3 +546,21 @@ body {
     background: #bdbdbd;
     overflow: hidden;
 }
+
+.login-overlay {
+    position: fixed;
+    inset: 0;
+    background: black;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: sans-serif;
+}
+.login-box { text-align: center; }
+.user-avatar { 
+    width: 100px; height: 100px; 
+    background: #3a91ff; border: 2px solid white; 
+    border-radius: 5px; margin-bottom: 20px; 
+}
