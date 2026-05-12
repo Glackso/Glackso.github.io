@@ -1,17 +1,17 @@
 function toggleStartMenu() {
     const menu = document.getElementById('start-menu');
-    menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+    menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'flex' : 'none';
 }
 
 function renderShortcuts() {
-    const grid = document.getElementById('icon-grid');
-    grid.innerHTML = ''; // Clear for refresh
+    const grid = document.querySelector('.icon-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
 
     const shortcuts = [
         { name: "My Computer", icon: "assets/icons/32/computer.png", type: "computer" },
         { name: "Minesweeper", icon: "assets/icons/32/minesweeper.png", type: "minesweeper" },
-        { name: "Notepad", icon: "assets/icons/32/notepad.png", type: "notepad" },
-        { name: "CMD", icon: "assets/icons/32/cmd.png", type: "cmd" }
+        { name: "Notepad", icon: "assets/icons/32/notepad.png", type: "notepad" }
     ];
 
     shortcuts.forEach(s => {
@@ -22,6 +22,18 @@ function renderShortcuts() {
         grid.appendChild(div);
     });
 }
+
+// Global click handler to close menu and focus windows
+document.addEventListener('mousedown', (e) => {
+    const startMenu = document.getElementById('start-menu');
+    const startBtn = document.querySelector('.start-button');
+    if (startMenu.style.display === 'flex' && !startMenu.contains(e.target) && !startBtn.contains(e.target)) {
+        startMenu.style.display = 'none';
+    }
+    
+    const win = e.target.closest('.window');
+    if (win) focusWindow(win.id);
+});
 
 const ContextMenu = {
     show: function(e) {
