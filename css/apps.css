@@ -20,3 +20,18 @@
     background: rgba(255,255,255,0.5);
     border: 1px solid #7f9db9;
 }
+/* Add this to your style.css */
+.file-hover-effect:hover {
+    background-color: #316ac5 !important;
+    border: 1px solid #08246b;
+    border-radius: 2px;
+}
+
+.file-hover-effect:hover span {
+    color: white !important;
+}
+
+.nav-bar button:active {
+    background: #d5d0b7;
+    box-shadow: inset 1px 1px 1px #808080;
+}
