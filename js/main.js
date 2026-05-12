@@ -224,6 +224,7 @@ const AppManager = {
                     if (!driveC["C:\\My Notes"]) driveC["C:\\My Notes"] = [];
                     driveC["C:\\My Notes"].push(savedFile);
                     win.fileRef = savedFile;
+                    SystemState.save();
                 }
 
                 // --- RECENT DOCUMENTS LOGIC ---
@@ -530,14 +531,8 @@ const AppManager = {
                 },
                 move: (event) => {
                     const target = event.target;
-                    let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                    let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-                    const minX = 0;
-                    const minY = 0;
-                    const maxX = window.innerWidth - target.offsetWidth;
-                    const maxY = window.innerHeight - 30 - target.offsetHeight;
-                    x = Math.max(minX, Math.min(x, maxX));
-                    y = Math.max(minY, Math.min(y, maxY));
+                    const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                    const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
                     target.style.transform = `translate(${x}px, ${y}px)`;
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
@@ -767,19 +762,6 @@ document.addEventListener('mousedown', (e) => {
     }
 });
 
-function bootSystem() {
-    renderShortcuts();
-    setInterval(() => {
-        const clockEl = document.getElementById('clock');
-        if (clockEl) {
-            clockEl.innerText = new Date().toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-    }, 1000);
-}
-
 const SystemState = {
     save: function() {
         const state = {
@@ -804,4 +786,18 @@ const SystemState = {
     }
 };
 
+function bootSystem() {
+    renderShortcuts();
+    setInterval(() => {
+        const clockEl = document.getElementById('clock');
+        if (clockEl) {
+            clockEl.innerText = new Date().toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    }, 1000);
+}
+
+SystemState.load();
 bootSystem();
