@@ -1,7 +1,22 @@
 .explorer-container { display: flex; height: 300px; background: white; }
 .explorer-sidebar { width: 150px; background: linear-gradient(to bottom, #748aff, #4059de); color: white; padding: 10px; }
 .sidebar-header { background: white; color: #215dc6; padding: 2px 5px; font-weight: bold; border-radius: 4px; font-size: 11px; }
-.file-viewer { flex: 1; padding: 20px; display: flex; gap: 20px; }
+#file-viewer {
+    background-color: white;
+}
 .file-item { display: flex; flex-direction: column; align-items: center; width: 80px; text-align: center; font-size: 11px; cursor: pointer; }
-.file-item:hover { background: #316ac5; color: white; }
+.file-item:hover {
+    background-color: #316ac5 !important;
+    color: white !important;
+    border: 1px solid #08246b !important;
+}
 .shortcut { text-align: center; color: white; width: 80px; cursor: pointer; padding: 10px; }
+.nav-bar button {
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+}
+.nav-bar button:hover {
+    background: rgba(255,255,255,0.5);
+    border: 1px solid #7f9db9;
+}
