@@ -508,11 +508,11 @@ body {
     pointer-events: none;
 }
 
-/* Fix window size for Minesweeper specifically */
-#minesweeper {
-    width: fit-content !important;
+#minesweeper { 
+    width: fit-content !important; 
     min-width: 168px !important;
-    height: auto !important;
+    height: auto !important; 
+    min-height: 0 !important; /* Forces the window to shrink to fit the grid */
 }
 
 .ms-counter {
