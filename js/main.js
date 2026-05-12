@@ -8,6 +8,11 @@ function focusWindow(id) {
     highestZIndex++;
     win.style.zIndex = highestZIndex;
 
+    // Toggle Active Class for styling
+    document.querySelectorAll('.window').forEach(w => w.classList.remove('active-win'));
+    win.classList.add('active-win');
+
+    // Update Taskbar
     document.querySelectorAll('.taskbar-btn').forEach(btn => btn.classList.remove('active'));
     const activeBtn = document.getElementById(`taskbar-btn-${id}`);
     if (activeBtn) activeBtn.classList.add('active');
