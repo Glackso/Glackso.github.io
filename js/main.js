@@ -727,6 +727,8 @@ function runCommand(input) {
 }
 
 function toggleMaximize(id) {
+    if (id === 'minesweeper') return;
+    
     const win = document.getElementById(id);
     if (!win) return;
 
