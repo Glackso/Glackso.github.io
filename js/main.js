@@ -477,6 +477,20 @@ const AppManager = {
                 }, 1000);
             },
 
+            floodFill: function(r, c) {
+                 for (let i = -1; i <= 1; i++) {
+                 for (let j = -1; j <= 1; j++) {
+                    let nr = r + i;
+                    let nc = c + j;
+                    if (this.grid[nr] && this.grid[nr][nc]) {
+                        if (!this.grid[nr][nc].revealed && !this.grid[nr][nc].isMine) {
+                         this.reveal(nr, nc);
+                }
+            }
+        }
+    }
+},
+
             checkWin: function() {
                 let unrevealedSafeTiles = 0;
                 this.grid.forEach(row => row.forEach(cell => {
