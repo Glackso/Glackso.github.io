@@ -63,9 +63,9 @@ const AppManager = {
                        </div>`
             },
             'display-properties': {
-    title: "Display Properties",
-    icon: "assets/icons/16/display.png",
-    html: `
+                title: "Display Properties",
+                icon: "assets/icons/16/display.png",
+                html: `
         <div class="display-config">
             <div class="preview-monitor">
                 <div id="wallpaper-preview" class="monitor-screen"></div>
@@ -91,11 +91,11 @@ const AppManager = {
                 </div>
             </fieldset>
         </div>`
-},
-'minesweeper': {
-    title: "Minesweeper",
-    icon: "assets/icons/16/minesweeper.png",
-    html: `
+            },
+            'minesweeper': {
+                title: "Minesweeper",
+                icon: "assets/icons/16/minesweeper.png",
+                html: `
         <div class="minesweeper-container">
             <div class="ms-header">
                 <div class="ms-counter" id="mine-count">010</div>
@@ -104,7 +104,7 @@ const AppManager = {
             </div>
             <div id="ms-grid" class="ms-grid"></div>
         </div>`
-}
+            }
         };
         return apps[type] || null;
     },
@@ -200,43 +200,47 @@ const AppManager = {
     apps: {
         notepad: {
             save: function(id) {
-    const win = document.getElementById(id);
-    const textarea = win.querySelector('#notepad-text');
-    let fileName = win.fileRef ? win.fileRef.name : prompt("Save As:", "New Note.txt");
-    
-    if (!fileName) return;
-    if (!fileName.toLowerCase().endsWith('.txt')) fileName += '.txt';
+                const win = document.getElementById(id);
+                const textarea = win.querySelector('#notepad-text');
+                let fileName = win.fileRef ? win.fileRef.name : prompt("Save As:", "New Note.txt");
 
-    let savedFile;
-    if (win.fileRef) {
-        // Update existing file
-        win.fileRef.content = textarea.value;
-        savedFile = win.fileRef;
-    } else {
-        // Create new file object
-        savedFile = { name: fileName, type: "file", content: textarea.value };
-        
-        // Add to My Notes by default if it's a new file
-        if (!driveC["C:\\My Notes"]) driveC["C:\\My Notes"] = [];
-        driveC["C:\\My Notes"].push(savedFile);
-        win.fileRef = savedFile;
-    }
+                if (!fileName) return;
+                if (!fileName.toLowerCase().endsWith('.txt')) fileName += '.txt';
 
-    // --- RECENT DOCUMENTS LOGIC ---
-    if (!driveC["C:\\Recent"]) driveC["C:\\Recent"] = [];
-    
-    // Remove if already exists to move to top
-    driveC["C:\\Recent"] = driveC["C:\\Recent"].filter(f => f.name !== fileName);
-    driveC["C:\\Recent"].unshift(savedFile); // Add to top
-    if (driveC["C:\\Recent"].length > 10) driveC["C:\\Recent"].pop(); 
+                let savedFile;
+                if (win.fileRef) {
+                    // Update existing file
+                    win.fileRef.content = textarea.value;
+                    savedFile = win.fileRef;
+                } else {
+                    // Create new file object
+                    savedFile = {
+                        name: fileName,
+                        type: "file",
+                        content: textarea.value
+                    };
 
-    // --- REFRESH VIEWER IF OPEN ---
-    const currentPath = document.getElementById('current-path')?.innerText;
-    if (currentPath) renderFiles(currentPath);
+                    // Add to My Notes by default if it's a new file
+                    if (!driveC["C:\\My Notes"]) driveC["C:\\My Notes"] = [];
+                    driveC["C:\\My Notes"].push(savedFile);
+                    win.fileRef = savedFile;
+                }
 
-    document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
-    alert("File Saved to C:\\My Notes and Recent Documents");
-}
+                // --- RECENT DOCUMENTS LOGIC ---
+                if (!driveC["C:\\Recent"]) driveC["C:\\Recent"] = [];
+
+                // Remove if already exists to move to top
+                driveC["C:\\Recent"] = driveC["C:\\Recent"].filter(f => f.name !== fileName);
+                driveC["C:\\Recent"].unshift(savedFile); // Add to top
+                if (driveC["C:\\Recent"].length > 10) driveC["C:\\Recent"].pop();
+
+                // --- REFRESH VIEWER IF OPEN ---
+                const currentPath = document.getElementById('current-path')?.innerText;
+                if (currentPath) renderFiles(currentPath);
+
+                document.getElementById(`${id}-title`).innerText = `${fileName} - Notepad`;
+                alert("File Saved to C:\\My Notes and Recent Documents");
+            }
         },
         ie: {
             navigate: function() {
@@ -246,232 +250,247 @@ const AppManager = {
         },
 
         display: {
-    selectedWallpaper: 'bliss',
-    isCustom: false,
-    customUrl: '',
+            selectedWallpaper: 'bliss',
+            isCustom: false,
+            customUrl: '',
 
-    preview: function(name) {
-        this.isCustom = false;
-        this.selectedWallpaper = name;
-        const preview = document.getElementById('wallpaper-preview');
-        if (preview) {
-            preview.style.backgroundImage = `url('assets/wallpapers/${name}.jpg')`;
-        }
-    },
-
-    handleUpload: function(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.isCustom = true;
-                this.customUrl = e.target.result;
-                // Update the small monitor preview immediately
+            preview: function(name) {
+                this.isCustom = false;
+                this.selectedWallpaper = name;
                 const preview = document.getElementById('wallpaper-preview');
                 if (preview) {
-                    preview.style.backgroundImage = `url(${this.customUrl})`;
+                    preview.style.backgroundImage = `url('assets/wallpapers/${name}.jpg')`;
                 }
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    },
+            },
 
-    apply: function() {
-        const url = this.isCustom ? this.customUrl : `assets/wallpapers/${this.selectedWallpaper}.jpg`;
-        document.body.style.backgroundImage = `url(${url})`;
-        alert("Wallpaper applied successfully!");
-    }
-},minesweeper: {
-    rows: 9, cols: 9, mines: 10,
-    grid: [], gameOver: false, 
-    flagsPlaced: 0, timer: 0, timerInterval: null,
+            handleUpload: function(input) {
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.isCustom = true;
+                        this.customUrl = e.target.result;
+                        // Update the small monitor preview immediately
+                        const preview = document.getElementById('wallpaper-preview');
+                        if (preview) {
+                            preview.style.backgroundImage = `url(${this.customUrl})`;
+                        }
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            },
 
-    init: function() {
-        this.gameOver = false;
-        this.flagsPlaced = 0;
-        this.timer = 0;
-        clearInterval(this.timerInterval);
-        this.timerInterval = null;
-        
-        this.updateCounter('mine-count', this.mines);
-        this.updateCounter('ms-timer', 0);
-        
-        const face = document.getElementById('ms-face');
-        if (face) face.style.backgroundImage = "url('assets/minesweeper/face/normal.png')";
-        
-        // Handle face "clicked" state (Reset button)
-        if (face) {
-            face.onmousedown = () => face.style.backgroundImage = "url('assets/minesweeper/face/clicked.png')";
-            face.onmouseup = () => face.style.backgroundImage = "url('assets/minesweeper/face/normal.png')";
-        }
-
-        this.createGrid(); // Now this function actually exists below
-    },
-
-    createGrid: function() {
-        const gridEl = document.getElementById('ms-grid');
-        const face = document.getElementById('ms-face');
-        if (!gridEl) return;
-
-        gridEl.innerHTML = '';
-        this.grid = [];
-
-        // 1. Create Logic Grid & Elements
-        for (let r = 0; r < this.rows; r++) {
-            this.grid[r] = [];
-            for (let c = 0; c < this.cols; c++) {
-                const tile = document.createElement('div');
-                tile.className = 'ms-tile';
-                
-                tile.onmousedown = () => { 
-                    if(!this.gameOver) face.style.backgroundImage = "url('assets/minesweeper/face/click.png')"; 
-                };
-                tile.onmouseup = () => { 
-                    if(!this.gameOver) face.style.backgroundImage = "url('assets/minesweeper/face/normal.png')"; 
-                };
-                tile.onclick = () => this.reveal(r, c);
-                tile.oncontextmenu = (e) => { e.preventDefault(); this.flag(r, c); };
-                
-                gridEl.appendChild(tile);
-                this.grid[r][c] = { isMine: false, revealed: false, flagged: false, count: 0, el: tile };
+            apply: function() {
+                const url = this.isCustom ? this.customUrl : `assets/wallpapers/${this.selectedWallpaper}.jpg`;
+                document.body.style.backgroundImage = `url(${url})`;
+                alert("Wallpaper applied successfully!");
             }
-        }
+        },
+        minesweeper: {
+            rows: 9,
+            cols: 9,
+            mines: 10,
+            grid: [],
+            gameOver: false,
+            flagsPlaced: 0,
+            timer: 0,
+            timerInterval: null,
 
-        // 2. Place Mines
-        let placed = 0;
-        while (placed < this.mines) {
-            let r = Math.floor(Math.random() * this.rows);
-            let c = Math.floor(Math.random() * this.cols);
-            if (!this.grid[r][c].isMine) {
-                this.grid[r][c].isMine = true;
-                placed++;
-            }
-        }
+            init: function() {
+                this.gameOver = false;
+                this.flagsPlaced = 0;
+                this.timer = 0;
+                clearInterval(this.timerInterval);
+                this.timerInterval = null;
 
-        // 3. Calculate Numbers
-        for (let r = 0; r < this.rows; r++) {
-            for (let c = 0; c < this.cols; c++) {
-                if (this.grid[r][c].isMine) continue;
-                let count = 0;
-                for (let i = -1; i <= 1; i++) {
-                    for (let j = -1; j <= 1; j++) {
-                        if (this.grid[r + i]?.[c + j]?.isMine) count++;
+                this.updateCounter('mine-count', this.mines);
+                this.updateCounter('ms-timer', 0);
+
+                const face = document.getElementById('ms-face');
+                if (face) face.style.backgroundImage = "url('assets/minesweeper/face/normal.png')";
+
+                // Handle face "clicked" state (Reset button)
+                if (face) {
+                    face.onmousedown = () => face.style.backgroundImage = "url('assets/minesweeper/face/clicked.png')";
+                    face.onmouseup = () => face.style.backgroundImage = "url('assets/minesweeper/face/normal.png')";
+                }
+
+                this.createGrid(); // Now this function actually exists below
+            },
+
+            createGrid: function() {
+                const gridEl = document.getElementById('ms-grid');
+                const face = document.getElementById('ms-face');
+                if (!gridEl) return;
+
+                gridEl.innerHTML = '';
+                this.grid = [];
+
+                // 1. Create Logic Grid & Elements
+                for (let r = 0; r < this.rows; r++) {
+                    this.grid[r] = [];
+                    for (let c = 0; c < this.cols; c++) {
+                        const tile = document.createElement('div');
+                        tile.className = 'ms-tile';
+
+                        tile.onmousedown = () => {
+                            if (!this.gameOver) face.style.backgroundImage = "url('assets/minesweeper/face/click.png')";
+                        };
+                        tile.onmouseup = () => {
+                            if (!this.gameOver) face.style.backgroundImage = "url('assets/minesweeper/face/normal.png')";
+                        };
+                        tile.onclick = () => this.reveal(r, c);
+                        tile.oncontextmenu = (e) => {
+                            e.preventDefault();
+                            this.flag(r, c);
+                        };
+
+                        gridEl.appendChild(tile);
+                        this.grid[r][c] = {
+                            isMine: false,
+                            revealed: false,
+                            flagged: false,
+                            count: 0,
+                            el: tile
+                        };
                     }
                 }
-                this.grid[r][c].count = count;
-            }
-        }
-    },
 
-    reveal: function(r, c) {
-        if (this.gameOver || this.grid[r][c].revealed || this.grid[r][c].flagged) return;
-        
-        if (this.timer === 0) this.startTimer();
+                // 2. Place Mines
+                let placed = 0;
+                while (placed < this.mines) {
+                    let r = Math.floor(Math.random() * this.rows);
+                    let c = Math.floor(Math.random() * this.cols);
+                    if (!this.grid[r][c].isMine) {
+                        this.grid[r][c].isMine = true;
+                        placed++;
+                    }
+                }
 
-        const cell = this.grid[r][c];
-        cell.revealed = true;
-        cell.el.classList.add('revealed');
-        
-        if (cell.isMine) {
-            this.explode(r, c);
-            return;
-        }
+                // 3. Calculate Numbers
+                for (let r = 0; r < this.rows; r++) {
+                    for (let c = 0; c < this.cols; c++) {
+                        if (this.grid[r][c].isMine) continue;
+                        let count = 0;
+                        for (let i = -1; i <= 1; i++) {
+                            for (let j = -1; j <= 1; j++) {
+                                if (this.grid[r + i]?.[c + j]?.isMine) count++;
+                            }
+                        }
+                        this.grid[r][c].count = count;
+                    }
+                }
+            },
 
-        if (cell.count > 0) {
-            cell.el.style.backgroundImage = `url('assets/minesweeper/tile/${cell.count}.png')`;
-        } else {
-            cell.el.style.backgroundImage = `url('assets/minesweeper/tile/tilenone.png')`;
-            // Flood fill for empty tiles
-            for (let i = -1; i <= 1; i++) {
-                for (let j = -1; j <= 1; j++) {
-                    if (this.grid[r+i]?.[c+j]) this.reveal(r+i, c+j);
+            reveal: function(r, c) {
+                if (this.gameOver || this.grid[r][c].revealed || this.grid[r][c].flagged) return;
+
+                if (this.timer === 0) this.startTimer();
+
+                const cell = this.grid[r][c];
+                cell.revealed = true;
+                cell.el.classList.add('revealed');
+
+                if (cell.isMine) {
+                    this.explode(r, c);
+                    return;
+                }
+
+                if (cell.count > 0) {
+                    cell.el.style.backgroundImage = `url('assets/minesweeper/tile/${cell.count}.png')`;
+                } else {
+                    cell.el.style.backgroundImage = `url('assets/minesweeper/tile/tilenone.png')`;
+                    // Flood fill for empty tiles
+                    for (let i = -1; i <= 1; i++) {
+                        for (let j = -1; j <= 1; j++) {
+                            if (this.grid[r + i]?.[c + j]) this.reveal(r + i, c + j);
+                        }
+                    }
+                }
+                this.checkWin();
+            },
+
+            flag: function(r, c) {
+                if (this.gameOver || this.grid[r][c].revealed) return;
+                const cell = this.grid[r][c];
+
+                cell.flagged = !cell.flagged;
+                this.flagsPlaced += cell.flagged ? 1 : -1;
+                this.updateCounter('mine-count', this.mines - this.flagsPlaced);
+
+                cell.el.style.backgroundImage = cell.flagged ?
+                    "url('assets/minesweeper/tile/flag.png')" :
+                    "url('assets/minesweeper/tile/tile.png')";
+
+                playSound('click');
+            },
+
+            explode: function(r, c) {
+                this.gameOver = true;
+                clearInterval(this.timerInterval);
+                document.getElementById('ms-face').style.backgroundImage = "url('assets/minesweeper/face/lose.png')";
+                this.grid[r][c].el.style.backgroundImage = "url('assets/minesweeper/tile/clickedmine.png')";
+
+                this.grid.forEach(row => row.forEach(cell => {
+                    if (cell.isMine && !cell.flagged) cell.el.style.backgroundImage = "url('assets/minesweeper/tile/mine.png')";
+                    if (!cell.isMine && cell.flagged) cell.el.style.backgroundImage = "url('assets/minesweeper/tile/wrong.png')";
+                }));
+            }, // Added missing comma
+
+            updateCounter: function(elementId, value) {
+                const container = document.getElementById(elementId);
+                if (!container) return;
+
+                const val = Math.min(Math.max(value, 0), 999);
+                // Convert to string
+                let valStr = val.toString();
+
+                // Create the 3-digit array
+                // Example: val 5 becomes ["none", "none", "5"]
+                // Example: val 50 becomes ["none", "5", "0"]
+                let displayDigits = ["none", "none", "none"];
+
+                if (valStr.length === 1) {
+                    displayDigits[2] = valStr[0];
+                } else if (valStr.length === 2) {
+                    displayDigits[1] = valStr[0];
+                    displayDigits[2] = valStr[1];
+                } else {
+                    displayDigits = valStr.split('');
+                }
+
+                container.innerHTML = '';
+                displayDigits.forEach(d => {
+                    const digitDiv = document.createElement('div');
+                    digitDiv.className = 'digit-box';
+                    // d will be "none", "0", "1", etc.
+                    digitDiv.style.backgroundImage = `url('assets/minesweeper/number/${d}.png')`;
+                    container.appendChild(digitDiv);
+                });
+            },
+
+            startTimer: function() {
+                if (this.timerInterval) return;
+                this.timerInterval = setInterval(() => {
+                    this.timer++;
+                    this.updateCounter('ms-timer', this.timer);
+                    if (this.timer >= 999) clearInterval(this.timerInterval);
+                }, 1000);
+            },
+
+            checkWin: function() {
+                let unrevealedSafeTiles = 0;
+                this.grid.forEach(row => row.forEach(cell => {
+                    if (!cell.isMine && !cell.revealed) unrevealedSafeTiles++;
+                }));
+
+                if (unrevealedSafeTiles === 0) {
+                    this.gameOver = true;
+                    clearInterval(this.timerInterval);
+                    document.getElementById('ms-face').style.backgroundImage = "url('assets/minesweeper/face/win.png')";
+                    this.updateCounter('mine-count', 0);
                 }
             }
         }
-        this.checkWin();
-    },
-
-    flag: function(r, c) {
-        if (this.gameOver || this.grid[r][c].revealed) return;
-        const cell = this.grid[r][c];
-        
-        cell.flagged = !cell.flagged;
-        this.flagsPlaced += cell.flagged ? 1 : -1;
-        this.updateCounter('mine-count', this.mines - this.flagsPlaced);
-        
-        cell.el.style.backgroundImage = cell.flagged ? 
-            "url('assets/minesweeper/tile/flag.png')" : 
-            "url('assets/minesweeper/tile/tile.png')";
-        
-        playSound('click');
-    },
-
-    explode: function(r, c) {
-        this.gameOver = true;
-        clearInterval(this.timerInterval);
-        document.getElementById('ms-face').style.backgroundImage = "url('assets/minesweeper/face/lose.png')";
-        this.grid[r][c].el.style.backgroundImage = "url('assets/minesweeper/tile/clickedmine.png')";
-        
-        this.grid.forEach(row => row.forEach(cell => {
-            if (cell.isMine && !cell.flagged) cell.el.style.backgroundImage = "url('assets/minesweeper/tile/mine.png')";
-            if (!cell.isMine && cell.flagged) cell.el.style.backgroundImage = "url('assets/minesweeper/tile/wrong.png')";
-        }));
-    }, // Added missing comma
-
-    updateCounter: function(elementId, value) {
-    const container = document.getElementById(elementId);
-    if (!container) return;
-    
-    const val = Math.min(Math.max(value, 0), 999);
-    // Convert to string
-    let valStr = val.toString();
-    
-    // Create the 3-digit array
-    // Example: val 5 becomes ["none", "none", "5"]
-    // Example: val 50 becomes ["none", "5", "0"]
-    let displayDigits = ["none", "none", "none"];
-    
-    if (valStr.length === 1) {
-        displayDigits[2] = valStr[0];
-    } else if (valStr.length === 2) {
-        displayDigits[1] = valStr[0];
-        displayDigits[2] = valStr[1];
-    } else {
-        displayDigits = valStr.split('');
-    }
-
-    container.innerHTML = '';
-    displayDigits.forEach(d => {
-        const digitDiv = document.createElement('div');
-        digitDiv.className = 'digit-box';
-        // d will be "none", "0", "1", etc.
-        digitDiv.style.backgroundImage = `url('assets/minesweeper/number/${d}.png')`;
-        container.appendChild(digitDiv);
-    });
-},
-
-    startTimer: function() {
-        if (this.timerInterval) return;
-        this.timerInterval = setInterval(() => {
-            this.timer++;
-            this.updateCounter('ms-timer', this.timer);
-            if (this.timer >= 999) clearInterval(this.timerInterval);
-        }, 1000);
-    },
-
-    checkWin: function() {
-        let unrevealedSafeTiles = 0;
-        this.grid.forEach(row => row.forEach(cell => {
-            if (!cell.isMine && !cell.revealed) unrevealedSafeTiles++;
-        }));
-
-        if (unrevealedSafeTiles === 0) {
-            this.gameOver = true;
-            clearInterval(this.timerInterval);
-            document.getElementById('ms-face').style.backgroundImage = "url('assets/minesweeper/face/win.png')";
-            this.updateCounter('mine-count', 0);
-        }
-    }
-}
     },
 
     createTaskbarBtn(id, title, icon) {
@@ -539,7 +558,12 @@ const CONFIG = {
             icon: 'assets/icons/32/display.png',
             startMenu: true
         },
-        { id: 'minesweeper', name: 'Minesweeper', icon: 'assets/icons/32/minesweeper.png', startMenu: true }
+        {
+            id: 'minesweeper',
+            name: 'Minesweeper',
+            icon: 'assets/icons/32/minesweeper.png',
+            startMenu: true
+        }
     ]
 };
 
@@ -602,27 +626,27 @@ function renderFiles(path) {
     items.forEach(item => {
         const li = document.createElement('li');
         li.className = 'file-item';
-        
+
         // Pick icon based on type
-        const iconSrc = item.type === 'folder' 
-            ? 'assets/icons/16/folder.png' 
-            : 'assets/icons/16/notepad.png';
-        
+        const iconSrc = item.type === 'folder' ?
+            'assets/icons/16/folder.png' :
+            'assets/icons/16/notepad.png';
+
         li.innerHTML = `<img src="${iconSrc}" width="16"> ${item.name}`;
-        
+
         li.ondblclick = () => {
             playSound('click'); // Play sound on interaction
-            
+
             if (item.type === 'folder') {
                 // Handle folder navigation
                 const newPath = path.endsWith('\\') ? `${path}${item.name}` : `${path}\\${item.name}`;
                 renderFiles(newPath);
             } else {
                 // Handle opening files (Notepad)
-                AppManager.open('notepad', { 
-                    fileName: item.name, 
-                    content: item.content || '', 
-                    fileRef: item 
+                AppManager.open('notepad', {
+                    fileName: item.name,
+                    content: item.content || '',
+                    fileRef: item
                 });
             }
         };
