@@ -5,14 +5,20 @@ const AppRegistry = {
         icon: "assets/icons/16/notepad.png",
         generateHTML: (params) => `
             <div class="menu-bar">
-                <div class="menu-item">File</div>
+                <div class="menu-item" onclick="toggleMenu('file-menu')">File
+                    <ul id="file-menu" class="dropdown">
+                        <li onclick="AppRegistry.notepad.onSave('${params.id}')">Save</li>
+                        <li class="divider"></li>
+                        <li onclick="AppManager.close('${params.id}')">Exit</li>
+                    </ul>
+                </div>
                 <div class="menu-item">Edit</div>
             </div>
-            <textarea id="notepad-text" spellcheck="false">${params.content || ''}</textarea>
+            <textarea id="notepad-text" spellcheck="false" onmousedown="event.stopPropagation()">${params.content || ''}</textarea>
         `,
         onSave: (id) => {
             const text = document.getElementById('notepad-text').value;
-            // Logic to save back to driveC would go here
+            console.log("Saving content for:", id, text);
             SystemState.save();
         }
     },
@@ -21,63 +27,47 @@ const AppRegistry = {
         title: "Minesweeper",
         icon: "assets/icons/16/minesweeper.png",
         generateHTML: () => `
-            <div class="minesweeper-container">
+            <div class="minesweeper-container" onmousedown="event.stopPropagation()">
                 <div class="ms-header">
-                    <div id="mine-count" class="ms-counter"></div>
+                    <div id="mine-count" class="ms-counter">010</div>
                     <div class="ms-face" id="ms-face" onclick="AppRegistry.minesweeper.initGame()"></div>
-                    <div id="timer" class="ms-counter"></div>
+                    <div id="timer" class="ms-counter">000</div>
                 </div>
                 <div id="ms-grid" class="ms-grid"></div>
             </div>
         `,
         initGame: function() {
-            // Salvage your 16x16 logic from main.js and place here
-            console.log("Minesweeper initialized");
-            this.updateCounter('mine-count', 10);
-            this.updateCounter('timer', 0);
-        },
-        updateCounter: function(id, val) {
-            const container = document.getElementById(id);
-            if (!container) return;
-            container.innerHTML = '';
-            // Logic for 'none' vs '0' goes here
-            let digits = val.toString().padStart(3, '0').split('');
-            digits.forEach(d => {
-                const div = document.createElement('div');
-                div.className = 'digit-box';
-                div.style.backgroundImage = `url('assets/minesweeper/number/${d}.png')`;
-                container.appendChild(div);
-            });
+            const grid = document.getElementById('ms-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            // Salvaged 9x9 grid logic
+            for (let i = 0; i < 81; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'ms-tile';
+                tile.onmousedown = (e) => {
+                    if (e.button === 0) tile.classList.add('revealed');
+                };
+                grid.appendChild(tile);
+            }
+            console.log("Minesweeper Grid Generated");
         }
     },
 
-    'cmd': {
-        title: "Command Prompt",
-        icon: "assets/icons/16/cmd.png",
+    'computer': {
+        title: "My Computer",
+        icon: "assets/icons/16/computer.png",
         generateHTML: () => `
-            <div class="cmd-body">
-                <div id="cmd-history">Microsoft Windows XP [Version 5.1.2600]<br>(C) Copyright 1985-2001 Microsoft Corp.<br><br></div>
-                <div class="cmd-input-line">
-                    <span>C:\\></span>
-                    <input type="text" id="cmd-input" autofocus onkeydown="if(event.key==='Enter') AppRegistry.cmd.execute(this.value)">
-                </div>
+            <div class="explorer-container" style="background:white; height:100%;">
+                <div id="explorer-content" style="display:flex; gap:20px; padding:10px;"></div>
             </div>
         `,
-        execute: function(input) {
-            const history = document.getElementById('cmd-history');
-            let response = "";
-            const cmd = input.toLowerCase().trim();
-
-            if (cmd === "cls") {
-                history.innerHTML = "";
-            } else if (cmd === "ver") {
-                response = "Windows XP Simulator [Version 1.0]";
-            } else {
-                response = `'${cmd}' is not recognized as an internal or external command.`;
+        initGame: function() {
+            const content = document.getElementById('explorer-content');
+            if (content && typeof driveC !== 'undefined') {
+                driveC["C:\\"].forEach(item => {
+                    content.innerHTML += `<div class="shortcut-dark"><img src="assets/icons/32/${item.type}.png"><p>${item.name}</p></div>`;
+                });
             }
-
-            history.innerHTML += `C:\\> ${input}<br>${response}<br><br>`;
-            document.getElementById('cmd-input').value = "";
         }
     }
 };
