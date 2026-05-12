@@ -1,49 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows XP Simulator</title>
     <link rel="stylesheet" href="css/xp.css">
-    <script src="js/interact.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">.
+    <link rel="stylesheet" href="css/apps.css">
 </head>
-
 <body>
+
     <div id="login-screen" class="login-overlay">
-        <div class="login-box">
-            <div class="user-avatar"></div>
-            <button onclick="SystemState.login()">Sign In</button>
+        <div class="login-panel">
+            <div class="user-selection">
+                <div class="user-avatar"></div>
+                <div class="user-info">
+                    <span class="username">Guest</span>
+                    <button class="login-btn" onclick="SystemState.login()">Sign In</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <div id="context-menu" class="context-menu" style="display:none;"></div>
-    
+
     <div id="desktop" class="desktop">
-        <div class="icon-grid">
-        </div>
+        <div id="icon-grid" class="icon-grid">
+            </div>
     </div>
 
     <div class="taskbar">
         <button class="start-button" onclick="toggleStartMenu()">start</button>
         <div id="taskbar-apps" class="taskbar-apps"></div>
-        <div class="tray"><span id="clock"></span></div>
-    </div>
-</body>
-
-<div id="start-menu" class="start-menu" style="display: none;">
-    <div class="start-menu-header"><span>Guest</span></div>
-    <div class="start-menu-body">
-        <div class="start-menu-left">
-        </div>
-        <div class="start-menu-right">
+        <div class="tray">
+            <img src="assets/icons/16/volume.png" class="tray-icon">
+            <span id="clock">00:00</span>
         </div>
     </div>
-</div>
 
-<script src="js/filesystem.js"></script>
-<script src="js/main.js"></script>
+    <div id="start-menu" class="start-menu" style="display: none;">
+        <div class="start-menu-header">
+            <div class="header-avatar"></div>
+            <span>Guest</span>
+        </div>
+        <div class="start-menu-body">
+            <div class="start-menu-left" id="start-programs"></div>
+            <div class="start-menu-right">
+                <div class="start-item" onclick="AppManager.open('computer')">My Computer</div>
+                <div class="start-item" onclick="AppManager.open('notepad')">Notepad</div>
+                <div class="divider"></div>
+                <div class="start-item" onclick="AppManager.open('display')">Control Panel</div>
+            </div>
+        </div>
+        <div class="start-menu-footer">
+            <button class="logoff-btn" onclick="location.reload()">Log Off</button>
+            <button class="shutdown-btn" onclick="SystemState.shutdown()">Turn Off</button>
+        </div>
+    </div>
+
+    <script src="js/interact.min.js"></script>
+    <script src="js/filesystem.js"></script>
+    <script src="js/apps.js"></script>
+    <script src="js/appManager.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/system.js"></script>
+
+    <script>
+        // Initialize once DOM is ready
+        window.onload = () => {
+            bootSystem();
+        };
+    </script>
 </body>
-
 </html>
