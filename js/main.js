@@ -754,6 +754,13 @@ function playSound(soundName) {
     audio.play().catch(e => console.log("Sound play blocked until user interacts with page."));
 }
 
+document.addEventListener('mousedown', (e) => {
+    const win = e.target.closest('.window');
+    if (win) {
+        focusWindow(win.id);
+    }
+});
+
 function bootSystem() {
     renderShortcuts();
     setInterval(() => {
