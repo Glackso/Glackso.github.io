@@ -1,29 +1,34 @@
 const AppManager = {
-    open: function(type) {
+    open: function(type, params = {}) { // <--- Added params = {} here
         if (document.getElementById(type)) {
             focusWindow(type);
             return;
         }
 
         const data = AppRegistry[type];
+        if (!data) return;
+
         const win = document.createElement('div');
         win.id = type;
         win.className = 'window active-win';
-        win.style.left = '50px';
-        win.style.top = '50px';
-
+        
+        // Pass params into generateHTML so Notepad can show the text
         win.innerHTML = `
-        <div class="title-bar">
-            <div class="title-bar-text"><span>${params.title || data.title}</span></div>
-            <div class="title-bar-controls">
-                <button aria-label="Close" onclick="AppManager.close('${type}')"></button>
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="${data.icon}" width="16">
+                    <span>${params.title || data.title}</span>
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" onclick="AppManager.close('${type}')"></button>
+                </div>
             </div>
-        </div>
-        <div class="window-body">${data.generateHTML(params)}</div>
-    `;
+            <div class="window-body">${data.generateHTML(params)}</div> 
+        `;
 
         document.getElementById('desktop').appendChild(win);
         
+        // Dragging Logic
         interact(win).draggable({
             allowFrom: '.title-bar',
             onmove: (event) => {
