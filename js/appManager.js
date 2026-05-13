@@ -1,43 +1,72 @@
+/**
+ * AppManager: Handles the lifecycle of windows and desktop icons.
+ */
 const AppManager = {
-    // 1. Open the app using your specific HTML structure
-    openApp: function(appId) {
-        const app = this.registry[appId];
+    registry: {},
+
+    // Register an app so the system knows it exists
+    registerApp(id, config) {
+        this.registry[id] = config;
+        this.renderDesktopIcon(id, config);
+    },
+
+    // Create the icon on the desktop
+    renderDesktopIcon(id, config) {
+        const desktop = document.getElementById('desktop');
+        const icon = document.createElement('div');
+        icon.className = 'desktop-icon';
+        icon.ondblclick = () => this.openApp(id);
         
-        // Create the window wrapper
+        icon.innerHTML = `
+            <img src="${config.icon || 'assets/icons/32/file.png'}" alt="${config.title}">
+            <span>${config.title}</span>
+        `;
+        desktop.appendChild(icon);
+    },
+
+    // Build the window using the user-provided xp.css structure
+    openApp(id) {
+        const app = this.registry[id];
+        if (!app) return;
+
         const win = document.createElement('div');
-        win.className = 'window draggable'; // 'window' class from your xp.css
+        win.className = 'window draggable';
         win.style.width = app.width || "400px";
         win.style.position = "absolute";
-        win.style.left = "100px";
-        win.style.top = "100px";
+        win.style.left = "50px";
+        win.style.top = "50px";
+        win.style.zIndex = UI.getNextZIndex(); // Handled by UI script
 
-        // Inject your XP.css structure
         win.innerHTML = `
-          <div class="title-bar">
-            <div class="title-bar-text">${app.name}</div>
-            <div class="title-bar-controls">
-              <button aria-label="Minimize"></button>
-              <button aria-label="Maximize"></button>
-              <button aria-label="Close" class="close-btn"></button>
+            <div class="title-bar">
+                <div class="title-bar-text">${app.title}</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" class="close-btn"></button>
+                </div>
             </div>
-          </div>
-          <div class="window-body">
-            ${app.content}
-          </div>
+            <div class="window-body">
+                ${app.content}
+            </div>
         `;
 
         document.getElementById('desktop').appendChild(win);
 
-        // 2. Setup Close Logic
+        // Functional Close Button
         win.querySelector('.close-btn').onclick = () => win.remove();
 
-        // 3. Make it draggable with interact.js
-        this.initDraggable(win);
+        // Bring to front on click
+        win.onmousedown = () => {
+            win.style.zIndex = UI.getNextZIndex();
+        };
+
+        this.initDragging(win);
     },
 
-    initDraggable: function(el) {
+    initDragging(el) {
         interact(el).draggable({
-            allowFrom: '.title-bar', // Drag only by the blue bar
+            allowFrom: '.title-bar',
             listeners: {
                 move(event) {
                     const target = event.target;
