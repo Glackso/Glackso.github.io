@@ -1,1 +1,32 @@
-bare bones. 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows XP Simulator</title>
+    <link rel="stylesheet" href="css/xp.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/apps.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+    <div id="desktop"></div>
+
+    <div id="taskbar">
+        <button id="start-btn" class="xp-button">Start</button>
+        <div id="open-apps-tray"></div>
+        <div id="sys-tray">
+            <span id="clock">12:00 PM</span>
+        </div>
+    </div>
+
+    <script src="js/interact.min.js"></script>
+
+    <script src="js/filesystem.js"></script>
+    <script src="js/appManager.js"></script>
+    <script src="js/apps.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/system.js"></script>
+</body>
+</html>
